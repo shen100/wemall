@@ -10,7 +10,7 @@ if (process.env.NODE_ENV === 'production') {
 	host = 'www.zhifuted.com'; //线上
 }
 
-var appConfig = {
+var config = {
 	db: {
 		database : 'wmall',
 		username : 'root',
@@ -19,14 +19,9 @@ var appConfig = {
 		dialect  : 'mysql'
 	},
 	server: {
-		protocol : 'http',
 		host     : host,
-		url      : '',
 		port     : 8000
 	}
 };
 
-var server = appConfig.server;
-server.url = server.protocol + '://' + server.host + ':' + server.port;
-
-module.exports = appConfig;
+module.exports = config;

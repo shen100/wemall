@@ -1,12 +1,12 @@
 'use strict';
 
-const Promise  = require('bluebird');
 const Order    = require( '../../../model/Order');
 const DateUtil = require( '../../../utils/DateUtil');
 
-async function index(req, res) {
+async function action(req, res) {
     try {
-        var orders = await Order.getOrderCountBy30Days();
+        var orders = await Order.getOrderFor30d();
+        orders     = orders || [];
         for (var i = 0; i < orders.length; i++) {
             orders[i].date = DateUtil.ymdStrToYmdObj(orders[i].createdAt);
             delete orders[i].createdAt;
@@ -23,5 +23,5 @@ async function index(req, res) {
     }
 };
 
-module.exports = index;
+module.exports = action;
 

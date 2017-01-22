@@ -4,7 +4,7 @@ module.exports = {
 		return {
 			year  : parseInt(dateArr[0]),
 			month : parseInt(dateArr[1]),
-			date  : parseInt(dateArr[2]),
+			date  : parseInt(dateArr[2])
 		};
 	}	
 };
