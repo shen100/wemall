@@ -68,12 +68,18 @@ const Order = sequelize.define('order', {
 	freezeTableName: true
 });
 
+/*
+ * 总的订单数
+ */
 Order.getTotalOrderCount = () => {
     let today = new Date();
     today     = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     return Order.count();
 };
 
+/*
+ * 今日总的订单数
+ */
 Order.getTodayOrderCount = () => {
 	let today = new Date();
 	today     = new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -82,6 +88,9 @@ Order.getTodayOrderCount = () => {
 	});
 };
 
+/*
+ * 今日总的销售额
+ */
 Order.getTodayTotalSale = () => {
     let today = new Date();
     today     = new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -90,8 +99,43 @@ Order.getTodayTotalSale = () => {
     });
 };
 
+/*
+ * 总的销售额
+ */
 Order.getTotalSale = () => {
     return Order.sum('payment');
+};
+
+/*
+ * 近30天，每天的销售额
+ */
+Order.getSaleBy30Days = () => {
+    let today = new Date();
+    today     = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    let todayBefore30 = today.getTime() - 30 * 24 * 60 * 60 * 1000;
+    var sql = `
+        SELECT sum(payment) as amount, DATE_FORMAT(created_at,'%Y-%m-%d') as createdAt
+        FROM \`order\`
+        WHERE created_at > ${todayBefore30}
+        GROUP BY DATE_FORMAT(created_at,'%Y-%m-%d');
+    `;
+    return sequelize.query(sql, { type: sequelize.QueryTypes.SELECT });
+};
+
+/*
+ * 近30天，每天的订单数
+ */
+Order.getOrderCountBy30Days = () => {
+    let today = new Date();
+    today     = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    let todayBefore30 = today.getTime() - 30 * 24 * 60 * 60 * 1000;
+    var sql = `
+        SELECT count(id) as count, DATE_FORMAT(created_at,'%Y-%m-%d') as createdAt
+        FROM \`order\`
+        WHERE created_at > ${todayBefore30}
+        GROUP BY DATE_FORMAT(created_at,'%Y-%m-%d');
+    `;
+    return sequelize.query(sql, { type: sequelize.QueryTypes.SELECT });
 };
 
 module.exports = Order;

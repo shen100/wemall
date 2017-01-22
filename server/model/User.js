@@ -81,13 +81,28 @@ User.getUserCountBy30Days = () => {
     today     = new Date(today.getFullYear(), today.getMonth(), today.getDate());
     let todayBefore30 = today.getTime() - 30 * 24 * 60 * 60 * 1000;
     var sql = `
-        SELECT count(*) as count, DATE_FORMAT(created_at,'%Y%m%d') as createdAt
+        SELECT count(*) as count, DATE_FORMAT(created_at,'%Y-%m-%d') as createdAt
         FROM user
         WHERE created_at > ${todayBefore30}
-        GROUP BY DATE_FORMAT(created_at,'%Y%m%d');
+        GROUP BY DATE_FORMAT(created_at,'%Y-%m-%d');
     `;
     return sequelize.query(sql, { type: sequelize.QueryTypes.SELECT });
 };
 
+/*
+ * 近30天，每天有消费形为的用户数
+ */
+User.getSaleUserBy30Days = () => {
+    let today = new Date();
+    today     = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    let todayBefore30 = today.getTime() - 30 * 24 * 60 * 60 * 1000;
+    var sql = `
+        SELECT COUNT(DISTINCT user_id) as count, DATE_FORMAT(created_at,'%Y-%m-%d') as createdAt
+        FROM \`order\`
+        WHERE created_at > ${todayBefore30}
+        GROUP BY DATE_FORMAT(created_at,'%Y-%m-%d');
+    `;
+    return sequelize.query(sql, { type: sequelize.QueryTypes.SELECT });
+};
 
 module.exports = User;
