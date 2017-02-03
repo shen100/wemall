@@ -11,6 +11,14 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 var config = {
+	'X-Powered-By': 'wemall',
+	frontend: {
+		title      : 'wemall-微信商城',
+		jsPath     : '/javascripts',
+		cssPath    : '/styles',
+		imagePath  : '/images',
+		sitePath   : ''
+	},
 	db: {
 		database : 'wmall',
 		username : 'root',
@@ -19,8 +27,9 @@ var config = {
 		dialect  : 'mysql'
 	},
 	server: {
-		host     : host,
-		port     : 8000
+		host       : host,
+		port       : 8000,
+		staticPort : 8001
 	}
 };
 

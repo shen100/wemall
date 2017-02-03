@@ -12,17 +12,14 @@ async function action(req, res) {
             Order.getTotalOrderCount(),
             Order.getTotalSale()
         ]);
-        res.json({
-            msg: 'success',
-            errNo: 0,
-            data: {
-                todayOrder  : results[0] || 0,
-                todaySale   : results[1] || 0,
-                totalOrder  : results[2] || 0,
-                totalSale   : results[3] || 0,
-                wemall      : wemall
-            }
-        });
+        res.locals.data = {
+            todayOrder  : results[0] || 0,
+            todaySale   : results[1] || 0,
+            totalOrder  : results[2] || 0,
+            totalSale   : results[3] || 0,
+            wemall      : wemall
+        };
+        res.render('admin/index');
     } catch (err) {
         console.log(err);
     }
