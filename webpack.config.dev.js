@@ -1,9 +1,9 @@
 'use strict';
 
-var path              = require('path');
-var webpack           = require('webpack');
-var appConfig         = require('./server/config/global_config');
-var hotMiddleware     = 'webpack-hot-middleware/client?reload=true';
+var path           = require('path');
+var webpack        = require('webpack');
+var config         = require('./server/config/global_config');
+var hotMiddleware  = 'webpack-hot-middleware/client?reload=true';
 
 function getEntryMap() {
     var entryArr = [
@@ -21,7 +21,7 @@ module.exports = {
     output: {
         filename   : './javascripts/[name].js',
         path       : path.resolve(__dirname, './dist/app/client'),
-        publicPath : appConfig.frontend.sitePath + '/'
+        publicPath : config.frontend.sitePath + '/'
     },
     devtool: 'eval-source-map',
     resolveLoader: {
