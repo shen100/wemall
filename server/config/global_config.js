@@ -1,6 +1,7 @@
 'use strict';
 
 var host = 'local.zhifuted.com'; //本地开发环境
+var url  = 'http://local.zhifuted.com';
 
 if (process.env.NODE_ENV === 'test') {
 	host = 'test.testin.cn'; //测试机环境
@@ -11,7 +12,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 var config = {
-	'X-Powered-By': 'wemall',
+	poweredBy       : 'wemall',
+	poweredByStatic : 'wemallServ',
 	frontend: {
 		title      : 'wemall-微信商城',
 		jsPath     : '/javascripts',
@@ -28,6 +30,7 @@ var config = {
 	},
 	server: {
 		host       : host,
+		url        : url,
 		port       : 8000,
 		staticPort : 8001
 	}

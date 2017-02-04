@@ -4,16 +4,26 @@
 require('dotenv').load();
 
 var express      = require('express');
+var hbs          = require('hbs');
 var http         = require('http');
 var path         = require('path');
 var logger       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
+var helpers      = require('./server/helpers');
 var config       = require('./server/config/global_config');
 var httpRoute    = require('./server/route/http');
 
 var app = express();
 
+hbs.registerPartials(__dirname + '/server/views/partials');
+for (var key in helpers) {
+    if (helpers.hasOwnProperty(key)) {
+        hbs.registerHelper(key, helpers[key]);
+    }
+}
+
+app.enable('trust proxy');
 app.set('views', path.join(__dirname, 'server', 'views'));
 app.set('view engine', 'hbs');
 
@@ -28,7 +38,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(function(req, res, next) {
-    res.set('X-Powered-By', config['X-Powered-By']);
+    res.set('X-Powered-By', config.poweredBy);
     var locals        = res.locals;
     locals.title      = config.frontend.title;
     locals.jsPath     = config.frontend.jsPath;
@@ -56,5 +66,5 @@ app.use(function(err, req, res, next) {
 });
 
 server.listen(config.server.port, function() {
-    console.log('Server running at ' + config.server.host + ':' + config.server.port);
+    console.log('Server running at ' + config.server.url);
 });

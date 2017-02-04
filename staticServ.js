@@ -10,6 +10,9 @@ var config       = require('./server/config/global_config');
 
 var app = express();
 
+app.set('views', path.join(__dirname, 'server', 'views'));
+app.set('view engine', 'hbs');
+
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -32,7 +35,7 @@ app.use(webpackHotMiddleware(compiler));
 app.use(express.static(path.join(__dirname, 'client')));
 
 app.use(function(req, res, next) {
-    res.set('X-Powered-By', config['X-Powered-By']);
+    res.set('X-Powered-By', config.poweredByStatic);
     next();
 });
 
@@ -52,5 +55,5 @@ app.use(function(err, req, res, next) {
 });
 
 server.listen(config.server.staticPort, function() {
-    console.log('StaticServ running at ' + config.server.host + ':' + config.server.staticPort);
+    console.log('StaticServ running at ' + config.server.url);
 });
