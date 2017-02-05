@@ -12,8 +12,14 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 var config = {
-	poweredBy       : 'wemall',
-	poweredByStatic : 'wemallServ',
+	system: {
+		poweredBy       : 'wemall',
+		poweredByStatic : 'wemallServ',
+		name        : '微信商城',
+	    version     : '1.0.0',
+	    latestVer   : '',
+		officialUrl : 'https://www.thewemall.com'
+	},
 	frontend: {
 		title      : 'wemall-微信商城',
 		jsPath     : '/javascripts',
@@ -26,7 +32,11 @@ var config = {
 		username : 'root',
 		password : 'test1234',
 		host     : '127.0.0.1',
-		dialect  : 'mysql'
+		dialect  : 'mysql',
+		charset  : 'utf8',
+		debug    : process.env.NODE_ENV === 'development' ? true : false,
+		poolMin  : 2,
+		poolMax  : 10
 	},
 	server: {
 		host       : host,

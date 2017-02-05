@@ -35,7 +35,7 @@ app.use(webpackHotMiddleware(compiler));
 app.use(express.static(path.join(__dirname, 'client')));
 
 app.use(function(req, res, next) {
-    res.set('X-Powered-By', config.poweredByStatic);
+    res.set('X-Powered-By', config.system.poweredByStatic);
     next();
 });
 

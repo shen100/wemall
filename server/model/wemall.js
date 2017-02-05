@@ -1,8 +1,10 @@
 'use strict';
 
+const config = require('../config/global_config');
+
 module.exports = {
-	name        : '微信商城',
-    version     : '1.0.0',
-    latestVer   : '',
-	officialUrl : 'https://www.thewemall.com'
+	name        : config.system.name,
+    version     : config.system.version,
+    latestVer   : config.system.latestVer,
+	officialUrl : config.system.officialUrl,
 };

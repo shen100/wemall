@@ -1,80 +1,42 @@
 'use strict';
 
-const Sequelize = require('sequelize');
-const sequelize = require('./sequelize');
-const Contact   = require('./Contact');
+const bookshelf = require('./bookshelf');
+const DateUtil  = require('../utils/DateUtil');
 
-const User = sequelize.define('user', {
-	id: {
-		type: Sequelize.INTEGER.UNSIGNED, 
-		primaryKey: true,
-		autoIncrement: true
-	},
-    openId: {
-    	type  : Sequelize.TEXT,
-    	field : 'open_id'
-  	},
-    nickname: {
-    	type  : Sequelize.STRING(100),
-    	field : 'nickname'
-  	},
-    username: {
-    	type  : Sequelize.STRING(100),
-    	field : 'username'
-  	},
-    phone: {
-    	type  : Sequelize.STRING(20),
-    	field : 'phone'
-  	},
-    password: {
-    	type  : Sequelize.STRING(20),
-    	field : 'password'
-  	},
-    token: {
-    	type  : Sequelize.TEXT,
-    	field : 'token'
-  	},
-    avatar: {
-    	type  : Sequelize.TEXT,
-    	field : 'avatar'
-  	},
-    sex: {
-    	type  : Sequelize.BOOLEAN,
-    	field : 'sex'
-  	},
-    subscribe: {
-    	type  : Sequelize.BOOLEAN,
-    	field : 'subscribe'
-  	},
-    status: {
-    	type  : Sequelize.INTEGER,
-    	field : 'status'
-  	},
-    lastIp: {
-    	type  : Sequelize.STRING(50),
-    	field : 'lastip'
-  	},
-    createdAt: {
-    	type: Sequelize.DATE,
-    	field: 'created_at',
-    	defaultValue: Sequelize.NOW
-    },
-    updatedAt: {
-    	type: Sequelize.DATE,
-    	field : 'updated_at',
-    	defaultValue: Sequelize.NOW
-    },
-    contactId: {
-	   	type: Sequelize.INTEGER.UNSIGNED,
-	   	field: 'contact_id',
-	   	references: {
-			model: Contact,
-			key: 'id'
-	   	}
- 	}
-}, {
-	freezeTableName: true
+const User = bookshelf.Model.extend({
+    tableName: 'user',
+    // orders: function() {
+    //     return this.hasMany(Order);
+    // }
 });
+
+/*
+ * 今日注册的用户数
+ */
+User.getTodayNewUser = () => {
+    let today    = new Date();
+    today        = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    today        = today.getTime();
+    let tomorrow = today + 24 * 60 * 60 * 1000;
+    return User
+            .where('created_at', '>=', DateUtil.longToYmdStr(today))
+            .where('created_at', '<', DateUtil.longToYmdStr(tomorrow))
+            .count();
+};
+
+/*
+ * 昨日注册的用户数
+ */
+User.getYesterdayNewUser = () => {
+    let today    = new Date();
+    today        = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    today        = today.getTime();
+    let yester   = today - 24 * 60 * 60 * 1000;
+    return User
+            .where('created_at', '>=', DateUtil.longToYmdStr(yester))
+            .where('created_at', '<', DateUtil.longToYmdStr(today))
+            .count();
+};
 
 /*
  * 近30天，每天注册的新用户数
@@ -82,30 +44,59 @@ const User = sequelize.define('user', {
 User.getUserFor30d = () => {
     let today    = new Date();
     today        = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    let before30 = today.getTime() - 30 * 24 * 60 * 60 * 1000;
+    let before29 = today.getTime() - 29 * 24 * 60 * 60 * 1000;
+    before29     = DateUtil.longToYmdStr(before29);
     var sql = `
         SELECT count(*) as count, DATE_FORMAT(created_at,'%Y-%m-%d') as createdAt
         FROM user
-        WHERE created_at > ${before30}
+        WHERE created_at >= ${before29}
         GROUP BY DATE_FORMAT(created_at,'%Y-%m-%d');
     `;
-    return sequelize.query(sql, { type: sequelize.QueryTypes.SELECT });
+    return bookshelf.knex.raw(sql);
 };
 
 /*
  * 近30天，每天有消费形为的用户数
  */
-User.getUserSaleFor30d = () => {
+User.getPurchaseUserFor30d = () => {
+    const Order  = require('./Order');
     let today    = new Date();
     today        = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    let before30 = today.getTime() - 30 * 24 * 60 * 60 * 1000;
+    let before29 = today.getTime() - 29 * 24 * 60 * 60 * 1000;
+    before29     = DateUtil.longToYmdStr(before29);
+    let status   = Order.STATUS_PAYED;
     var sql = `
-        SELECT COUNT(DISTINCT user_id) as count, DATE_FORMAT(created_at,'%Y-%m-%d') as createdAt
+        SELECT COUNT(DISTINCT user_id) as count, DATE_FORMAT(pay_at,'%Y-%m-%d') as payAt
         FROM \`order\`
-        WHERE created_at > ${before30}
-        GROUP BY DATE_FORMAT(created_at,'%Y-%m-%d');
+        WHERE pay_at >= ? and status = ?
+        GROUP BY DATE_FORMAT(pay_at,'%Y-%m-%d');
     `;
-    return sequelize.query(sql, { type: sequelize.QueryTypes.SELECT });
+    return bookshelf.knex.raw(sql, [before29, status]);
+};
+
+/*
+ * 指定日期有消费形为的用户数
+ */
+User.getPurchaseUserByDate = async (date) => {
+    const Order  = require('./Order');
+    let start    = new Date(date.year, date.month - 1, date.date).getTime();
+    let tomorrow = start + 24 * 60 * 60 * 1000;
+    start        = DateUtil.longToYmdStr(start);
+    tomorrow     = DateUtil.longToYmdStr(tomorrow);
+    let status   = Order.STATUS_PAYED;
+    var sql = `
+        SELECT COUNT(DISTINCT user_id) as count, DATE_FORMAT(pay_at,'%Y-%m-%d') as payAt
+        FROM \`order\`
+        WHERE pay_at >= ? and pay_at < ? and status = ?
+        GROUP BY DATE_FORMAT(pay_at,'%Y-%m-%d');
+    `;
+    console.log(12345, start, tomorrow, status);
+    try {
+        let result = await bookshelf.knex.raw(sql, [start, tomorrow, status]);
+        return result[0][0].count;
+    } catch (err) {
+        throw err;
+    }
 };
 
 module.exports = User;

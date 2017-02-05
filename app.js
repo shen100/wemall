@@ -3,6 +3,12 @@
 //读取.env文件，模拟在命令行设置环境变量，这行代码要放在程序的最开头
 require('dotenv').load();
 
+if (process.env.NODE_ENV === 'development') {
+    process.stderr.on('data', function(data) {
+        console.log(data);
+    });
+}
+
 var express      = require('express');
 var hbs          = require('hbs');
 var http         = require('http');
@@ -38,8 +44,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use(function(req, res, next) {
-    res.set('X-Powered-By', config.poweredBy);
+    res.set('X-Powered-By', config.system.poweredBy);
     var locals        = res.locals;
+    locals.env        = process.env.NODE_ENV;
     locals.title      = config.frontend.title;
     locals.jsPath     = config.frontend.jsPath;
     locals.cssPath    = config.frontend.cssPath;
