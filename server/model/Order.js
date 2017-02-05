@@ -49,7 +49,7 @@ Order.getTotalSaleByDate = (date) => {
                             status: Order.STATUS_PAYED
                         })
                         .fetch();
-            resolve(sum.toJSON().totalPay);
+            resolve(sum.get('totalPay'));
         } catch (err) {
             reject(err);
         }
@@ -67,7 +67,7 @@ Order.getTotalSale = () => {
                                     status: Order.STATUS_PAYED
                                 })
                                 .fetch();
-            resolve(sum.toJSON().totalPay);
+            resolve(sum.get('totalPay'));
         } catch (err) {
             reject(err);
         }

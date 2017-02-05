@@ -90,7 +90,6 @@ User.getPurchaseUserByDate = async (date) => {
         WHERE pay_at >= ? and pay_at < ? and status = ?
         GROUP BY DATE_FORMAT(pay_at,'%Y-%m-%d');
     `;
-    console.log(12345, start, tomorrow, status);
     try {
         let result = await bookshelf.knex.raw(sql, [start, tomorrow, status]);
         return result[0][0].count;
