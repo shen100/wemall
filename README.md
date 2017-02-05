@@ -14,7 +14,7 @@
 * 后台: node.js
 * 框架: express
 * 模板引擎: handlebars
-* 持久层: sequelize
+* 持久层: bookshelf
 * 数据库: mysql
 * 第三方模块  
 
