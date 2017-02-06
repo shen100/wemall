@@ -51,7 +51,7 @@ npm install --registry=https://registry.npm.taobao.org
 
 4 **创建数据库**  
 先创建数据库如`wemall`，再use wemall，然后导入sql目录下的sql文件到数据库  
->注意: 本地开发模式下，数据库用户是`root`，密码是`test1234`  
+>注意: 本地开发模式下，数据库是`wemall`，用户是`root`，密码是`test1234`  
 >可以在`server/config/global_config.js`文件中进行修改
  
 5 **运行后台程序**
