@@ -28,7 +28,7 @@ let config = {
 		sitePath   : ''
 	},
 	db: {
-		database : 'wmall',
+		database : 'wemall',
 		username : 'root',
 		password : 'test1234',
 		host     : '127.0.0.1',
