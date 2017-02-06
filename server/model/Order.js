@@ -48,7 +48,8 @@ let Order = bookshelf.Model.extend({
                                 status: STATUS_PAYED
                             })
                             .fetch();
-                resolve(sum.get('totalPay'));
+                console.log(JSON.stringify(sum));
+                resolve(sum.get('totalPay') || 0);
             } catch (err) {
                 reject(err);
             }

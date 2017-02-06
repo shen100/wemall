@@ -22,7 +22,7 @@ async function action(req, res) {
             todayTotalSale      : todayTotalSale,
             yesterdayTotalSale  : yesterdayTotalSale
         };
-        res.render('admin/overview/userAnalyze');
+        res.render('admin/overview/orderAnalyze');
     } catch(err) {
         console.log(err);
     }

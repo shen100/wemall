@@ -18,7 +18,7 @@ let cookieParser = require('cookie-parser');
 let bodyParser   = require('body-parser');
 let helpers      = require('./server/helpers');
 let config       = require('./server/config/global_config');
-let httpRoute    = require('./server/route/http');
+let httpRouter   = require('./server/route/httpRouter');
 
 let app = express();
 
@@ -57,7 +57,7 @@ app.use(function(req, res, next) {
 
 let server = http.Server(app);
 
-httpRoute(app);
+httpRouter(app);
 
 app.use(function(req, res, next) {
     let err = new Error('Not Found');

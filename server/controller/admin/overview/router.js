@@ -7,6 +7,7 @@ let UserAnalyzeAction    = require('./UserAnalyzeAction');
 let OrderAnalyzeAction   = require('./OrderAnalyzeAction');
 let OrderFor30dAction    = require('./OrderFor30dAction');
 let SaleFor30dAction     = require('./SaleFor30dAction');
+let ProductAnalyzeAction = require('./ProductAnalyzeAction');
 
 let router = express.Router();
 
@@ -17,5 +18,7 @@ router.get('/user/analyze',  UserAnalyzeAction);
 router.get('/order/analyze', OrderAnalyzeAction);
 router.get('/order/30d',     OrderFor30dAction);
 router.get('/sale/30d',      SaleFor30dAction);
+
+router.get('/product/analyze', ProductAnalyzeAction);
 
 module.exports = router;
