@@ -28,13 +28,13 @@
 
 
 ## 项目环境搭建
-1 克隆代码
+1 **克隆代码**
 
 ```
 git clone git@git.oschina.net:shen100/wemall.git
 ```
 
-2 安装模块
+2 **安装模块**
 
 ```
 npm install
@@ -45,18 +45,22 @@ npm install
 npm install --registry=https://registry.npm.taobao.org
 ```
 
-3 配置nginx
-
+3 **配置nginx**  
 将文件`local.zhifuted.conf`拷贝到nginx的配置文件目录下  
 >local.zhifuted.conf所在位置为, 项目目录/nginx/local.zhifuted.conf
-  
-4 运行后台程序
+
+4 **创建数据库**  
+先创建数据库如`wemall`，再use wemall，然后导入sql目录下的sql文件到数据库  
+>注意: 本地开发模式下，数据库用户是`root`，密码是`test1234`  
+>可以在`server/config/global_config.js`文件中进行修改
+ 
+5 **运行后台程序**
 
 ```
 npm start
 ```
 
-5 启动静态服务器
+6 **启动静态服务器**
 
 ```
 npm run staticServ
