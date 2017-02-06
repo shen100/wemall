@@ -46,7 +46,7 @@ npm install --registry=https://registry.npm.taobao.org
 ```
 
 3 **配置nginx**  
-将文件`local.zhifuted.conf`拷贝到nginx的配置文件目录下  
+将文件`local.zhifuted.conf`拷贝到nginx的虚拟主机目录下  
 >local.zhifuted.conf所在位置为, 项目目录/nginx/local.zhifuted.conf
 
 4 **创建数据库**  
