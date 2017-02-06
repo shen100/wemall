@@ -20,7 +20,8 @@
     "log4js": "1.1.0",
     "morgan": "1.7.0",
     "mysql": "2.12.0",
-    "serve-favicon": "2.3.0"
+    "serve-favicon": "2.3.0",
+    "validator": "6.2.1"
   },
   "devDependencies": {
     "babel-core": "6.22.1",

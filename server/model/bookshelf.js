@@ -20,4 +20,6 @@ let knex   = require('knex')({
 
 let bookshelf = require('bookshelf')(knex);
 
+bookshelf.plugin('pagination')
+
 module.exports = bookshelf;
