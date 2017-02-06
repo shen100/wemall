@@ -1,6 +1,6 @@
 'use strict';
 
-const config = require('../config/global_config');
+let config = require('../config/global_config');
 
 module.exports = {
 	name        : config.system.name,

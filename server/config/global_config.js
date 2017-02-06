@@ -1,7 +1,7 @@
 'use strict';
 
-var host = 'local.zhifuted.com'; //本地开发环境
-var url  = 'http://local.zhifuted.com';
+let host = 'local.zhifuted.com'; //本地开发环境
+let url  = 'http://local.zhifuted.com';
 
 if (process.env.NODE_ENV === 'test') {
 	host = 'test.testin.cn'; //测试机环境
@@ -11,7 +11,7 @@ if (process.env.NODE_ENV === 'production') {
 	host = 'www.zhifuted.com'; //线上
 }
 
-var config = {
+let config = {
 	system: {
 		poweredBy       : 'wemall',
 		poweredByStatic : 'wemallServ',

@@ -1,6 +1,6 @@
 'use strict';
 
-var admin = require('../controller/admin');
+let admin = require('../controller/admin');
 
 module.exports = function(app) {
 

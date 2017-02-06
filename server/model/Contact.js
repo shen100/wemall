@@ -1,8 +1,8 @@
 'use strict';
 
-const bookshelf = require('./bookshelf');
+let bookshelf = require('./bookshelf');
 
-var Contact = bookshelf.Model.extend({
+let Contact = bookshelf.Model.extend({
     tableName: 'contact'
 });
 

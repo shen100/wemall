@@ -1,10 +1,10 @@
 'use strict';
 
-const express      = require('express');
-const indexAction  = require('./indexAction');
-const overview     = require('./overview');
+let express      = require('express');
+let indexAction  = require('./indexAction');
+let overview     = require('./overview');
 
-const router = express.Router();
+let router = express.Router();
 
 router.get('/',         indexAction);
 router.use('/overview', overview);

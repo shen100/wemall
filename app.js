@@ -9,21 +9,21 @@ if (process.env.NODE_ENV === 'development') {
     });
 }
 
-var express      = require('express');
-var hbs          = require('hbs');
-var http         = require('http');
-var path         = require('path');
-var logger       = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser   = require('body-parser');
-var helpers      = require('./server/helpers');
-var config       = require('./server/config/global_config');
-var httpRoute    = require('./server/route/http');
+let express      = require('express');
+let hbs          = require('hbs');
+let http         = require('http');
+let path         = require('path');
+let logger       = require('morgan');
+let cookieParser = require('cookie-parser');
+let bodyParser   = require('body-parser');
+let helpers      = require('./server/helpers');
+let config       = require('./server/config/global_config');
+let httpRoute    = require('./server/route/http');
 
-var app = express();
+let app = express();
 
 hbs.registerPartials(__dirname + '/server/views/partials');
-for (var key in helpers) {
+for (let key in helpers) {
     if (helpers.hasOwnProperty(key)) {
         hbs.registerHelper(key, helpers[key]);
     }
@@ -45,7 +45,7 @@ app.use(cookieParser());
 
 app.use(function(req, res, next) {
     res.set('X-Powered-By', config.system.poweredBy);
-    var locals        = res.locals;
+    let locals        = res.locals;
     locals.env        = process.env.NODE_ENV;
     locals.title      = config.frontend.title;
     locals.jsPath     = config.frontend.jsPath;
@@ -55,12 +55,12 @@ app.use(function(req, res, next) {
     next();
 });
 
-var server = http.Server(app);
+let server = http.Server(app);
 
 httpRoute(app);
 
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
+    let err = new Error('Not Found');
     err.status = 404;
     next(err);
 });

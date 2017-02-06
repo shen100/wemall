@@ -1,7 +1,7 @@
 'use strict';
 
-const Order     = require( '../../../model/Order');
-const DateUtil  = require( '../../../utils/DateUtil');
+let Order     = require( '../../../model/Order');
+let DateUtil  = require( '../../../utils/DateUtil');
 
 async function action(req, res) {
     try {

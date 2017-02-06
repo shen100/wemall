@@ -1,7 +1,7 @@
 'use strict';
 
-const User     = require( '../../../model/User');
-const DateUtil = require( '../../../utils/DateUtil');
+let User     = require( '../../../model/User');
+let DateUtil = require( '../../../utils/DateUtil');
 
 async function action(req, res) {
     try {

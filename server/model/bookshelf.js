@@ -1,10 +1,8 @@
 'use strict';
 
-const config = require('../config/global_config');
-
-const db     = config.db;
-
-const knex = require('knex')({
+let config = require('../config/global_config');
+let db     = config.db;
+let knex   = require('knex')({
     client : db.dialect,
     debug  : db.debug,
     connection: {
@@ -15,11 +13,11 @@ const knex = require('knex')({
         charset  : db.charset
     },
     pool: {
-        min: db.poolMin, 
+        min: db.poolMin,
         max: db.poolMax 
     }
 });
 
-const bookshelf = require('bookshelf')(knex);
+let bookshelf = require('bookshelf')(knex);
 
 module.exports = bookshelf;
