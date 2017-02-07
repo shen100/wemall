@@ -3,9 +3,6 @@
 let bookshelf = require('./bookshelf');
 let DateUtil  = require('../utils/DateUtil');
 
-const STATUS_PEDDING = 0; //未支付
-const STATUS_PAYED   = 1; //已支付
-
 let Order = bookshelf.Model.extend({
     tableName: 'order',
     // user: function() {
@@ -45,7 +42,7 @@ let Order = bookshelf.Model.extend({
                             .where('pay_at', '>=', start)
                             .where('pay_at', '<',  tomorrow)
                             .where({
-                                status: STATUS_PAYED
+                                status: Order.STATUS_PAYED
                             })
                             .fetch();
                 console.log(JSON.stringify(sum));
@@ -64,7 +61,7 @@ let Order = bookshelf.Model.extend({
             try {
                 let sum = await Order.query('sum', 'payment as totalPay')
                                     .where({
-                                        status: STATUS_PAYED
+                                        status: Order.STATUS_PAYED
                                     })
                                     .fetch();
                 resolve(sum.get('totalPay'));
@@ -82,7 +79,6 @@ let Order = bookshelf.Model.extend({
         today        = new Date(today.getFullYear(), today.getMonth(), today.getDate());
         let before29 = today.getTime() - 29 * 24 * 60 * 60 * 1000;
         before29     = DateUtil.longToYmdStr(before29);
-        let status   = STATUS_PAYED;
         var sql = `
             SELECT sum(payment) as amount, DATE_FORMAT(pay_at,'%Y-%m-%d') as payAt
             FROM \`order\`
@@ -90,7 +86,7 @@ let Order = bookshelf.Model.extend({
             GROUP BY DATE_FORMAT(pay_at,'%Y-%m-%d');
         `;
         try {
-            let result = await bookshelf.knex.raw(sql, [before29, status]);
+            let result = await bookshelf.knex.raw(sql, [before29, Order.STATUS_PAYED]);
             return result[0];
         } catch (err) {
             throw err;
@@ -119,6 +115,9 @@ let Order = bookshelf.Model.extend({
         }
     }
 });
+
+Order.STATUS_PEDDING = 0; //未支付
+Order.STATUS_PAYED   = 1; //已支付
 
 module.exports = Order;
 

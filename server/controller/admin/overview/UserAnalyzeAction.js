@@ -16,6 +16,7 @@ async function action(req, res) {
         let yesterdayNewUser      = results[1]; //昨日注册的用户数
         let todayPurchaseUser     = results[2]; //今日有消费形为的用户数
         let yesterdayPurchaseUser = results[3]; //昨日有消费形为的用户数
+        res.locals.includeECharts = true;
         res.locals.data = {
             todayNewUser         : todayNewUser,
             yesterdayNewUser     : yesterdayNewUser,

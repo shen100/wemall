@@ -7,7 +7,10 @@ var hotMiddleware  = 'webpack-hot-middleware/client?reload=true';
 
 function getEntryMap() {
     var entryArr = [
-        'admin/index'
+        'admin/index',
+        'admin/overview/orderAnalyze',
+        'admin/overview/productAnalyze',
+        'admin/overview/userAnalyze'
     ];
     var entryMap = {};
     entryArr.forEach(function(key) {

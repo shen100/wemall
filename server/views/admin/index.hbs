@@ -5,15 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{title}}-后台管理</title>
     <link rel="icon" href="{{imagePath}}/favicon.ico" mce_href="{{imagePath}}/favicon.ico" type="image/x-icon">
-    {{>includeCSS}}
-    <link rel="stylesheet" href="{{cssPath}}/admin/index.css"/>
+    {{>adminCSS}}
   </head>
   <body>
-    {{>header}}
-    <div>
-      {{>sidebar}}
-    </div>
-    {{>includeJS}}
+    <div id="app"></div>
+    {{>adminJS}}
     <script type="text/javascript" src="{{jsPath}}/admin/index.js"></script>
   </body>
 </html>

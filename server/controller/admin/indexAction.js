@@ -1,6 +1,5 @@
 'use strict';
 
-let Promise  = require('bluebird');
 let Order    = require( '../../model/Order');
 let DateUtil = require( '../../utils/DateUtil');
 let wemall   = require( '../../model/wemall');

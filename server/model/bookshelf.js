@@ -2,6 +2,7 @@
 
 let config = require('../config/global_config');
 let db     = config.db;
+
 let knex   = require('knex')({
     client : db.dialect,
     debug  : db.debug,

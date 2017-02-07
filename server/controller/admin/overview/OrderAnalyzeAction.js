@@ -16,6 +16,7 @@ async function action(req, res) {
         let yesterdayOrderCount = results[1]; //昨日订单数
         let todayTotalSale      = results[2]; //今日销售额
         let yesterdayTotalSale  = results[3]; //昨日销售额
+        res.locals.includeECharts = true;
         res.locals.data = {
             todayOrderCount     : todayOrderCount,
             yesterdayOrderCount : yesterdayOrderCount,

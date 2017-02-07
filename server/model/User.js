@@ -91,7 +91,10 @@ let User = bookshelf.Model.extend({
         `;
         try {
             let result = await bookshelf.knex.raw(sql, [start, tomorrow, status]);
-            return result[0][0].count;
+            if (result[0] && result[0][0]) {
+                return result[0][0].count;
+            }
+            return 0;
         } catch (err) {
             throw err;
         }
