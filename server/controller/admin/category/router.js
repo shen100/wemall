@@ -9,7 +9,7 @@ let router = express.Router();
 
 router.get('/list',      ListCategoryAction);
 router.get('/edit/:id',  EditCategoryAction.get);
-router.post('/edit/:id', EditCategoryAction.post);
+router.post('/edit',     EditCategoryAction.post);
 
 router.get('/create',    CreateCategoryAction.get);
 router.post('/create',   CreateCategoryAction.post);
