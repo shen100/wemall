@@ -12,7 +12,9 @@ function getEntryMap() {
         'admin/overview/productAnalyze',
         'admin/overview/userAnalyze',
 
-        'admin/category/createCategory'
+        'admin/category/listCategory'
+        'admin/category/createCategory',
+        'admin/category/editCategory'
     ];
     var entryMap = {};
     entryArr.forEach(function(key) {

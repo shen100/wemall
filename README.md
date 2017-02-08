@@ -15,17 +15,7 @@
 * 框架: express
 * 模板引擎: handlebars
 * 持久层: bookshelf
-* 数据库: mysql
-* 第三方模块  
-
-| 模块     | 功能     |  
-|:--------|:-------:|  
-| node-schedule  |     |  
-| lodash |   |  
-| nodemailer |   |  
-| moment |   |  
-| shelljs |   |  
-
+* 数据库: mysql  
 
 ## 项目环境搭建
 1 **克隆代码**
@@ -65,6 +55,36 @@ npm start
 ```
 npm run staticServ
 ```
+
+## 项目结构
+| 目录或文件     | 子目录     | 功能     |  
+|:--------|:--------|:-------:|  
+| client  |         |  前端静态目录|
+|         | images        |  图片|
+|         | javascripts   |  JS代码|
+|         | styles        |  样式|
+| docs    |         |  文档|
+| nginx    |         |  nginx配置|
+| server   |         |  后台代码目录|
+|          | config        |  配置|
+|          | controller        |  控制器|
+|          | helpers        |  后端模板引擎的helper|
+|          | model        |  数据模型|
+|          | route        |  路由|
+|          | utils        |  实用工具|
+|          | views        |  后端视图|
+| sql      |         |  sql文件目录|
+| test     |         | 单元测试|
+| .babelrc |         | 设置babel转码的规则和插件|
+| .env |         | 本地开发使用的环境变量|
+| app.js |         | 后台应用服务器入口|
+| staticServ.js |         | 静态文件服务器(开发时使用)|
+| webpack.config.dev.js     |         | 开发模式webapck的配置|
+| webpack.config.prod.js     |         | 产品模式webapck的配置|
+
+
+
+
 ## 前端开发规范
 ### 代码规范
 
