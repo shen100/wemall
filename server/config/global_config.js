@@ -29,9 +29,9 @@ let config = {
 	},
 	db: {
 		database : 'wemall',
-		username : 'root',
-		password : 'test1234',
-		host     : '127.0.0.1',
+		username : process.env.DB_USER || 'root',
+		password : process.env.DB_PASSWORD || 'test1234',
+        host     : process.env.DB_HOST || '127.0.0.1',
 		dialect  : 'mysql',
 		charset  : 'utf8',
 		debug    : process.env.NODE_ENV === 'development' ? true : false,

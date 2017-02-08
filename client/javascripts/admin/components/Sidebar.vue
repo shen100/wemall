@@ -1,6 +1,6 @@
 <template>
 	<div class="wemall-admin-sidebar">
-		<el-menu @select="onSelect" :default-active="defaultMenuItemId">
+		<el-menu @select="onSelect" :default-active="defaultMenuItemId" theme="dark">
 			<el-submenu v-for="item in menu" :index="item.id" :title="item.title">
 				<template slot="title">{{item.title}}</template>
 				<el-menu-item v-for="menuItem in item.children" :index="menuItem.id">{{menuItem.title}}</el-menu-item>
@@ -13,6 +13,8 @@
 	.wemall-admin-sidebar {
 		width: 220px;
         float: left;	
+        height: 100%;
+        background-color: #324157;
 	}
 </style>
 

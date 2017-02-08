@@ -19,6 +19,30 @@ body,textarea,input,button,select,keygen,legend{font:12px/1.14 arial,\5b8b\4f53;
 body{background:#fff;font-family: Arial, 'Microsoft yahei', Verdana, 宋体, 'Hiragino Sans GB', '冬青黑体简体中文 w3', 'Microsoft Yahei', 'Hiragino Sans GB', '冬青黑体简体中文 w3', STXihei, 华文细黑, 微软雅黑, SimSun, 宋体, Heiti, 黑体, sans-serif;}
 a,a:hover{color:#333;}
 
+html, body, #app {
+	height: 100%;
+}
+.wemall-admin-body {
+	min-width: 1200px;
+	height: 100%;
+}
+
 .wemall-admin-content {
 	float: left;
+}
+
+.wemall-admin-info {
+	margin-bottom: 20px;
+}
+
+.wemall-admin-info-title {
+	font-size: 18px;
+	font-weight: bold;
+	margin-bottom: 15px;
+}
+
+.wemall-admin-info-content {
+	margin-top: 5px;
+	font-size: 14px;
+	margin-left: 20px;
 }
