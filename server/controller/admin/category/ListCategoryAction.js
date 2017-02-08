@@ -22,10 +22,20 @@ async function action(req, res) {
         	page     : page,
         	pageSize : pageSize
         });
-        res.locals.data = {
-            categories: categories     
-        };
-        res.render('admin/category/listCategory');
+        if (req.query.format == 'json') {
+            return res.json({
+                msg   : 'success',
+                errNo : 0,
+                data: {
+                    categories: categories
+                }
+            });
+        } else {
+            res.locals.data = {
+                categories: categories     
+            };
+            return res.render('admin/category/listCategory');
+        }
     } catch(err) {
         console.log(err);
     }

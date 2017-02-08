@@ -12,7 +12,7 @@ function getEntryMap() {
         'admin/overview/productAnalyze',
         'admin/overview/userAnalyze',
 
-        'admin/category/listCategory'
+        'admin/category/listCategory',
         'admin/category/createCategory',
         'admin/category/editCategory'
     ];
