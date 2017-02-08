@@ -81,7 +81,27 @@
             					title : '短信验证设置'	
             				}
             			]
-            		}
+            		},
+                    {
+                        id    : getId(),
+                        title : '商城管理',
+                        children: [
+                            {
+                                id    : getId(),
+                                title : '商品分类管理',
+                                url   : '/admin/category/list' 
+                            },
+                            {
+                                id    : getId(),
+                                title : '商品管理',
+                                url   : '/admin/product/list' 
+                            },
+                            {
+                                id    : getId(),
+                                title : '评论管理'  
+                            }
+                        ]
+                    }
             	],
             	menuMap: {}
             };
