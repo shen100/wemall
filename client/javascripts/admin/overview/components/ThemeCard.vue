@@ -38,8 +38,7 @@
 <style>
 	.theme-card-container {
 		height: 130px;
-    	width: 24%;
-    	min-width: 220px;
+    	width: 240px;
     	margin-right: 10px;
 		position: relative;
 		background-color: #e7edf7;
@@ -51,7 +50,7 @@
 	}
 	.theme-card-container:hover .theme-card-link {
 		height: 35px;
-		line-height: 35px;
+		line-height: 30px;
 	}
 	.theme-card-container:hover .theme-card-icon {
 		height: 70px;
@@ -103,6 +102,9 @@
 		transition: all .3s linear;
 	}
 	.theme-card-link-label {
+		position: absolute;
+		bottom: 0;
+		left: 86px;
 		font-size: 14px;
 		color: #fff;
 	}	

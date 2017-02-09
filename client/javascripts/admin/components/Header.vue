@@ -5,7 +5,7 @@
 <style>
 	.wemall-admin-header {
 		height: 60px;
-		background-color: #e2e2e2;
+		background-color: #20a0ff;
 	}
 </style>
 
