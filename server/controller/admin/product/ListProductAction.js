@@ -25,7 +25,7 @@ async function action(req, res) {
         res.locals.data = {
             products: products     
         };
-        res.render('admin/overview/productAnalyze');
+        res.render('admin/product/listProduct');
     } catch(err) {
         console.log(err);
     }
