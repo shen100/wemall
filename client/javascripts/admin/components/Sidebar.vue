@@ -14,6 +14,7 @@
 		width: 220px;
         float: left;	
         height: 100%;
+        min-height: 500px;
         background-color: #324157;
 	}
 </style>
