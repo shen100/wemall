@@ -6,8 +6,8 @@
 # https://github.com/sequelpro/sequelpro
 #
 # Host: 127.0.0.1 (MySQL 5.6.35)
-# Database: wmall
-# Generation Time: 2017-02-06 07:43:02 +0000
+# Database: wemall
+# Generation Time: 2017-02-08 14:57:45 +0000
 # ************************************************************
 
 
@@ -18,6 +18,48 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+
+# Dump of table category
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `category`;
+
+CREATE TABLE `category` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL DEFAULT '',
+  `order` int(11) NOT NULL,
+  `parent_id` int(11) NOT NULL DEFAULT '0',
+  `status` int(11) NOT NULL,
+  `remark` varchar(1000) DEFAULT NULL,
+  `create_at` datetime NOT NULL,
+  `update_at` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `category` WRITE;
+/*!40000 ALTER TABLE `category` DISABLE KEYS */;
+
+INSERT INTO `category` (`id`, `name`, `order`, `parent_id`, `status`, `remark`, `create_at`, `update_at`)
+VALUES
+	(1,'电子产品',0,0,2,'这是一个备注','0000-00-00 00:00:00','0000-00-00 00:00:00'),
+	(2,'书籍',0,0,2,'这是一个备注','0000-00-00 00:00:00','0000-00-00 00:00:00'),
+	(3,'书籍2',0,0,2,'这是一个备注2','0000-00-00 00:00:00','0000-00-00 00:00:00'),
+	(4,'书籍3',0,0,2,'这是一个备注3','2017-02-07 21:34:50','2017-02-07 21:34:50'),
+	(8,'友好，在贺中系不断向前发展。 ',10000,0,2,'','2017-02-07 23:11:58','2017-02-07 23:11:58'),
+	(9,'友好，在贺中系不断向前发展。 ',10000,0,2,'','2017-02-07 23:12:15','2017-02-07 23:12:15'),
+	(10,'友好，在贺中系不断向前发展。 ',10000,0,2,'','2017-02-07 23:12:32','2017-02-07 23:12:32'),
+	(11,'友好，在贺中系不断向前发展。 ',10000,0,2,'','2017-02-07 23:13:04','2017-02-07 23:13:04'),
+	(12,'友好，在贺中系不断向前发展。 ',10000,0,2,'','2017-02-07 23:13:36','2017-02-07 23:13:36'),
+	(13,'友好，在贺中系不断向前发展。 ',10000,0,2,'','2017-02-07 23:14:04','2017-02-07 23:14:04'),
+	(14,'友好，在贺中系不断向前发展。 ',10000,0,2,'习近平在贺电中指出，中斯建交','2017-02-07 23:16:47','2017-02-07 23:16:47'),
+	(15,'友好，在贺中系不断向前发展。 ',10000,0,2,'','2017-02-07 23:18:11','2017-02-07 23:18:11'),
+	(16,'友好，在贺中系不断向前发展。 ',10000,0,2,'','2017-02-07 23:27:58','2017-02-07 23:27:58'),
+	(17,'友好，在贺中系不断向前发展。 ',10000,0,2,'','2017-02-07 23:28:07','2017-02-07 23:28:07'),
+	(18,'友好，在贺中系不断向前发展x。',1,0,2,'c','2017-02-07 23:29:12','2017-02-08 15:57:53');
+
+/*!40000 ALTER TABLE `category` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table contact
