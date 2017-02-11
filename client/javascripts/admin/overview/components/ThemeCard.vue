@@ -6,7 +6,7 @@
 		</div>
 		<img :src="imageUrl" class="theme-card-icon"></img>
 		<a :href="linkUrl" class="theme-card-link">
-			<span class="theme-card-link-label">更多详情<i class="el-icon-caret-right"></i></span>
+			<span class="theme-card-link-label">查看详情<i class="el-icon-caret-right"></i></span>
 		</a>
 	</div>
 </template>
@@ -47,10 +47,6 @@
 		-webkit-transition: all .3s linear;
 		-o-transition: all .3s linear;
 		transition: all .3s linear;
-	}
-	.theme-card-container:hover .theme-card-link {
-		height: 35px;
-		line-height: 30px;
 	}
 	.theme-card-container:hover .theme-card-icon {
 		height: 70px;
@@ -97,9 +93,6 @@
 	    position: absolute;
 	    bottom: 0;
 	    width: 100%;
-	    -webkit-transition: all .3s linear;
-		-o-transition: all .3s linear;
-		transition: all .3s linear;
 	}
 	.theme-card-link-label {
 		position: absolute;

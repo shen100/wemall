@@ -30,9 +30,11 @@ body {
 
 .wemall-admin-content {
 	float: left;
+    padding: 20px;
+    min-width: 1040px;
 }
 
-.wemall-admin-info {
+.wemall-admin-info, .wemall-admin-page-title, .wemall-admin-page-container {
 	margin-bottom: 20px;
 	background-color: #fff;
 	padding: 10px;
@@ -50,4 +52,14 @@ body {
 	margin-top: 5px;
 	font-size: 14px;
 	margin-left: 20px;
+}
+
+.wemall-admin-page-title {
+	line-height: 30px;
+	font-size: 16px;
+	font-weight: bold;
+}
+
+.wemall-admin-page-container {
+	min-height: 350px;
 }

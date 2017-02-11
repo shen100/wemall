@@ -19,7 +19,7 @@
                 <div class="wemall-admin-info">
                     <p class="wemall-admin-info-title">系统信息</p>
                     <p class="wemall-admin-info-content">
-                        <span class="wemall-admin-info-item">程序版本：</span>
+                        <span class="wemall-admin-info-item">程序名程：</span>
                         <span>{{wemall.name}}</span>
                     </p>
                     <p class="wemall-admin-info-content">
@@ -41,9 +41,6 @@
 </template>
 
 <style>
-    .wemall-admin-content {
-        padding: 20px;
-    }
     .wemall-page-card-container {
         width: 100%;
         display: flex;
@@ -63,19 +60,19 @@
             return {
                 cardItems: [
                     {
-                        cardTitle: '新订单',
+                        cardTitle: '今日订单',
                         cardNum  : jsonData.todayOrder,
                         imageUrl : '/images/cart.png'
                     }, {
-                        cardTitle: '新销售额',
+                        cardTitle: '今日销售额',
                         cardNum  : jsonData.todaySale,
                         imageUrl : '/images/dollar.png'
                     }, {
-                        cardTitle: '总用户',
+                        cardTitle: '总用户数',
                         cardNum  : jsonData.totalOrder,
                         imageUrl : '/images/account-filling.png'
                     }, {
-                        cardTitle: '总订单',
+                        cardTitle: '总订单数',
                         cardNum  : jsonData.totalSale,
                         imageUrl : '/images/trade.png'
                     }
