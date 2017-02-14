@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node --harmony app.js",
-    "debug": "node --debug --harmony app.js",
+    "debug": "node --inspect --harmony app.js",
     "staticServ": "node staticServ.js"
   },
   "dependencies": {

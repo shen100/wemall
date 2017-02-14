@@ -38,7 +38,7 @@
             				{
             					id    : getId(),
             					title : '系统首页',
-            					url   : '/admin'	
+            					url   : '/admin'
             				},
             				{
             					id    : getId(),
