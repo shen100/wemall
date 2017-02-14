@@ -119,5 +119,5 @@ let Order = bookshelf.Model.extend({
 Order.STATUS_PEDDING = 0; //未支付
 Order.STATUS_PAYED   = 1; //已支付
 
-module.exports = Order;
+module.exports = bookshelf.model('Order', Order);
 

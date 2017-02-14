@@ -1,6 +1,9 @@
 'use strict';
 
+let bookshelf = require('./bookshelf');
 let BaseModel = require('./BaseModel');
+
+require('./Product');
 
 let Category = BaseModel.extend({
     tableName: 'category',
@@ -29,6 +32,9 @@ let Category = BaseModel.extend({
         updateAt: {
             field: 'update_at'
         }
+    },
+    products: function() {
+        return this.belongsToMany('Product');
     }
 }, {
 
@@ -37,4 +43,4 @@ let Category = BaseModel.extend({
 Category.STATUS_OPEN  = 1;
 Category.STATUS_CLOSE = 2;
 
-module.exports = Category;
+module.exports = bookshelf.model('Category', Category);
