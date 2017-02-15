@@ -21,6 +21,7 @@ let knex   = require('knex')({
 
 let bookshelf = require('bookshelf')(knex);
 
-bookshelf.plugin('pagination')
+bookshelf.plugin('pagination');
+bookshelf.plugin('registry')
 
 module.exports = bookshelf;

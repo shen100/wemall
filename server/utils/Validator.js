@@ -17,5 +17,8 @@ module.exports = {
 	},
 	isInt: function(value, options) {
 		return validator.isInt('' + value, options);
+	},
+	isFloat: function(value, options) {
+		return validator.isFloat('' + value, options);
 	}
 };

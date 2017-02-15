@@ -1,6 +1,9 @@
 'use strict';
 
+let bookshelf = require('./bookshelf');
 let BaseModel = require('./BaseModel');
+
+require('./Category');
 
 let Product = BaseModel.extend({
     tableName: 'product',
@@ -19,10 +22,31 @@ let Product = BaseModel.extend({
     	},
     	totalSale: {
     		field: 'total_sale'
-    	}
+    	},
+        price: {
+            field: 'price'
+        },
+        originalPrice: {
+            field: 'original_price'
+        },
+        status: {
+            field: 'status'
+        },
+        remark: {
+            field: 'remark'
+        },
+        detail: {
+            field: 'detail'
+        }
+    },
+    categories: function() {
+        return this.belongsToMany('Category');
     }
 }, {
 
 });
 
-module.exports = Product;
+Product.UP_SHELF   = 1;
+Product.DOWN_SHELF = 2;
+
+module.exports = bookshelf.model('Product', Product);
