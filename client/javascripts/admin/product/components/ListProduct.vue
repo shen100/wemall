@@ -16,19 +16,36 @@
                         </el-table-column>
                         <el-table-column
                           prop="browseCount"
-                          label="浏览量">
+                          label="菜单">
                         </el-table-column>
                         <el-table-column
                           prop="buyCount"
-                          label="购买量">
+                          label="链接">
                         </el-table-column>
                         <el-table-column
                           prop="totalSale"
-                          label="销售额">
+                          label="图片">
                         </el-table-column>
                         <el-table-column
-                          label="购买率"
-                          :formatter="formatter">
+                          label="价格">
+                        </el-table-column>
+                        <el-table-column
+                          label="原价">
+                        </el-table-column>
+                        <el-table-column
+                          label="积分">
+                        </el-table-column>
+                        <el-table-column
+                          label="标签">
+                        </el-table-column>
+                        <el-table-column
+                          label="状态">
+                        </el-table-column>
+                        <el-table-column
+                          label="排序">
+                        </el-table-column>
+                        <el-table-column
+                          label="标签">
                         </el-table-column>
                     </el-table>
                 </div>
