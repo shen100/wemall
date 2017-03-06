@@ -15,7 +15,6 @@
     "dotenv": "4.0.0",
     "express": "4.14.0",
     "hbs": "4.0.1",
-    "knex": "0.12.6",
     "lodash": "4.17.4",
     "log4js": "1.1.0",
     "moment": "2.17.1",
@@ -25,7 +24,8 @@
     "nodemailer": "3.0.2",
     "serve-favicon": "2.3.0",
     "shelljs": "0.7.6",
-    "validator": "6.2.1"
+    "validator": "6.2.1",
+    "ws": "2.0.2"
   },
   "devDependencies": {
     "babel-core": "6.22.1",
@@ -51,7 +51,6 @@
     "vuex": "2.1.2",
     "webpack": "1.13.2",
     "webpack-dev-middleware": "1.10.0",
-    "webpack-hot-middleware": "2.16.1",
-    "ws": "2.0.2"
+    "webpack-hot-middleware": "2.16.1"
   }
 }

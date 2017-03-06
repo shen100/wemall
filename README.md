@@ -56,6 +56,13 @@ npm start
 npm run staticServ
 ```
 
+```
+go get -u github.com/jinzhu/gorm
+```
+
+```
+go get github.com/go-sql-driver/mysql
+```
 ## 项目结构
 | 目录或文件     | 子目录     | 功能     |  
 |:--------|:--------|:-------:|  
