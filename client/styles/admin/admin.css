@@ -63,3 +63,13 @@ body {
 .wemall-admin-page-container {
 	min-height: 350px;
 }
+
+.wemall-admin-from-left {
+	line-height: 36px;
+	height: 36px;
+	text-align: right;
+}
+
+.wemall-admin-from-box {
+	margin-top: 16px;
+}

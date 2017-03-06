@@ -11,7 +11,7 @@ function getEntryMap() {
         'admin/overview/orderAnalyze',
         'admin/overview/productAnalyze',
         'admin/overview/userAnalyze',
-
+        'admin/product/listProduct',
         'admin/category/listCategory',
         'admin/category/createCategory',
         'admin/category/editCategory'
