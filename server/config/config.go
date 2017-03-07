@@ -13,14 +13,11 @@ const DB_CHARSET  = "utf8"
 
 var DB_URL string = "{user}:{password}@/{database}?charset={charset}&parseTime=True&loc=Local"
 
-const PAGE_SIZE = 20
-
 func init() {
 	DB_URL  = strings.Replace(DB_URL, "{database}", DB_DATABASE, -1)
-	DB_URL  = strings.Replace(DB_URL, "{user}",     DB_USER, -1)
+	DB_URL  = strings.Replace(DB_URL, "{user}",     DB_USER,     -1)
 	DB_URL  = strings.Replace(DB_URL, "{password}", DB_PASSWORD, -1)
-	DB_URL  = strings.Replace(DB_URL, "{charset}",  DB_CHARSET, -1)
-	fmt.Println(DB_URL)
+	DB_URL  = strings.Replace(DB_URL, "{charset}",  DB_CHARSET,  -1)
 }
 
 

@@ -11,12 +11,12 @@ import (
     "../common"
 )
 
-var SendJson func(res http.ResponseWriter, result map[string]interface{})
-var ErrorCode map(string)int
+var sendJson func(res http.ResponseWriter, result map[string]interface{})
+var code map[string]int
 
 func init() {
-    SendJson  = common.SendJson
-    ErrorCode = model.ErrorCode
+    sendJson = common.SendJson
+    code     = model.ErrorCode
 }
 
 func Create(res http.ResponseWriter, req *http.Request, _ httprouter.Params) {
@@ -34,10 +34,10 @@ func ListByAdmin(res http.ResponseWriter, req *http.Request, params httprouter.P
     db, err := gorm.Open(config.DB_DIALECT, config.DB_URL)
   	
     if err != nil {
-        result["errNo"]       = ErrorCode.ERROR
+        result["errNo"]       = code["ERROR"]
         result["msg"]         = "error"
         result["data"]        = make(map[string]interface{})
-        SendJson(res, result)
+        sendJson(res, result)
         return;
     }
 
@@ -45,11 +45,11 @@ func ListByAdmin(res http.ResponseWriter, req *http.Request, params httprouter.P
     
     var cateMap           = make(map[string]interface{})
     cateMap["categories"] = categories;
-    result["errNo"]       = 0
+    result["errNo"]       = code["SUCCESS"]
     result["msg"]         = "success"
     result["data"]        = cateMap
     
-    SendJson(res, result)
+    sendJson(res, result)
 
     //return res.render('admin/category/listCategory');
     
