@@ -1,15 +1,45 @@
 package product
 
 import (
-	"fmt"
-	"github.com/julienschmidt/httprouter"
-	"net/http"
+    "github.com/jinzhu/gorm"
+    _ "github.com/jinzhu/gorm/dialects/mysql"
+    "github.com/julienschmidt/httprouter"
+    "net/http"
+    "../../config"
+    "../../model"
+    "../common"
 )
 
-func ListByAdmin(res http.ResponseWriter, req *http.Request, _ httprouter.Params) {
-    fmt.Fprint(res, "list!\n")
+var sendJson func(res http.ResponseWriter, result map[string]interface{})
+var sendError func(res http.ResponseWriter)
+var code map[string]int
+
+func init() {
+    code      = model.ErrorCode
+    sendJson  = common.SendJson
+    sendError = common.SendError
 }
 
-func Save(res http.ResponseWriter, req *http.Request, _ httprouter.Params) {
-    fmt.Fprint(res, "save!\n")
+func ListByAdmin(res http.ResponseWriter, req *http.Request, params httprouter.Params) {
+    var products []model.Product
+    var result = make(map[string]interface{})
+
+    db, err := gorm.Open(config.DB_DIALECT, config.DB_URL)
+    
+    if err != nil {
+        sendError(res)
+        return;
+    }
+
+    db.Find(&products)
+    
+    var productMap         = make(map[string]interface{})
+    productMap["products"] = products;
+    result["errNo"]        = code["SUCCESS"]
+    result["msg"]          = "success"
+    result["data"]         = productMap
+    
+    sendJson(res, result)
+
+    defer db.Close()
 }

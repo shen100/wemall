@@ -13,3 +13,6 @@ type Category struct {
     Status   int      
     Remark   string
 }
+
+const CATEGORY_STATUS_OPEN  = 1
+const CATEGORY_STATUS_CLOSE = 2
