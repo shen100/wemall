@@ -1,45 +1,33 @@
 package product
 
 import (
-    "github.com/jinzhu/gorm"
-    _ "github.com/jinzhu/gorm/dialects/mysql"
-    "github.com/julienschmidt/httprouter"
-    "net/http"
-    "../../config"
-    "../../model"
-    "../common"
+	"../../config"
+	"../../model"
+	"github.com/jinzhu/gorm"
+	"gopkg.in/kataras/iris.v6"
 )
 
-var sendJson func(res http.ResponseWriter, result map[string]interface{})
-var sendError func(res http.ResponseWriter)
-var code map[string]int
+// ListByAdmin 产品列表
+func ListByAdmin(ctx *iris.Context) {
+	var products []model.Product
+	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
 
-func init() {
-    code      = model.ErrorCode
-    sendJson  = common.SendJson
-    sendError = common.SendError
-}
+	if err != nil {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   :   "无效的id或status",
+			"data"  : iris.Map{},
+		})
+		return
+	}
 
-func ListByAdmin(res http.ResponseWriter, req *http.Request, params httprouter.Params) {
-    var products []model.Product
-    var result = make(map[string]interface{})
+	defer db.Close()
 
-    db, err := gorm.Open(config.DB_DIALECT, config.DB_URL)
-    
-    if err != nil {
-        sendError(res)
-        return;
-    }
+	db.Find(&products)
 
-    db.Find(&products)
-    
-    var productMap         = make(map[string]interface{})
-    productMap["products"] = products;
-    result["errNo"]        = code["SUCCESS"]
-    result["msg"]          = "success"
-    result["data"]         = productMap
-    
-    sendJson(res, result)
-
-    defer db.Close()
+	ctx.Set("viewPath", "admin/category/list.hbs")
+	ctx.Set("data", iris.Map{
+		"products": products,
+	})
+	ctx.Next()
 }

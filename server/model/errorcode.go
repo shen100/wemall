@@ -1,9 +1,21 @@
 package model
 
-var ErrorCode map[string]int
-
-func init() {
-	ErrorCode = make(map[string]int)
-	ErrorCode["SUCCESS"] = 0
-	ErrorCode["ERROR"]   = 1
+type errorCode struct {
+	SUCCESS   int
+	ERROR     int
 }
+
+// ErrorCode 错误码
+var ErrorCode = errorCode{
+	SUCCESS   : 0,
+	ERROR     : 1,
+}
+
+
+
+
+
+
+
+
+
