@@ -1,7 +1,8 @@
 package category
 
 import (
-	"fmt"
+	"unicode/utf8"
+	"strings"
 	"strconv"
 	"../../config"
 	"../../model"
@@ -11,35 +12,91 @@ import (
 
 // Create 创建分类
 func Create(ctx *iris.Context) {
-	// name, parentId, order, remark
-	var category model.Category
-	ctx.ReadJSON(&category)
-	category.Status = model.CategoryStatusClose
-	
+	// name, parentId, status, order 必须传的参数
+	// remark 非必须
 	minOrder := config.ServerConfig.MinOrder
 	maxOrder := config.ServerConfig.MaxOrder
-
-	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
+	var category model.Category
+	err     := ctx.ReadJSON(&category)
+	
 	if err != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "参数无效",
 			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	isError := false
+	msg     := ""
+
+	category.Name = strings.TrimSpace(category.Name)
+	if (category.Name == "") {
+		isError = true
+		msg     = "分类名称不能为空"
+	} else if utf8.RuneCountInString(category.Name) > config.ServerConfig.MaxNameLen {
+		isError = true
+		msg     = "分类名称不能超过" + strconv.Itoa(config.ServerConfig.MaxNameLen) + "个字符"
+	} else if category.Status != model.CategoryStatusOpen && category.Status != model.CategoryStatusClose {
+		isError = true
+		msg     = "status无效"
+	} else if category.Order < minOrder || category.Order > maxOrder {
+		isError = true
+		msg     = "分类的排序要在" + strconv.Itoa(minOrder) + "到" + strconv.Itoa(maxOrder) + "之间"
+	} else if category.Remark != "" && utf8.RuneCountInString(category.Remark) > config.ServerConfig.MaxRemarkLen {
+		isError = true
+		msg     = "备注不能超过" + strconv.Itoa(config.ServerConfig.MaxRemarkLen) + "个字符"	
+	}
+	if isError {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : msg,
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	db, connErr := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
+	if connErr != nil {
+		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.ERROR,
 			"msg"   : "error",
+			"data"  : iris.Map{},
 		})
 		return
 	}
 
 	defer db.Close()
 
-	if category.Order < minOrder || category.Order > maxOrder {
+	var parentCate model.Category
+	parentErr := db.First(&parentCate, category.ParentID).Error
+	
+	if parentErr != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{
-			"data"  : iris.Map{},
 			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "分类的排序要在 " + strconv.Itoa(minOrder) + "到" + strconv.Itoa(maxOrder) + " 之间",
+			"msg"   : "无效的父分类",
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	saveErr := db.Create(&category).Error
+
+	if saveErr != nil {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "error.",
+			"data"  : iris.Map{},
 		})
 		return	
 	}
-	ctx.JSON(iris.StatusOK, category)
+	ctx.JSON(iris.StatusOK, iris.Map{
+		"errNo" : model.ErrorCode.SUCCESS,
+		"msg"   : "success",
+		"data"  : iris.Map{},
+	})
+	return
 }
 
 // ListByAdmin 分类列表
@@ -66,19 +123,27 @@ func ListByAdmin(ctx *iris.Context) {
 
 	format := ctx.FormValue("format")
 
-	offset := (pageNo - 1) * config.ServerConfig.PageSize
-	db.Offset(offset).Limit(config.ServerConfig.PageSize).Find(&categories)
+	offset   := (pageNo - 1) * config.ServerConfig.PageSize
+	queryErr := db.Offset(offset).Limit(config.ServerConfig.PageSize).Find(&categories).Error
+
+	if queryErr != nil {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "error.",
+			"data"  : iris.Map{},
+		})
+		return
+	}
 
 	if format == "json" {
 		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.SUCCESS,
-			"msg"   :   "success",
+			"msg"   : "success",
 			"data"  : iris.Map{
 				"categories": categories,
 			},
 		})
 	} else {
-		fmt.Println(1111)
 		ctx.Set("viewPath", "admin/category/list.hbs")
 		ctx.Set("data", iris.Map{
 			"categories": categories,
@@ -89,25 +154,25 @@ func ListByAdmin(ctx *iris.Context) {
 
 // OpenOrCloseStatus 开启或关闭分类
 func OpenOrCloseStatus(ctx *iris.Context) {
-
 	var category model.Category
 	err    := ctx.ReadJSON(&category)
-	id     := category.ID
-	status := category.Status
 
 	if err != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.ERROR,
-			"msg"   :   "无效的id或status",
+			"msg"   : "无效的id或status",
 			"data"  : iris.Map{},
 		})
 		return
 	}
 
+	id     := category.ID
+	status := category.Status
+
 	if status != model.CategoryStatusOpen && status != model.CategoryStatusClose {
 		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.ERROR,
-			"msg"   :   "无效的status!",
+			"msg"   : "无效的status!",
 			"data"  : iris.Map{},
 		})
 		return
@@ -118,11 +183,13 @@ func OpenOrCloseStatus(ctx *iris.Context) {
 	if err != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.ERROR,
-			"msg"   :   "error",
+			"msg"   : "error",
 			"data"  : iris.Map{},
 		})
 		return
 	}
+
+	defer db.Close()
 
 	var cate model.Category
 	dbErr := db.First(&cate, id).Error
@@ -148,7 +215,7 @@ func OpenOrCloseStatus(ctx *iris.Context) {
 		return
 	}
 	ctx.JSON(iris.StatusOK, iris.Map{
-		"errNo" : model.ErrorCode.ERROR,
+		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
 		"data"  : iris.Map{
 			"id"     : id,

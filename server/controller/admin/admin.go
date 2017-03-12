@@ -1,4 +1,4 @@
-package category
+package admin
 
 import (
 	"gopkg.in/kataras/iris.v6"
