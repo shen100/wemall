@@ -8,9 +8,15 @@ import (
 
 // RenderView 渲染视图
 func RenderView(ctx *iris.Context) {
-	viewPath := ctx.Get("viewPath").(string)
-	data     := ctx.Get("data")
-	err := ctx.Render(viewPath, iris.Map{
+	var viewPath string
+	if ctx.Get("errNo") != nil {
+		viewPath = "error.hbs"
+		fmt.Println(ctx.Get("msg").(string))
+	} else {
+		viewPath = ctx.Get("viewPath").(string)
+	}
+	data := ctx.Get("data")
+	err  := ctx.Render(viewPath, iris.Map{
 		"title"     : config.PageConfig.Title,
 		"jsPath"    : config.PageConfig.JSPath,
 		"sitePath"  : config.PageConfig.SitePath,

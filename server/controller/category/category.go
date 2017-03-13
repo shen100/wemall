@@ -99,6 +99,38 @@ func Create(ctx *iris.Context) {
 	return
 }
 
+// CreateView 创建分类页面
+func CreateView(ctx *iris.Context) {
+	var categories []model.Category
+
+	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
+	if err != nil {
+		ctx.Set("errNo", model.ErrorCode.ERROR)
+		ctx.Set("msg",   "error")
+		ctx.Set("data", iris.Map{})
+		ctx.Next()
+		return
+	}
+
+	defer db.Close()
+
+	err = db.Find(&categories).Error
+
+	if err != nil {
+		ctx.Set("errNo", model.ErrorCode.ERROR)
+		ctx.Set("msg",   "error")
+		ctx.Set("data", iris.Map{})
+		ctx.Next()
+		return
+	}
+
+	ctx.Set("viewPath", "admin/category/create.hbs")
+	ctx.Set("data", iris.Map{
+		"categories": categories,
+	})
+	ctx.Next()
+}
+
 // ListByAdmin 分类列表
 func ListByAdmin(ctx *iris.Context) {
 	var categories []model.Category

@@ -29,6 +29,7 @@ func main() {
 	{
 		adminRouter.Get("/index",                   overview.IndexByAdmin)
 		adminRouter.Get("/categories",              category.ListByAdmin)
+		adminRouter.Get("/category/create",         category.CreateView)
 		adminRouter.Post("/category/create",        category.Create)
 		adminRouter.Post("/category/status/update", category.OpenOrCloseStatus)
 		adminRouter.Get("/products",                product.ListByAdmin)
