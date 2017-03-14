@@ -2,6 +2,7 @@ package common
 
 import (
 	"../../config"
+	"../../model"
 	"gopkg.in/kataras/iris.v6"
 	"fmt"
 )
@@ -10,7 +11,11 @@ import (
 func RenderView(ctx *iris.Context) {
 	var viewPath string
 	if ctx.Get("errNo") != nil {
-		viewPath = "error.hbs"
+		if ctx.Get("errNo").(int) == model.ErrorCode.NotFound {
+			viewPath = "404.hbs"
+		} else {
+			viewPath = "error.hbs"
+		}
 		fmt.Println(ctx.Get("msg").(string))
 	} else {
 		viewPath = ctx.Get("viewPath").(string)

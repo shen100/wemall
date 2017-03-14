@@ -10,6 +10,38 @@ import (
 	"gopkg.in/kataras/iris.v6"
 )
 
+// CreateView 创建分类页面
+func CreateView(ctx *iris.Context) {
+	var categories []model.Category
+
+	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
+	if err != nil {
+		ctx.Set("errNo", model.ErrorCode.ERROR)
+		ctx.Set("msg",   "error")
+		ctx.Set("data", iris.Map{})
+		ctx.Next()
+		return
+	}
+
+	defer db.Close()
+
+	err = db.Find(&categories).Error
+
+	if err != nil {
+		ctx.Set("errNo", model.ErrorCode.ERROR)
+		ctx.Set("msg",   "error")
+		ctx.Set("data", iris.Map{})
+		ctx.Next()
+		return
+	}
+
+	ctx.Set("viewPath", "admin/category/create.hbs")
+	ctx.Set("data", iris.Map{
+		"categories": categories,
+	})
+	ctx.Next()
+}
+
 // Create 创建分类
 func Create(ctx *iris.Context) {
 	// name, parentId, status, order 必须传的参数
@@ -99,34 +131,43 @@ func Create(ctx *iris.Context) {
 	return
 }
 
-// CreateView 创建分类页面
-func CreateView(ctx *iris.Context) {
-	var categories []model.Category
+// EditView 编辑分类页面
+func EditView(ctx *iris.Context)  {
+	id, err := ctx.ParamInt("id")
+	if err != nil {
+		ctx.Set("errNo", model.ErrorCode.NotFound)
+		ctx.Set("msg",   "错误的分类id")
+		ctx.Set("data",  iris.Map{})
+		ctx.Next()
+		return
+	}
 
 	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
+
 	if err != nil {
 		ctx.Set("errNo", model.ErrorCode.ERROR)
 		ctx.Set("msg",   "error")
-		ctx.Set("data", iris.Map{})
+		ctx.Set("data",  iris.Map{})
 		ctx.Next()
 		return
 	}
 
 	defer db.Close()
 
-	err = db.Find(&categories).Error
+	var category model.Category
+	queryErr := db.First(&category, id).Error
 
-	if err != nil {
-		ctx.Set("errNo", model.ErrorCode.ERROR)
-		ctx.Set("msg",   "error")
-		ctx.Set("data", iris.Map{})
+	if queryErr != nil {
+		ctx.Set("errNo", model.ErrorCode.NotFound)
+		ctx.Set("msg",   "错误的分类id")
+		ctx.Set("data",  iris.Map{})
 		ctx.Next()
 		return
 	}
 
-	ctx.Set("viewPath", "admin/category/create.hbs")
+	ctx.Set("viewPath", "admin/category/edit.hbs")
 	ctx.Set("data", iris.Map{
-		"categories": categories,
+		"category": category,
 	})
 	ctx.Next()
 }
