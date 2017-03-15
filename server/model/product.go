@@ -1,19 +1,20 @@
 package model
 
-import (
-    "github.com/jinzhu/gorm"
-    _ "github.com/jinzhu/gorm/dialects/mysql"
-)
+import "time"
 
+// Product 商品
 type Product struct {
-    gorm.Model
-    Name            string
-    BrowseCount     int
-    BuyCount        int
-    TotalSale       float64   
-    Price           float64      
-    OriginalPrice   float64
-    Status          int
-    Remark          string
-    Detail          string
+    ID             uint       `gorm:"primary_key" json:"id"`
+	CreatedAt      time.Time  `json:"createdAt"`
+	UpdatedAt      time.Time  `json:"updatedAt"`
+	DeletedAt      *time.Time `sql:"index" json:"deletedAt"`
+    Name           string     `json:"name"`
+    BrowseCount    int        `json:"browseCount"`
+    BuyCount       int        `json:"buyCount"`
+    TotalSale      float64    `json:"totalSale"`
+    Price          float64    `json:"price"`      
+    OriginalPrice  float64    `json:"originalPrice"`
+    Status         int        `json:"status"`
+    Remark         string     `json:"remark"`
+    Detail         string     `json:"detail"`
 }

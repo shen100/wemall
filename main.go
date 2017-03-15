@@ -6,8 +6,9 @@ import (
 	"./server/controller/category"
 	"./server/controller/common"
 	"./server/controller/product"
+	"./server/controller/order"
 	"./server/controller/overview"
-
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"gopkg.in/kataras/iris.v6"
 	"gopkg.in/kataras/iris.v6/adaptors/httprouter"
 	"gopkg.in/kataras/iris.v6/adaptors/view"
@@ -31,9 +32,11 @@ func main() {
 		adminRouter.Get("/categories",              category.ListByAdmin)
 		adminRouter.Get("/category/create",         category.CreateView)
 		adminRouter.Post("/category/create",        category.Create)
-		adminRouter.Get("/category/edit/:id",       category.EditView)
+		adminRouter.Get("/category/update/:id",     category.UpdateView)
+		adminRouter.Post("/category/update/:id",    category.Update)
 		adminRouter.Post("/category/status/update", category.OpenOrCloseStatus)
 		adminRouter.Get("/products",                product.ListByAdmin)
+		adminRouter.Get("/order/latest/30",         order.Latest30Day)
 		adminRouter.DoneFunc(common.RenderView)
     }
 

@@ -42,8 +42,8 @@ func CreateView(ctx *iris.Context) {
 	ctx.Next()
 }
 
-// Create 创建分类
-func Create(ctx *iris.Context) {
+// Save 保存分类（创建或更新）
+func Save(ctx *iris.Context) {
 	// name, parentId, status, order 必须传的参数
 	// remark 非必须
 	minOrder := config.ServerConfig.MinOrder
@@ -101,38 +101,83 @@ func Create(ctx *iris.Context) {
 
 	defer db.Close()
 
-	var parentCate model.Category
-	parentErr := db.First(&parentCate, category.ParentID).Error
-	
-	if parentErr != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "无效的父分类",
-			"data"  : iris.Map{},
-		})
-		return
+	if category.ParentID != 0 {
+		var parentCate model.Category
+		parentErr := db.First(&parentCate, category.ParentID).Error
+		
+		if parentErr != nil {
+			ctx.JSON(iris.StatusOK, iris.Map{
+				"errNo" : model.ErrorCode.ERROR,
+				"msg"   : "无效的父分类",
+				"data"  : iris.Map{},
+			})
+			return
+		}
 	}
 
-	saveErr := db.Create(&category).Error
+	var createOrUpdate string
+	if (ctx.Get("createOrUpdate") != nil) {
+		createOrUpdate = ctx.Get("createOrUpdate").(string)
+	} else {
+		createOrUpdate = ""	
+	}
 
+	var saveErr error
+	var errMsg = "error."
+	var updatedCategory model.Category
+	if (createOrUpdate != "update") {
+		//创建分类
+		saveErr = db.Create(&category).Error
+	} else {
+		//更新分类
+		saveErr = db.First(&updatedCategory, category.ID).Error
+		if saveErr == nil {
+			updatedCategory.Name     = category.Name
+			updatedCategory.Order    = category.Order
+			updatedCategory.ParentID = category.ParentID
+			updatedCategory.Status   = category.Status
+			updatedCategory.Remark   = category.Remark
+			saveErr = db.Save(&updatedCategory).Error
+		} else {
+			errMsg = "无效的分类id"
+		}
+	}
 	if saveErr != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error.",
+			"msg"   : errMsg,
 			"data"  : iris.Map{},
 		})
 		return	
 	}
+
+	var categoryJSON model.Category = category
+	if createOrUpdate == "update" {
+		categoryJSON = updatedCategory
+	}
 	ctx.JSON(iris.StatusOK, iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
-		"data"  : iris.Map{},
+		"data"  : iris.Map{
+			"category": categoryJSON,
+		},
 	})
 	return
 }
 
-// EditView 编辑分类页面
-func EditView(ctx *iris.Context)  {
+// Create 创建分类
+func Create(ctx *iris.Context) {
+	Save(ctx)	
+}
+
+// Update 更新分类
+func Update(ctx *iris.Context) {
+	ctx.Set("createOrUpdate", "update")
+	Save(ctx)	
+}
+
+// UpdateView 编辑分类页面
+func UpdateView(ctx *iris.Context)  {
 	id, err := ctx.ParamInt("id")
 	if err != nil {
 		ctx.Set("errNo", model.ErrorCode.NotFound)
