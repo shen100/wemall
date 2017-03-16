@@ -1,7 +1,6 @@
 package model
 
 import (
-	"fmt"
 	"strings"
 	"time"
 	"../config"
@@ -39,9 +38,10 @@ func (orders OrderPerDay) Latest30Day() (OrderPerDay) {
 	month        := now.Month()
 	date         := now.Day()
 	today        := time.Date(year, month, date, 0, 0, 0, 0, time.Local)
-	fmt.Println(123, today.Unix())
+
 	before29     := today.Unix() - 29 * 24 * 60 * 60; //29天前（秒）
 	before29Date := time.Unix(before29, 0)
+
 	sqlData      := before29Date.Format("2006-01-02")
 	sqlArr       := []string{
 		"SELECT count(id) as count, DATE_FORMAT(created_at,'%Y-%m-%d') as createdAt",
@@ -56,13 +56,9 @@ func (orders OrderPerDay) Latest30Day() (OrderPerDay) {
 		return nil
 	}
 
-	sqlData = "2016-01-01"
-	fmt.Println(sql, sqlData)
-
 	err = db.Raw(sql, sqlData).Scan(&orders).Error
 	if err != nil {
 		return nil
 	}
-	fmt.Println(orders)
 	return orders
 }

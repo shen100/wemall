@@ -9,11 +9,19 @@ import (
 func Latest30Day(ctx *iris.Context) {
 	var orders model.OrderPerDay;
 	result := orders.Latest30Day()
+	var data iris.Map;
+	if result == nil {
+		data = iris.Map{
+			"orders": [0]int{},
+		}
+	} else {
+		data = iris.Map{
+			"orders": result,
+		}
+	}
 	ctx.JSON(iris.StatusOK, iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
-		"data"  : iris.Map{
-			"orders": result,
-		},
+		"data"  : data,
 	})
 }
