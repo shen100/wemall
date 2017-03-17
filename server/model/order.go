@@ -52,7 +52,7 @@ func (orders OrderPerDay) Latest30Day() (OrderPerDay) {
 	sqlData      := before29Date.Format("2006-01-02")
 	sqlArr       := []string{
 		"SELECT count(id) as count, DATE_FORMAT(created_at,'%Y-%m-%d') as createdAt",
-		"FROM `order`",
+		"FROM `orders`",
 		"WHERE created_at > ?",
 		"GROUP BY DATE_FORMAT(created_at,'%Y-%m-%d');",
 	}
@@ -62,11 +62,12 @@ func (orders OrderPerDay) Latest30Day() (OrderPerDay) {
 		return nil
 	}
 
-	err = db.Raw(sql, sqlData).Scan(&orders).Error
+	var result OrderPerDay
+	err = db.Raw(sql, sqlData).Scan(&result).Error
 	if err != nil {
 		return nil
 	}
-	return orders
+	return result
 }
 
 
@@ -90,7 +91,7 @@ func (amount AmountPerDay) AmountLatest30Day() (AmountPerDay) {
 	sqlData      := before29Date.Format("2006-01-02")
 	sqlArr       := []string{
 		"SELECT sum(payment) as amount, DATE_FORMAT(pay_at,'%Y-%m-%d') as payAt",
-		"FROM `order`",
+		"FROM `orders`",
 		"WHERE pay_at > ? and status = ?",
 		"GROUP BY DATE_FORMAT(pay_at,'%Y-%m-%d');",
 	};
@@ -101,9 +102,10 @@ func (amount AmountPerDay) AmountLatest30Day() (AmountPerDay) {
 		return nil
 	}
 
-	err = db.Raw(sql, sqlData, OrderStatusPaid).Scan(&amount).Error
+	var result AmountPerDay
+	err = db.Raw(sql, sqlData, OrderStatusPaid).Scan(&result).Error
 	if err != nil {
 		return nil
 	}
-	return amount
+	return result
 }

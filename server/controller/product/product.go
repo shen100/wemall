@@ -30,8 +30,6 @@ func ListByAdmin(ctx *iris.Context) {
 		pageNo = 1
 	}
 
-	format := ctx.FormValue("format")
-
 	offset   := (pageNo - 1) * config.ServerConfig.PageSize
 	queryErr := db.Offset(offset).Limit(config.ServerConfig.PageSize).Find(&products).Error
 
@@ -44,19 +42,11 @@ func ListByAdmin(ctx *iris.Context) {
 		return
 	}
 
-	if format == "json" {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.SUCCESS,
-			"msg"   : "success",
-			"data"  : iris.Map{
-				"products": products,
-			},
-		})
-	} else {
-		ctx.Set("viewPath", "admin/product/list.hbs")
-		ctx.Set("data", iris.Map{
+	ctx.JSON(iris.StatusOK, iris.Map{
+		"errNo" : model.ErrorCode.SUCCESS,
+		"msg"   : "success",
+		"data"  : iris.Map{
 			"products": products,
-		})
-		ctx.Next()
-	}
+		},
+	})
 }

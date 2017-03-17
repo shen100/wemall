@@ -239,8 +239,6 @@ func ListByAdmin(ctx *iris.Context) {
 		pageNo = 1
 	}
 
-	format := ctx.FormValue("format")
-
 	offset   := (pageNo - 1) * config.ServerConfig.PageSize
 	queryErr := db.Offset(offset).Limit(config.ServerConfig.PageSize).Find(&categories).Error
 
@@ -253,21 +251,13 @@ func ListByAdmin(ctx *iris.Context) {
 		return
 	}
 
-	if format == "json" {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.SUCCESS,
-			"msg"   : "success",
-			"data"  : iris.Map{
-				"categories": categories,
-			},
-		})
-	} else {
-		ctx.Set("viewPath", "admin/category/list.hbs")
-		ctx.Set("data", iris.Map{
+	ctx.JSON(iris.StatusOK, iris.Map{
+		"errNo" : model.ErrorCode.SUCCESS,
+		"msg"   : "success",
+		"data"  : iris.Map{
 			"categories": categories,
-		})
-		ctx.Next()
-	}
+		},
+	})
 }
 
 // OpenOrCloseStatus 开启或关闭分类
