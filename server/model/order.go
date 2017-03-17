@@ -25,6 +25,101 @@ type Order struct {
 	PayAt          time.Time  `json:"payAt"`
 }
 
+// Total 总的订单数
+func (order Order) Total() int {
+	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
+	if err != nil {
+		return 0
+	}
+
+	defer db.Close()
+
+	count  := 0
+	err     = db.Model(&Order{}).Count(&count).Error
+	if err != nil {
+		count = 0	
+	}
+	return count
+}
+
+// TotalSale 总的销售额
+func (order Order) TotalSale() float64 {
+	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
+
+	if err != nil {
+		return 0
+	}
+
+	defer db.Close()
+
+	result := new(struct{
+		TotalSale float64 `gorm:"column:totalPay"` 
+	})
+
+	err = db.Table("orders").Select("sum(payment) as totalPay").Where("status = ?",
+		OrderStatusPaid).Scan(&result).Error
+
+	if err != nil {
+		return 0
+	}
+	return result.TotalSale
+}
+
+// CountByDate 指定日期的订单数
+func (order Order) CountByDate(date time.Time) int {
+	startTime    := date
+	startSec     := startTime.Unix();
+	tomorrowSec  := startSec + 24 * 60 * 60;
+	tomorrowTime := time.Unix(tomorrowSec, 0)
+	startYMD     := startTime.Format("2006-01-02")
+	tomorrowYMD  := tomorrowTime.Format("2006-01-02")
+
+	var count int
+	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
+	if err != nil {
+		return 0
+	}
+
+	defer db.Close()
+
+	err = db.Model(&Order{}).Where("created_at >= ? AND created_at < ?", 
+		startYMD, tomorrowYMD).Count(&count).Error
+	if err != nil {
+		return 0
+    }
+	return count
+}
+
+// TotalSaleByDate 指定日期的销售额
+func (order Order) TotalSaleByDate(date time.Time) float64 {
+	startTime    := date
+	startSec     := startTime.Unix();
+	tomorrowSec  := startSec + 24 * 60 * 60;
+	tomorrowTime := time.Unix(tomorrowSec, 0)
+	startStr     := startTime.Format("2006-01-02")
+	tomorrowStr  := tomorrowTime.Format("2006-01-02")
+
+	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
+
+	if err != nil {
+		return 0
+	}
+
+	defer db.Close()
+
+	result := new(struct{
+		TotalPay float64 `gorm:"column:totalPay"` 
+	})
+
+	err = db.Table("orders").Select("sum(payment) as totalPay").Where("pay_at >= ? AND pay_at < ? AND status = ?",
+		startStr, tomorrowStr, OrderStatusPaid).Scan(&result).Error
+
+	if err != nil {
+		return 0
+	}
+	return result.TotalPay
+}
+
 // OrderStatusPending 未支付
 const OrderStatusPending  = 0
 
@@ -62,6 +157,8 @@ func (orders OrderPerDay) Latest30Day() (OrderPerDay) {
 		return nil
 	}
 
+	defer db.Close()
+
 	var result OrderPerDay
 	err = db.Raw(sql, sqlData).Scan(&result).Error
 	if err != nil {
@@ -69,7 +166,6 @@ func (orders OrderPerDay) Latest30Day() (OrderPerDay) {
 	}
 	return result
 }
-
 
 // AmountPerDay 每天的销售额
 type AmountPerDay []struct {
@@ -101,6 +197,8 @@ func (amount AmountPerDay) AmountLatest30Day() (AmountPerDay) {
 	if err != nil {
 		return nil
 	}
+
+	defer db.Close()
 
 	var result AmountPerDay
 	err = db.Raw(sql, sqlData, OrderStatusPaid).Scan(&result).Error

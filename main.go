@@ -29,7 +29,7 @@ func main() {
 
 	adminRouter := app.Party("/admin", admin.Authentication) 
 	{
-		adminRouter.Get("/index",                   overview.IndexByAdmin)
+		adminRouter.Get("/",                        overview.IndexByAdmin)
 		adminRouter.Get("/categories",              category.ListByAdmin)
 		adminRouter.Get("/category/create",         category.CreateView)
 		adminRouter.Post("/category/create",        category.Create)

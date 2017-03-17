@@ -42,6 +42,8 @@ func (user User) YesterdayRegisterUser() int {
 		return 0
 	}
 
+	defer db.Close()
+
 	err = db.Model(&User{}).Where("created_at >= ? AND created_at < ?", yesterdayYMD, todayYMD).Count(&count).Error
 	if err != nil {
 		return 0
@@ -64,6 +66,8 @@ func (user User) TodayRegisterUser() int {
 	if err != nil {
 		return 0
 	}
+
+	defer db.Close()
 
 	err = db.Model(&User{}).Where("created_at >= ? AND created_at < ?", todayYMD, tomorrowYMD).Count(&count).Error
 	if err != nil {
@@ -93,6 +97,8 @@ func (user User) PurchaseUserByDate(date time.Time) int {
 	if err != nil {
 		return 0
 	}
+
+	defer db.Close()
 
 	result := new(struct{
 		Count int
@@ -132,6 +138,8 @@ func (users UserPerDay) Latest30Day() (UserPerDay) {
 	if err != nil {
 		return nil
 	}
+
+	defer db.Close()
 
 	var result UserPerDay
 	err = db.Raw(sql, sqlData).Scan(&result).Error
