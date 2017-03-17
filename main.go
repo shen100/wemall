@@ -37,6 +37,8 @@ func main() {
 		adminRouter.Post("/category/update/:id",    category.Update)
 		adminRouter.Post("/category/status/update", category.OpenOrCloseStatus)
 		adminRouter.Get("/products",                product.ListByAdmin)
+
+		adminRouter.Get("/order/analyze",           order.Analyze)
 		adminRouter.Get("/order/latest/30",         order.Latest30Day)
 		adminRouter.Get("/order/amount/latest/30",  order.AmountLatest30Day)
 
