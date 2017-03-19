@@ -1,9 +1,9 @@
 package model
 
 type errorCode struct {
-	SUCCESS   int
-	ERROR     int
-	NotFound  int
+	SUCCESS    int
+	ERROR      int
+	NotFound   int
 }
 
 // ErrorCode 错误码

@@ -2,6 +2,7 @@ package main
 
 import (
 	"./server/config"
+	"./server/model"
 	"./server/controller/admin"
 	"./server/controller/category"
 	"./server/controller/common"
@@ -42,13 +43,23 @@ func main() {
 		adminRouter.Get("/order/latest/30",         order.Latest30Day)
 		adminRouter.Get("/order/amount/latest/30",  order.AmountLatest30Day)
 
-		adminRouter.Get("/user/today",             user.TodayRegisterUser)
-		adminRouter.Get("/user/yesterday",         user.YesterdayRegisterUser)
-		adminRouter.Get("/user/latest/30",         user.Latest30Day)
-		adminRouter.Get("/user/analyze",           user.Analyze)
+		adminRouter.Get("/user/today",              user.TodayRegisterUser)
+		adminRouter.Get("/user/yesterday",          user.YesterdayRegisterUser)
+		adminRouter.Get("/user/latest/30",          user.Latest30Day)
+		adminRouter.Get("/user/analyze",            user.Analyze)
 
 		adminRouter.DoneFunc(common.RenderView)
     }
+
+	app.OnError(iris.StatusNotFound, func(ctx *iris.Context) {
+		ctx.Set("errNo", model.ErrorCode.NotFound)
+		common.RenderView(ctx)
+	})
+
+	app.OnError(500, func(ctx *iris.Context) {
+  		ctx.Set("errNo", model.ErrorCode.ERROR)
+		common.RenderView(ctx)
+	})
 
 	app.Listen(":" + config.ServerConfig.Port)
 }

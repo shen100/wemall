@@ -9,27 +9,31 @@ import (
 
 // RenderView 渲染视图
 func RenderView(ctx *iris.Context) {
-	var viewPath string
-	if ctx.Get("errNo") != nil {
-		if ctx.Get("errNo").(int) == model.ErrorCode.NotFound {
-			viewPath = "404.hbs"
-		} else {
-			viewPath = "error.hbs"
-		}
-		fmt.Println(ctx.Get("msg").(string))
-	} else {
-		viewPath = ctx.Get("viewPath").(string)
+	data    := ctx.Get("data")
+	if data == nil {
+		data = iris.Map{};
 	}
-	data := ctx.Get("data")
-	err  := ctx.Render(viewPath, iris.Map{
+	binding := iris.Map{
 		"title"     : config.PageConfig.Title,
 		"jsPath"    : config.PageConfig.JSPath,
 		"sitePath"  : config.PageConfig.SitePath,
 		"imagePath" : config.PageConfig.ImagePath,
 		"cssPath"   : config.PageConfig.CSSPath,
 		"data"      : data,
-	})
-	if config.ServerConfig.Debug {
+	}
+
+	var err error
+	errNo := ctx.Get("errNo").(int)
+	if errNo == model.ErrorCode.NotFound {
+		err = ctx.RenderWithStatus(iris.StatusNotFound, "404.hbs", binding)
+	} else if errNo == model.ErrorCode.ERROR {
+		err = ctx.RenderWithStatus(iris.StatusInternalServerError, "500.hbs", binding)
+	} else if errNo == model.ErrorCode.SUCCESS {
+		viewPath := ctx.Get("viewPath").(string)
+		err = ctx.RenderWithStatus(iris.StatusOK, viewPath, binding)
+	}
+
+	if err != nil && config.ServerConfig.Debug {
 		fmt.Println(err)
 	}
 }

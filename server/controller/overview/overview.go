@@ -16,6 +16,7 @@ func IndexByAdmin(ctx *iris.Context) {
 	totalSale       := order.TotalSale()
 
 	ctx.Set("viewPath", "admin/index.hbs")
+	ctx.Set("errNo",    model.ErrorCode.SUCCESS)
 	ctx.Set("data", iris.Map{
 		"todayOrderCount" : todayOrderCount,
 		"todayTotalSale"  : todayTotalSale,

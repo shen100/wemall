@@ -120,12 +120,13 @@ func (order Order) TotalSaleByDate(date time.Time) float64 {
 	return result.TotalPay
 }
 
-// OrderStatusPending 未支付
-const OrderStatusPending  = 0
+const (
+	// OrderStatusPending 未支付
+	OrderStatusPending  = 0
 
-// OrderStatusPaid 已支付
-const OrderStatusPaid = 1
-
+	// OrderStatusPaid 已支付
+	OrderStatusPaid = 1	
+)
 
 // OrderPerDay 每天的订单数
 type OrderPerDay []struct {
