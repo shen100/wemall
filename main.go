@@ -31,13 +31,14 @@ func main() {
 	adminRouter := app.Party("/admin", admin.Authentication) 
 	{
 		adminRouter.Get("/",                        overview.IndexByAdmin)
-		adminRouter.Get("/categories",              category.ListByAdmin)
-		adminRouter.Get("/category/create",         category.CreateView)
+		adminRouter.Get("/categories",              category.List)
+		adminRouter.Get("/category/:id",            category.Info)
 		adminRouter.Post("/category/create",        category.Create)
-		adminRouter.Get("/category/update/:id",     category.UpdateView)
 		adminRouter.Post("/category/update/:id",    category.Update)
-		adminRouter.Post("/category/status/update", category.OpenOrCloseStatus)
-		adminRouter.Get("/products",                product.ListByAdmin)
+		adminRouter.Post("/category/status/update", category.UpdateStatus)
+		
+		adminRouter.Get("/products",                product.List)
+		adminRouter.Post("/product/create",         product.Create)
 
 		adminRouter.Get("/order/analyze",           order.Analyze)
 		adminRouter.Get("/order/latest/30",         order.Latest30Day)

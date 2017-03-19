@@ -17,4 +17,16 @@ type Product struct {
     Status         int        `json:"status"`
     Remark         string     `json:"remark"`
     Detail         string     `json:"detail"`
+    Categories     []Category `gorm:"many2many:product_category;ForeignKey:ID;AssociationForeignKey:ID" json:"categories"`
 }
+
+const (
+    // ProductUpShelf 商品已上架
+    ProductUpShelf   = 1
+
+    // ProductDownShelf 商品已下架
+    ProductDownShelf = 2
+
+    // ProductPending 商品未上架
+    ProductPending   = 3
+)

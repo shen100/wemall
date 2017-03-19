@@ -10,38 +10,6 @@ import (
 	"gopkg.in/kataras/iris.v6"
 )
 
-// CreateView 创建分类页面
-func CreateView(ctx *iris.Context) {
-	var categories []model.Category
-
-	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
-	if err != nil {
-		ctx.Set("errNo", model.ErrorCode.ERROR)
-		ctx.Set("msg",   "error")
-		ctx.Set("data", iris.Map{})
-		ctx.Next()
-		return
-	}
-
-	defer db.Close()
-
-	err = db.Find(&categories).Error
-
-	if err != nil {
-		ctx.Set("errNo", model.ErrorCode.ERROR)
-		ctx.Set("msg",   "error")
-		ctx.Set("data", iris.Map{})
-		ctx.Next()
-		return
-	}
-
-	ctx.Set("viewPath", "admin/category/create.hbs")
-	ctx.Set("data", iris.Map{
-		"categories": categories,
-	})
-	ctx.Next()
-}
-
 // Save 保存分类（创建或更新）
 func Save(ctx *iris.Context) {
 	// name, parentId, status, order 必须传的参数
@@ -176,24 +144,26 @@ func Update(ctx *iris.Context) {
 	Save(ctx)	
 }
 
-// UpdateView 编辑分类页面
-func UpdateView(ctx *iris.Context)  {
+// Info 获取分类信息
+func Info(ctx *iris.Context)  {
 	id, err := ctx.ParamInt("id")
 	if err != nil {
-		ctx.Set("errNo", model.ErrorCode.NotFound)
-		ctx.Set("msg",   "错误的分类id")
-		ctx.Set("data",  iris.Map{})
-		ctx.Next()
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.NotFound,
+			"msg"   : "错误的分类id",
+			"data"  : iris.Map{},
+		})
 		return
 	}
 
 	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
 
 	if err != nil {
-		ctx.Set("errNo", model.ErrorCode.ERROR)
-		ctx.Set("msg",   "error")
-		ctx.Set("data",  iris.Map{})
-		ctx.Next()
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "error",
+			"data"  : iris.Map{},
+		})
 		return
 	}
 
@@ -203,22 +173,25 @@ func UpdateView(ctx *iris.Context)  {
 	queryErr := db.First(&category, id).Error
 
 	if queryErr != nil {
-		ctx.Set("errNo", model.ErrorCode.NotFound)
-		ctx.Set("msg",   "错误的分类id")
-		ctx.Set("data",  iris.Map{})
-		ctx.Next()
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.NotFound,
+			"msg"   : "错误的分类id",
+			"data"  : iris.Map{},
+		})
 		return
 	}
 
-	ctx.Set("viewPath", "admin/category/edit.hbs")
-	ctx.Set("data", iris.Map{
-		"category": category,
+	ctx.JSON(iris.StatusOK, iris.Map{
+		"errNo" : model.ErrorCode.SUCCESS,
+		"msg"   : "success",
+		"data"  : iris.Map{
+			"category": category,
+		},
 	})
-	ctx.Next()
 }
 
-// ListByAdmin 分类列表
-func ListByAdmin(ctx *iris.Context) {
+// List 分类列表
+func List(ctx *iris.Context) {
 	var categories []model.Category
 
 	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
@@ -260,8 +233,8 @@ func ListByAdmin(ctx *iris.Context) {
 	})
 }
 
-// OpenOrCloseStatus 开启或关闭分类
-func OpenOrCloseStatus(ctx *iris.Context) {
+// UpdateStatus 开启或关闭分类
+func UpdateStatus(ctx *iris.Context) {
 	var category model.Category
 	err    := ctx.ReadJSON(&category)
 
