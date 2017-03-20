@@ -88,7 +88,9 @@ func Create(ctx *iris.Context) {
 	product.TotalSale   = 0
 	product.Status      = model.ProductPending
 
-	product.Name = strings.TrimSpace(product.Name)
+	product.Name   = strings.TrimSpace(product.Name)
+	product.Detail = strings.TrimSpace(product.Detail)
+	product.Remark = strings.TrimSpace(product.Remark)
 	if (product.Name == "") {
 		isError = true
 		msg     = "商品名称不能为空"
@@ -106,11 +108,19 @@ func Create(ctx *iris.Context) {
 		msg     = "商品详情不能为空"
 	}  else if utf8.RuneCountInString(product.Detail) > config.ServerConfig.MaxContentLen {
 		isError = true	
-		msg     = "商品详情不能超过" + strconv.Itoa(config.ServerConfig.MaxContentLen) + "个字符"
+		msg     = "商品详情内容过长"
 	} else if product.Categories == nil || len(product.Categories) <= 0  {
+		isError = true	
 		msg     = "至少要选择一个商品分类"
 	} else if len(product.Categories) > config.ServerConfig.MaxProductCateCount  {
+		isError = true
 		msg     = "最多只能选择" + strconv.Itoa(config.ServerConfig.MaxProductCateCount) + "个商品分类"
+	} else if product.Price < 0 {
+		isError = true	
+		msg     = "无效的商品售价"
+	} else if product.OriginalPrice < 0 {
+		isError = true	
+		msg     = "无效的商品原价"
 	}
 
 	if isError {
