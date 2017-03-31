@@ -1,11 +1,30 @@
-import Vue            from 'vue';
-import Index          from './overview/components/Index.vue';
-import Element        from 'element-ui'; 
-import 'element-ui/lib/theme-default/index.css';
+import React from 'react'
+import { render } from 'react-dom'
+import { Provider } from 'react-redux'
+import { createStore } from 'redux'
+import todoApp from './reducers'
+import App from './components/App'
 
-Vue.use(Element);
+/** store 数据结构 sample
+{
+  visibilityFilter: 'SHOW_ALL',
+  todos: [
+    {
+      text: 'Consider using Redux',
+      completed: true,
+    },
+    {
+      text: 'Keep all state in a single tree',
+      completed: false
+    }
+  ]
+}
+*/
+let store = createStore(todoApp)
 
-var app = new Vue({
-    el: '#app',
-    render: h => h(Index)
-});
+render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('app')
+)

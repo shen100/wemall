@@ -1,12 +1,17 @@
 'use strict';
 
-var express      = require('express');
-var http         = require('http');
-var path         = require('path');
-var logger       = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser   = require('body-parser');
-var config       = require('./server/config/global_config');
+var express              = require('express');
+var http                 = require('http');
+var path                 = require('path');
+var logger               = require('morgan');
+var cookieParser         = require('cookie-parser');
+var bodyParser           = require('body-parser');
+var webpack              = require('webpack');
+var webpackDevMiddleware = require('webpack-dev-middleware');
+var webpackHotMiddleware = require('webpack-hot-middleware');
+var webpackConfig        = require('./webpack.config');
+var appConfig            = require('./appconfig');
+var compiler             = webpack(webpackConfig);
 
 var app = express();
 
@@ -18,11 +23,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-var webpack              = require('webpack');
-var webpackDevMiddleware = require('webpack-dev-middleware');
-var webpackHotMiddleware = require('webpack-hot-middleware');
-var webpackConfig        = require('./webpack.config.dev');
-var compiler             = webpack(webpackConfig);
+app.use(function(req, res, next) {
+    res.set('X-Powered-By', 'staticServ');
+    next();
+});
 
 app.use(webpackDevMiddleware(compiler, {
     publicPath: webpackConfig.output.publicPath,
@@ -31,29 +35,23 @@ app.use(webpackDevMiddleware(compiler, {
         colors: true
     }
 }));
+
 app.use(webpackHotMiddleware(compiler));
 app.use(express.static(path.join(__dirname, 'client')));
-
-app.use(function(req, res, next) {
-    res.set('X-Powered-By', config.system.poweredByStatic);
-    next();
-});
 
 var server = http.Server(app);
 
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+    res.status(404);
+    res.render('404');
 });
 
 app.use(function(err, req, res, next) {
-    res.locals.message = err.message;
-    res.locals.error   = req.app.get('env') === 'development' ? err : {};
+    res.locals.error   = err;
     res.status(err.status || 500);
-    res.render('staticServError');
+    res.render('error');
 });
 
-server.listen(config.server.staticPort, function() {
-    console.log('StaticServ running at ' + config.server.url);
+server.listen(appConfig.server.StaticPort, function() {
+    console.log('StaticServ running at ' + appConfig.server.URL);
 });

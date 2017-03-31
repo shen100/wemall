@@ -14,6 +14,7 @@ import (
 	"gopkg.in/kataras/iris.v6"
 	"gopkg.in/kataras/iris.v6/adaptors/httprouter"
 	"gopkg.in/kataras/iris.v6/adaptors/view"
+	"strconv"
 )
 
 func main() {
@@ -61,6 +62,5 @@ func main() {
   		ctx.Set("errNo", model.ErrorCode.ERROR)
 		common.RenderView(ctx)
 	})
-
-	app.Listen(":" + config.ServerConfig.Port)
+	app.Listen(":" + strconv.Itoa(config.ServerConfig.Port))
 }

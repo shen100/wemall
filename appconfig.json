@@ -1,0 +1,33 @@
+{
+	"database": {
+		"Dialect"  : "mysql",
+		"Database" : "wemall",
+		"User"	   : "root",
+		"Password" : "test1234",
+		"Charset"  : "utf8",
+		"SQLLog"   : true,
+		"URL"      : ""
+	},
+	"page": {
+		"Title"     : "微信商城",
+		"SitePath"  : "",
+		"JSPath"    : "/javascripts",
+		"ImagePath" : "/images",
+		"CSSPath"   : "/styles"
+	},
+	"server": {
+		"Debug"               : true,
+		"URL"                 : "http://wemall.shen100.com",
+		"Port"                : 8010,
+		"StaticPort"          : 8011,
+		"MaxOrder"            : 10000,
+		"MinOrder"            : 0,
+		"PageSize"            : 20,
+		"MaxPageSize"         : 100,
+		"MinPageSize"         : 20,
+		"MaxNameLen"          : 100,
+		"MaxRemarkLen"        : 500,
+		"MaxContentLen"       : 10000,
+		"MaxProductCateCount" : 6
+	}
+}
