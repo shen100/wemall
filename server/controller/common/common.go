@@ -20,6 +20,7 @@ func RenderView(ctx *iris.Context) {
 		"imagePath" : config.PageConfig.ImagePath,
 		"cssPath"   : config.PageConfig.CSSPath,
 		"data"      : data,
+		"config"    : config.PageConfig,
 	}
 
 	var err error

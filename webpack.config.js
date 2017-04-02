@@ -9,7 +9,8 @@ var jsPath                   = appConfig.page.JSPath;
 
 function getEntryMap() {
     var entryArr = [
-        'admin/index'
+        'admin/index',
+        'admin1/index'
     ];
     var entryMap = {};
     entryArr.forEach(function(key) {
@@ -27,9 +28,10 @@ function getEntryMap() {
 var config = {
     entry: getEntryMap(),
     output: {
-        publicPath : appConfig.page.SitePath + '/',
-        filename   : '.' + jsPath + '/[name].js',
-        path       : path.resolve(__dirname, './dist/app/client')
+        publicPath    : appConfig.page.SitePath + '/',
+        filename      : '.' + jsPath + '/[name].js',
+        path          : path.resolve(__dirname, './dist/app/client'),
+        chunkFilename : '.' + jsPath + '/[name].js',
     },
     module: {
         loaders: [
@@ -40,6 +42,7 @@ var config = {
             }
         ]
     },
+    devtool: 'eval-source-map',
     resolve: {
         extensions: ['.js', '.jsx', '.json']
     },
