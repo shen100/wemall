@@ -80,13 +80,27 @@ type serverConfig struct {
 // ServerConfig 服务器相关配置
 var ServerConfig serverConfig
 
-func initServer()  {
+func initServer() {
 	utils.SetStructByJSON(&ServerConfig, jsonData["server"].(map[string]interface{}))
+}
+
+type softwareConfig struct {
+	Name                string `json:"name"`
+	Version             string `json:"version"`
+	OfficialURL         string `json:"officialURL"`
+}
+
+// SoftwareConfig 软件相关配置
+var SoftwareConfig softwareConfig
+
+func initSoftware() {
+	utils.SetStructByJSON(&SoftwareConfig, jsonData["software"].(map[string]interface{}))
 }
 
 func init() {
 	initJSON()
 	initDB()
 	initPage()
-	initServer()	
+	initServer()
+	initSoftware()	
 }

@@ -30,14 +30,13 @@ func main() {
 	app.Adapt(httprouter.New())
 	app.Adapt(view.Handlebars("./server/views", ".hbs").Reload(config.ServerConfig.Debug))
 
-	app.Adapt(iris.TemplateFuncsPolicy{"json": func(s string) string {
-		jsonByte, err := json.Marshal(config.PageConfig)
+	app.Adapt(iris.TemplateFuncsPolicy{"json": func(jsonObj interface{}) string {
+		jsonByte, err := json.Marshal(jsonObj)
 		if err != nil {
 			return "{}"
 		}
 		return string(jsonByte)
 	}})
-
 
 	adminRouter := app.Party("/admin", admin.Authentication) 
 	{

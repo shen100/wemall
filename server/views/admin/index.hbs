@@ -18,9 +18,20 @@
          *     "title": "微信商城"
          * }
          */
-        var config = {{{json config}}};
+        var pageConfig = {{{json pageConfig}}};
     </script>
+    <script type="text/javascript">
+        /*
+         * {
+         *     "name": "",
+         *     "version": "",
+         *     "officialURL": ""
+         * }
+         */
+        var softwareConfig = {{{json softwareConfig}}};
+    </script>
+    <script type="text/javascript">var globalData = {{{json data}}};</script>
     <script type="text/javascript" src="{{jsPath}}/vendor.bundle.js"></script>
-    <script type="text/javascript" src="{{jsPath}}/admin/index.js"></script>
+    <script type="text/javascript" src="{{jsPath}}/admin/app.js"></script>
   </body>
 </html>

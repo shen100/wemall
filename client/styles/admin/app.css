@@ -1,0 +1,80 @@
+#app .logo {
+    height: 32px;
+    background: #333;
+    border-radius: 6px;
+    margin: 16px;
+}
+
+#app .ant-layout-sider-collapsed .anticon {
+    font-size: 16px;
+    margin-left: 8px;
+}
+
+#app .ant-layout-sider-collapsed .nav-text {
+    display: none;
+}
+
+#app .ant-layout-sider-collapsed .ant-menu-submenu-vertical > .ant-menu-submenu-title:after {
+    display: none;
+}
+
+.header-navbar {
+    height: 50px;
+    background-color: #1c1c1c
+}
+
+.header-navbar-logo {
+    width: 163px;
+    height: 100%;
+    float: left;
+}
+
+.sidebar-toggler {
+    margin-top: 16px;
+    float: left;
+    cursor: pointer;
+    opacity: .7;
+    filter: alpha(opacity=70);
+    display: block;
+    webkit-transition: opacity .3s;
+    -moz-transition: opacity .3s;
+    -ms-transition: opacity .3s;
+    -o-transition: opacity .3s;
+    transition: opacity .3s;
+}
+
+.sidebar-toggler:hover {
+	opacity: 1;
+    filter: alpha(opacity=100);
+}
+
+.sidebar-toggler span, .sidebar-toggler span:before, .sidebar-toggler span:after {
+	display: inline-block;
+    width: 19px;
+    height: 1px;
+    background: #fff;
+    position: relative;
+    top: -6px;
+    transition: all ease .3s;
+}
+
+.sidebar-toggler span:before {
+    top: 6px;
+    position: absolute;
+    left: 0;
+    content: '';
+}
+
+.sidebar-toggler span:after {
+    top: -6px;
+    position: absolute;
+    left: 0;
+    content: '';
+}
+
+.content {
+    padding: 20px;
+    background-color: #fff;
+}
+
+

@@ -1,35 +1,60 @@
 'use strict';
 
-var webpack           = require('webpack');
-var devWebpack        = require('./webpack.config.dev');
-var ProgressBarPlugin = require('progress-bar-webpack-plugin');
+var path                     = require('path');
+var webpack                  = require('webpack');
+var BellOnBundlerErrorPlugin = require('bell-on-bundler-error-plugin');
+var appConfig                = require('./appconfig.json');
+var hotMiddleware            = 'webpack-hot-middleware/client?reload=true';
+var jsPath                   = appConfig.page.JSPath;
 
-var entry = {};
-
-for (var key in devWebpack.entry) {
-    if (devWebpack.entry.hasOwnProperty(key)) {
-        entry[key] = devWebpack.entry[key][0];
-    }
+function getEntryMap() {
+    var entryArr = [
+        'admin/app'
+    ];
+    var entryMap = {};
+    entryArr.forEach(function(key) {
+        entryMap[key] = ['babel-polyfill', './client/javascripts/' + key + '.js', hotMiddleware];
+    });
+    entryMap['vendor'] = [
+        'react', 
+        'react-dom',
+        'react-redux',
+        'redux'
+    ];
+    return entryMap;
 }
 
-module.exports = {
-    entry: entry,
-    output: devWebpack.output,
-    module: {
-        loaders: devWebpack.module.loaders
+var config = {
+    entry: getEntryMap(),
+    output: {
+        publicPath    : appConfig.page.SitePath + '/',
+        filename      : '.' + jsPath + '/[name].js',
+        path          : path.resolve(__dirname, './dist/app/client'),
+        chunkFilename : '.' + jsPath + '/[name].js',
     },
+    module: {
+        loaders: [
+            {
+                test: /\.js$/,
+                exclude: /(node_modules|bower_components)/,
+                loader: 'babel-loader?-babelrc,+cacheDirectory,presets[]=es2015,presets[]=stage-0,presets[]=react'
+            }
+        ]
+    },
+    devtool: 'eval-source-map',
     resolve: {
-        extensions: devWebpack.resolve.extensions
+        extensions: ['.js', '.jsx', '.json']
     },
     plugins: [
-        new webpack.optimize.OccurenceOrderPlugin(),
-        new ProgressBarPlugin()
+        new webpack.optimize.CommonsChunkPlugin({
+            name: 'vendor', 
+            filename: '.' + jsPath + '/vendor.bundle.js'
+        }),
+        new BellOnBundlerErrorPlugin(),
+        new webpack.optimize.OccurrenceOrderPlugin(),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoEmitOnErrorsPlugin()
     ]
 };
 
-
-
-
-
-
-
+module.exports = config;

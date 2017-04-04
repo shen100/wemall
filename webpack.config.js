@@ -9,12 +9,11 @@ var jsPath                   = appConfig.page.JSPath;
 
 function getEntryMap() {
     var entryArr = [
-        'admin/index',
-        'admin1/index'
+        'admin/app'
     ];
     var entryMap = {};
     entryArr.forEach(function(key) {
-        entryMap[key] = ['./client/javascripts/' + key + '.js', hotMiddleware];
+        entryMap[key] = ['babel-polyfill', './client/javascripts/' + key + '.js', hotMiddleware];
     });
     entryMap['vendor'] = [
         'react', 
@@ -36,9 +35,13 @@ var config = {
     module: {
         loaders: [
             {
+                test: /\.css$/,
+                loaders: ['style-loader', 'css-loader']
+            },
+            {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
-                loader: 'babel-loader?-babelrc,+cacheDirectory,presets[]=es2015,presets[]=stage-0,presets[]=react'
+                loader: 'babel-loader?+babelrc,+cacheDirectory,presets[]=es2015,presets[]=stage-0,presets[]=react'
             }
         ]
     },

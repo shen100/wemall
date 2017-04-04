@@ -38,11 +38,11 @@ npm install --registry=https://registry.npm.taobao.org
 ```
 
 3 **配置nginx**  
-将文件`www.wemall.com.conf`拷贝到nginx的虚拟主机目录下  
->www.wemall.com.conf所在位置为, 项目目录/nginx/www.wemall.com.conf
+将文件`dev.wemall.com.conf`拷贝到nginx的虚拟主机目录下  
+>dev.wemall.com.conf所在位置为, 项目目录/nginx/dev.wemall.com.conf
 
 4 **配置hosts**    
-127.0.0.1 www.wemall.com  
+127.0.0.1 dev.wemall.com  
  
 5 **创建数据库**  
 先创建数据库如`wemall`，再use wemall，然后导入sql目录下的sql文件到数据库  
