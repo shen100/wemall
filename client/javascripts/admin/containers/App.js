@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect }          from 'react-redux';
 import { Layout }           from "antd";
 import HeaderNavbar         from '../components/HeaderNavbar';
-import SiderMenu            from '../components/SiderMenu';
+import Sidebar              from '../components/Sidebar';
 import '../../../styles/admin/app.css';
 
 const { Content, Sider } = Layout;
@@ -43,7 +43,7 @@ class App extends Component {
 				        collapsed={this.state.collapsed}
 				        onCollapse={this.onCollapse.bind(this)}
 		        	>
-		        		<SiderMenu mode={this.state.mode} 
+		        		<Sidebar mode={this.state.mode} 
 		        			location={location} 
 		        			collapsed={this.state.collapsed}/>
 		        	</Sider>
