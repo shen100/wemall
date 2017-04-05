@@ -10,7 +10,7 @@ let initState = {
     software: {
     	name        : softwareConfig.name,
     	version     : softwareConfig.version,
-    	OfficialURL : softwareConfig.OfficialURL
+    	officialURL : softwareConfig.officialURL
     }
 };
 

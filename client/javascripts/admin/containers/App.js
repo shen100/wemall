@@ -11,41 +11,32 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			collapsed: false,
-			mode: 'inline'
+			collapsed : false,
+			mode      : 'inline'
 		};
 	}
 	onToggle() {
-		console.log(this.state.collapsed);
 		let collapsed = !this.state.collapsed;
         this.setState({
-            collapsed: collapsed,
-            mode: collapsed ? 'vertical' : 'inline'
+            collapsed : collapsed,
+            mode      : collapsed ? 'vertical' : 'inline'
         });
     }
-    onCollapse(collapsed) {
-    	console.log(collapsed);
-	    this.setState({
-	      collapsed,
-	      mode: collapsed ? 'vertical' : 'inline',
-	    });
-    }
     render() {
-    	const location = this.props.location;
+    	let location = this.props.location;
         return (
         	<Layout>
-        		<HeaderNavbar collapsed={this.state.collapsed}
+        		<HeaderNavbar 
+        			collapsed={this.state.collapsed}
         			onToggle={this.onToggle.bind(this)}/>
 	            <Layout>
-	        		<Sider
+	        		<Sider 
 	        			trigger={null}
 			          	collapsible
-				        collapsed={this.state.collapsed}
-				        onCollapse={this.onCollapse.bind(this)}
-		        	>
-		        		<Sidebar mode={this.state.mode} 
-		        			location={location} 
-		        			collapsed={this.state.collapsed}/>
+				        collapsed={this.state.collapsed}>
+		        		<Sidebar 
+		        			mode={this.state.mode} 
+		        			location={location}/>
 		        	</Sider>
 	                <Layout>
 	                    <Content className="content">

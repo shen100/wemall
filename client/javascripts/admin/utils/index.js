@@ -7,7 +7,6 @@ export default {
 				let menuItem = sidebarData[i].children[j];
 				if (pathname == menuItem.url) {
 					return {
-						openKey  : sidebarData[i].id,
 						parent   : sidebarData[i],
 						menuItem : menuItem
 					};

@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import { connect }          from 'react-redux';
 import { Row, Col }         from 'antd';
-import config               from '../config';
-import utils                from '../utils';
 import requestSystemIndex   from '../actions/requestSystemIndex';
 import '../../../styles/admin/index.css';
 
 class Index extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            sidebarCurData: utils.getSidebarCurData(config.sidebarData, this.props.location)
-        };
+        this.state = {};
     }
 	componentDidMount() {
 		const { dispatch } = this.props;
@@ -99,7 +95,7 @@ class Index extends Component {
                     </div>
                     <div className="index-platform-info">
                         <span className="index-platform-label">官方网址:</span>
-                        <span>{systemIndex.software.OfficialURL}</span>
+                        <span>{systemIndex.software.officialURL}</span>
                     </div>
                 </div>
             </div>

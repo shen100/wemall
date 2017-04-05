@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { connect }          from 'react-redux';
 import config               from '../config';
-import utils                from '../utils';
 import requestUserAnalyze   from '../actions/requestUserAnalyze';
 
 class UserAnalyze extends Component {
 	constructor(props) {
         super(props);
-        this.state = {
-            sidebarCurData: utils.getSidebarCurData(config.sidebarData, this.props.location)
-        };
+        this.state = {};
     }
 	componentDidMount() {
 		const { dispatch } = this.props;
