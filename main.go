@@ -9,7 +9,6 @@ import (
 	"./server/controller/product"
 	"./server/controller/order"
 	"./server/controller/user"
-	"./server/controller/overview"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"gopkg.in/kataras/iris.v6"
 	"gopkg.in/kataras/iris.v6/adaptors/httprouter"
@@ -40,7 +39,6 @@ func main() {
 
 	adminRouter := app.Party("/admin", admin.Authentication) 
 	{
-		adminRouter.Get("/",                        overview.IndexByAdmin)
 		adminRouter.Get("/categories",              category.List)
 		adminRouter.Get("/category/:id",            category.Info)
 		adminRouter.Post("/category/create",        category.Create)
@@ -51,6 +49,10 @@ func main() {
 		adminRouter.Post("/product/create",         product.Create)
 
 		adminRouter.Get("/order/analyze",           order.Analyze)
+		adminRouter.Get("/order/todaycount",        order.TodayCount)
+		adminRouter.Get("/order/totalcount",        order.TotalCount)
+		adminRouter.Get("/order/todaysale",         order.TodaySale)
+		adminRouter.Get("/order/totalsale",         order.TotalSale)
 		adminRouter.Get("/order/latest/30",         order.Latest30Day)
 		adminRouter.Get("/order/amount/latest/30",  order.AmountLatest30Day)
 

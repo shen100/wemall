@@ -6,6 +6,64 @@ import (
 	"time"
 )
 
+// TodayCount 今日总订单数
+func TodayCount(ctx *iris.Context) {
+	var order model.Order;
+	now   := time.Now()
+	count := order.CountByDate(now)
+
+	ctx.JSON(iris.StatusOK, iris.Map{
+		"errNo" : model.ErrorCode.SUCCESS,
+		"msg"   : "success",
+		"data"  : iris.Map{
+			"count": count,
+		},
+	})
+}
+
+// TodaySale 今日总销售额
+func TodaySale(ctx *iris.Context) {
+	var order model.Order;
+	now   := time.Now()
+	sale  := order.TotalSaleByDate(now)
+
+	ctx.JSON(iris.StatusOK, iris.Map{
+		"errNo" : model.ErrorCode.SUCCESS,
+		"msg"   : "success",
+		"data"  : iris.Map{
+			"sale": sale,
+		},
+	})
+}
+
+// TotalCount 总订单数
+func TotalCount(ctx *iris.Context) {
+	var order model.Order;
+	total  := order.Total()
+
+	ctx.JSON(iris.StatusOK, iris.Map{
+		"errNo" : model.ErrorCode.SUCCESS,
+		"msg"   : "success",
+		"data"  : iris.Map{
+			"total": total,
+		},
+	})
+}
+
+// TotalSale 总销售额
+func TotalSale(ctx *iris.Context) {
+	var order model.Order;
+	sale  := order.TotalSale()
+
+	ctx.JSON(iris.StatusOK, iris.Map{
+		"errNo" : model.ErrorCode.SUCCESS,
+		"msg"   : "success",
+		"data"  : iris.Map{
+			"sale": sale,
+		},
+	})
+}
+
 // Latest30Day 近30天，每天的订单数
 func Latest30Day(ctx *iris.Context) {
 	var orders model.OrderPerDay;

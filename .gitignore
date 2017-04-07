@@ -6,5 +6,3 @@ dist
 *.swp
 .bashrc
 debug
-client/javascripts/admin1
-client/javascripts/admin2
