@@ -9,22 +9,15 @@ import {
 
 import { Provider }    from 'react-redux';
 import thunkMiddleware from 'redux-thunk';
-
-import {
-    Router, 
-    Route, 
-    hashHistory 
-} from 'react-router';
+import { hashHistory } from 'react-router';
 
 import {
     syncHistoryWithStore, 
     routerReducer 
 } from 'react-router-redux';
 
-import reducers     from './reducers';
-import routes       from './routes';
-import App          from './containers/App';
-import Index        from './containers/Index';
+import reducers    from './reducers';
+import route       from './route';
 
 let store = createStore(
     combineReducers({
@@ -40,15 +33,7 @@ let history = syncHistoryWithStore(hashHistory, store);
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router history={history}>
-            <Route path="/admin" component={App}>
-                <Route path="/" component={Index}/>
-                <Route path="/user/analyze" getComponent={routes.UserAnalyze}/>
-                <Route path="/order/analyze" getComponent={routes.OrderAnalyze}/>
-                <Route path="/*" getComponent={routes.NotFound}/>
-            </Route>
-        </Router>
+        {route(history)} 
     </Provider>,
     document.getElementById('app')
 );
-

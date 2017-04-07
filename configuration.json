@@ -1,0 +1,56 @@
+{
+	"poweredByWeb": "wemall",
+	"poweredByAPI": "wemall api",
+	"database": {
+		"Dialect"  : "mysql",
+		"Database" : "wemall",
+		"User"	   : "root",
+		"Password" : "test1234",
+		"Charset"  : "utf8",
+		"SQLLog"   : true,
+		"URL"      : ""
+	},
+	"nodejs": {
+		"page": {
+			"title"     : "微信商城",
+			"sitePath"  : "",
+			"jsPath"    : "/javascripts",
+			"imagePath" : "/images",
+			"cssPath"   : "/styles"
+		},
+		"env"      : "development",
+		"useProxy" : true,
+		"port"     : 8012
+	},
+	"go": {
+		"Debug"               : true,
+		"URL"                 : "http://wemall.shen100.com",
+		"Port"                : 8010,
+		"StaticPort"          : 8011,
+		"MaxOrder"            : 10000,
+		"MinOrder"            : 0,
+		"PageSize"            : 20,
+		"MaxPageSize"         : 100,
+		"MinPageSize"         : 20,
+		"MaxNameLen"          : 100,
+		"MaxRemarkLen"        : 500,
+		"MaxContentLen"       : 10000,
+		"MaxProductCateCount" : 6
+	},
+	"software": {
+		"name"        : "wemall微商城",
+		"version"     : "1.0.0",
+		"officialURL" : "https://www.shen100.com"
+	},
+	"api": {
+		"apiPrefix": "/api",
+		"serverApiURL": "http://127.0.0.1",
+		"todayOrderCount": "/admin/order/todaycount",
+		"todayOrderSale": "/admin/order/todaysale",
+		"totalOrderCount": "/admin/order/totalcount",
+		"totalSale": "/admin/order/totalsale",
+	},
+	"docs": {
+		"github": "https://xxx.com/shen100"
+	}
+}

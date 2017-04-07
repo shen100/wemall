@@ -3,9 +3,9 @@
 var path                     = require('path');
 var webpack                  = require('webpack');
 var BellOnBundlerErrorPlugin = require('bell-on-bundler-error-plugin');
-var appConfig                = require('./appconfig.json');
+var config                   = require('./config');
 var hotMiddleware            = 'webpack-hot-middleware/client?reload=true';
-var jsPath                   = appConfig.page.JSPath;
+var jsPath                   = config.page.jsPath;
 
 function getEntryMap() {
     var entryArr = [
@@ -13,7 +13,7 @@ function getEntryMap() {
     ];
     var entryMap = {};
     entryArr.forEach(function(key) {
-        entryMap[key] = ['babel-polyfill', './client/javascripts/' + key + '.js', hotMiddleware];
+        entryMap[key] = ['babel-polyfill', '../static/javascripts/' + key + '.js', hotMiddleware];
     });
     entryMap['vendor'] = [
         'react', 
@@ -27,7 +27,7 @@ function getEntryMap() {
 var config = {
     entry: getEntryMap(),
     output: {
-        publicPath    : appConfig.page.SitePath + '/',
+        publicPath    : config.page.sitePath + '/',
         filename      : '.' + jsPath + '/[name].js',
         path          : path.resolve(__dirname, './dist/app/client'),
         chunkFilename : '.' + jsPath + '/[name].js',
@@ -35,13 +35,17 @@ var config = {
     module: {
         loaders: [
             {
+                test: /\.css$/,
+                loaders: ['style-loader', 'css-loader']
+            },
+            {
                 test: /\.js$/,
                 exclude: /(node_modules|bower_components)/,
-                loader: 'babel-loader?-babelrc,+cacheDirectory,presets[]=es2015,presets[]=stage-0,presets[]=react'
+                loader: 'babel-loader?+babelrc,+cacheDirectory,presets[]=es2015,presets[]=stage-0,presets[]=react'
             }
         ]
     },
-    devtool: 'eval-source-map',
+    devtool: 'cheap-module-eval-source-map',
     resolve: {
         extensions: ['.js', '.jsx', '.json']
     },

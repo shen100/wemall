@@ -45,7 +45,7 @@ var config = {
             }
         ]
     },
-    devtool: 'eval-source-map',
+    devtool: 'inline-source-map',
     resolve: {
         extensions: ['.js', '.jsx', '.json']
     },
