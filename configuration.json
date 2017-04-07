@@ -18,15 +18,15 @@
 			"imagePath" : "/images",
 			"cssPath"   : "/styles"
 		},
-		"env"      : "development",
-		"useProxy" : true,
-		"port"     : 8012
+		"env"        : "development",
+		"useProxy"   : true,
+		"port"       : 8010,
+		"staticPort" : 8011
 	},
 	"go": {
 		"Debug"               : true,
 		"URL"                 : "http://wemall.shen100.com",
-		"Port"                : 8010,
-		"StaticPort"          : 8011,
+		"Port"                : 8012,
 		"MaxOrder"            : 10000,
 		"MinOrder"            : 0,
 		"PageSize"            : 20,
@@ -48,7 +48,7 @@
 		"todayOrderCount": "/admin/order/todaycount",
 		"todayOrderSale": "/admin/order/todaysale",
 		"totalOrderCount": "/admin/order/totalcount",
-		"totalSale": "/admin/order/totalsale",
+		"totalSale": "/admin/order/totalsale"
 	},
 	"docs": {
 		"github": "https://xxx.com/shen100"

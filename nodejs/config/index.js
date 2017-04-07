@@ -9,6 +9,7 @@ var config = {
 	env          : configData.nodejs.env,
 	useProxy     : configData.nodejs.useProxy,
 	port         : configData.nodejs.port,
+	staticPort   : configData.nodejs.staticPort,
 	page: {
 		title     : configData.nodejs.page.title,
 		sitePath  : configData.nodejs.page.sitePath,
@@ -40,3 +41,5 @@ var config = {
 		}
 	}
 }())
+
+module.exports = config;

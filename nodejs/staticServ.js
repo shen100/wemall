@@ -10,7 +10,7 @@ var webpack              = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleware = require('webpack-hot-middleware');
 var webpackConfig        = require('./webpack.config');
-var appConfig            = require('./appconfig');
+var config               = require('./config');
 var compiler             = webpack(webpackConfig);
 
 var app = express();
@@ -52,6 +52,6 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
-server.listen(appConfig.server.StaticPort, function() {
-    console.log('StaticServ running at ' + appConfig.server.URL);
+server.listen(config.staticPort, function() {
+    console.log('StaticServ running at :' + config.staticPort);
 });

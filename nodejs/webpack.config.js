@@ -7,14 +7,18 @@ var config                   = require('./config');
 var hotMiddleware            = 'webpack-hot-middleware/client?reload=true';
 var jsPath                   = config.page.jsPath;
 
+console.log(123456);
+
+
 function getEntryMap() {
     var entryArr = [
         'admin/app'
     ];
     var entryMap = {};
     entryArr.forEach(function(key) {
-        entryMap[key] = ['babel-polyfill', '../static/javascripts/' + key + '.js', hotMiddleware];
+        entryMap[key] = ['babel-polyfill', './static/javascripts/' + key + '.js', hotMiddleware];
     });
+
     entryMap['vendor'] = [
         'react', 
         'react-dom',
@@ -27,10 +31,10 @@ function getEntryMap() {
 var config = {
     entry: getEntryMap(),
     output: {
-        publicPath    : config.page.sitePath + '/',
-        filename      : '.' + jsPath + '/[name].js',
+        publicPath    : '/',
+        filename      : './javascripts/[name].js',
         path          : path.resolve(__dirname, './dist/app/client'),
-        chunkFilename : '.' + jsPath + '/[name].js',
+        chunkFilename : './javascripts/[name].js'
     },
     module: {
         loaders: [
@@ -52,7 +56,7 @@ var config = {
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor', 
-            filename: '.' + jsPath + '/vendor.bundle.js'
+            filename:  './javascripts/vendor.bundle.js'
         }),
         new BellOnBundlerErrorPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
