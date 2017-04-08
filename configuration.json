@@ -19,13 +19,13 @@
 			"cssPath"   : "/styles"
 		},
 		"env"        : "development",
-		"useProxy"   : true,
+		"useProxy"   : false,
+		"proxyUri"   : "http://127.0.0.1:8881",
 		"port"       : 8010,
 		"staticPort" : 8011
 	},
 	"go": {
 		"Debug"               : true,
-		"URL"                 : "http://wemall.shen100.com",
 		"Port"                : 8012,
 		"MaxOrder"            : 10000,
 		"MinOrder"            : 0,
@@ -43,12 +43,8 @@
 		"officialURL" : "https://www.shen100.com"
 	},
 	"api": {
-		"apiPrefix": "/api",
-		"serverApiURL": "http://127.0.0.1",
-		"todayOrderCount": "/admin/order/todaycount",
-		"todayOrderSale": "/admin/order/todaysale",
-		"totalOrderCount": "/admin/order/totalcount",
-		"totalSale": "/admin/order/totalsale"
+		"Prefix": "/api",
+		"URL": "http://127.0.0.1:8012"
 	},
 	"docs": {
 		"github": "https://xxx.com/shen100"

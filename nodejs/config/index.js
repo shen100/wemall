@@ -8,6 +8,7 @@ var config = {
 	webPoweredBy : configData.webPoweredBy,
 	env          : configData.nodejs.env,
 	useProxy     : configData.nodejs.useProxy,
+	proxyUri     : configData.nodejs.proxyUri,
 	port         : configData.nodejs.port,
 	staticPort   : configData.nodejs.staticPort,
 	page: {
@@ -23,10 +24,10 @@ var config = {
 		officialURL : configData.software.officialURL
 	},
 	api: {
-		todayOrderCount : configData.api.todayOrderCount,
-		todayOrderSale  : configData.api.todayOrderSale,
-		totalOrderCount : configData.api.totalOrderCount,
-		totalSale       : configData.api.totalSale
+		todayOrderCount : "/admin/order/todaycount",
+		todayOrderSale  : "/admin/order/todaysale",
+		totalOrderCount : "/admin/order/totalcount",
+		totalSale       : "/admin/order/totalsale"
 	},
 	docs: {
 		github: configData.docs.github
@@ -34,7 +35,7 @@ var config = {
 };
 
 (function() {
-	var url = configData.api.serverApiURL + configData.api.apiPrefix;
+	var url = configData.api.URL + configData.api.Prefix;
 	for (var key in config.api) {
 		if (config.api.hasOwnProperty(key)) {
 			config.api[key] = url + config.api[key];

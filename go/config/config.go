@@ -11,7 +11,7 @@ import (
 var jsonData map[string]interface{}
 
 func initJSON() {
-    bytes, err := ioutil.ReadFile("./appconfig.json")
+    bytes, err := ioutil.ReadFile("./configuration.json")
     if err != nil {
         fmt.Println("ReadFile: ", err.Error())
     }
@@ -43,27 +43,8 @@ func initDB() {
 	DBConfig.URL = url
 }
 
-type pageConfig struct {
-	Title         string `json:"title"`
-	SitePath      string `json:"sitePath"`
-	JSPath        string `json:"jsPath"`
-	ImagePath     string `json:"imagePath"`
-	CSSPath       string `json:"cssPath"`
-}
-
-// PageConfig 页面相关配置
-var PageConfig pageConfig
-
-func initPage() {
-	utils.SetStructByJSON(&PageConfig, jsonData["page"].(map[string]interface{}))
-	PageConfig.JSPath    = PageConfig.SitePath + PageConfig.JSPath
-	PageConfig.ImagePath = PageConfig.SitePath + PageConfig.ImagePath
-	PageConfig.CSSPath   = PageConfig.SitePath + PageConfig.CSSPath
-}
-
 type serverConfig struct {
 	Debug               bool
-	URL                 string
 	Port                int
 	StaticPort          int
 	MaxOrder            int
@@ -81,26 +62,24 @@ type serverConfig struct {
 var ServerConfig serverConfig
 
 func initServer() {
-	utils.SetStructByJSON(&ServerConfig, jsonData["server"].(map[string]interface{}))
+	utils.SetStructByJSON(&ServerConfig, jsonData["go"].(map[string]interface{}))
 }
 
-type softwareConfig struct {
-	Name                string `json:"name"`
-	Version             string `json:"version"`
-	OfficialURL         string `json:"officialURL"`
+type apiConfig struct {
+	Prefix   string
+	URL      string
 }
 
-// SoftwareConfig 软件相关配置
-var SoftwareConfig softwareConfig
+// APIConfig api相关配置
+var APIConfig apiConfig
 
-func initSoftware() {
-	utils.SetStructByJSON(&SoftwareConfig, jsonData["software"].(map[string]interface{}))
+func initAPI() {
+	utils.SetStructByJSON(&APIConfig, jsonData["api"].(map[string]interface{}))
 }
 
 func init() {
 	initJSON()
 	initDB()
-	initPage()
 	initServer()
-	initSoftware()	
+	initAPI()
 }

@@ -1,20 +1,17 @@
 package main
 
 import (
-	"./server/config"
-	"./server/model"
-	"./server/controller/admin"
-	"./server/controller/category"
-	"./server/controller/common"
-	"./server/controller/product"
-	"./server/controller/order"
-	"./server/controller/user"
+	"./go/config"
+	"./go/model"
+	"./go/controller/admin"
+	"./go/controller/category"
+	"./go/controller/product"
+	"./go/controller/order"
+	"./go/controller/user"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"gopkg.in/kataras/iris.v6"
 	"gopkg.in/kataras/iris.v6/adaptors/httprouter"
-	"gopkg.in/kataras/iris.v6/adaptors/view"
 	"strconv"
-	"encoding/json"
 )
 
 func main() {
@@ -27,17 +24,9 @@ func main() {
 		app.Adapt(iris.DevLogger())
 	}
 	app.Adapt(httprouter.New())
-	app.Adapt(view.Handlebars("./server/views", ".hbs").Reload(config.ServerConfig.Debug))
 
-	app.Adapt(iris.TemplateFuncsPolicy{"json": func(jsonObj interface{}) string {
-		jsonByte, err := json.Marshal(jsonObj)
-		if err != nil {
-			return "{}"
-		}
-		return string(jsonByte)
-	}})
-
-	adminRouter := app.Party("/admin", admin.Authentication) 
+	apiPrefix   := config.APIConfig.Prefix
+	adminRouter := app.Party(apiPrefix + "/admin", admin.Authentication) 
 	{
 		adminRouter.Get("/categories",              category.List)
 		adminRouter.Get("/category/:id",            category.Info)
@@ -60,18 +49,24 @@ func main() {
 		adminRouter.Get("/user/yesterday",          user.YesterdayRegisterUser)
 		adminRouter.Get("/user/latest/30",          user.Latest30Day)
 		adminRouter.Get("/user/analyze",            user.Analyze)
-
-		adminRouter.DoneFunc(common.RenderView)
     }
 
 	app.OnError(iris.StatusNotFound, func(ctx *iris.Context) {
-		ctx.Set("errNo", model.ErrorCode.NotFound)
-		common.RenderView(ctx)
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.NotFound,
+			"msg"   : "Not Found",
+			"data"  : iris.Map{},
+		})
+
 	})
 
 	app.OnError(500, func(ctx *iris.Context) {
-  		ctx.Set("errNo", model.ErrorCode.ERROR)
-		common.RenderView(ctx)
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "error",
+			"data"  : iris.Map{},
+		})
 	})
+
 	app.Listen(":" + strconv.Itoa(config.ServerConfig.Port))
 }

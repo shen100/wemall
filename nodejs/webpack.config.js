@@ -7,9 +7,6 @@ var config                   = require('./config');
 var hotMiddleware            = 'webpack-hot-middleware/client?reload=true';
 var jsPath                   = config.page.jsPath;
 
-console.log(123456);
-
-
 function getEntryMap() {
     var entryArr = [
         'admin/app'

@@ -25,7 +25,7 @@ var req = function(options, callback) {
 
 	delete options.client;
 	if (config.useProxy) {
-		options.proxy = config.proxy.uri;
+		options.proxy = config.proxyUri;
 	}
 	var startTime = new Date().getTime();
 	request(options, function(error, response, data) {

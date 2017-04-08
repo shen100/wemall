@@ -45,7 +45,7 @@ func TotalCount(ctx *iris.Context) {
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
 		"data"  : iris.Map{
-			"total": total,
+			"count": total,
 		},
 	})
 }

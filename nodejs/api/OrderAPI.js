@@ -1,13 +1,14 @@
-var request = require('../net/request');
-var Promise = require('bluebird');
-var config  = require('../config');
+var request   = require('../net/request');
+var Promise   = require('bluebird');
+var config    = require('../config');
+var ErrorCode = require('../model/ErrorCode');
 
 /*
  * 今日订单数
  */
 function getTodayOrderCount(req) {
 	return new Promise(function(resolve, reject) {
-		var url  = config.api.TodayOrderCount;
+		var url  = config.api.todayOrderCount;
 		request.getJSON({
 			client : req,
 			uri    : url
@@ -28,7 +29,7 @@ function getTodayOrderCount(req) {
  */
 function getTodaySale(req) {
 	return new Promise(function(resolve, reject) {
-		var url  = config.api.TodayOrderSale;
+		var url  = config.api.todayOrderSale;
 		request.getJSON({
 			client : req,
 			uri    : url
@@ -49,7 +50,7 @@ function getTodaySale(req) {
  */
 function getTotalOrderCount(req) {
 	return new Promise(function(resolve, reject) {
-		var url  = config.api.TotalOrderCount;
+		var url  = config.api.totalOrderCount;
 		request.getJSON({
 			client : req,
 			uri    : url
@@ -70,7 +71,7 @@ function getTotalOrderCount(req) {
  */
 function getTotalSale(req) {
 	return new Promise(function(resolve, reject) {
-		var url  = config.api.TotalSale;
+		var url  = config.api.totalSale;
 		request.getJSON({
 			client : req,
 			uri    : url

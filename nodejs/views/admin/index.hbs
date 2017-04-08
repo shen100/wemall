@@ -9,28 +9,10 @@
   <body>
     <div id="app"></div>
     <script type="text/javascript">
-        /*
-         * {
-         *     "cssPath": "/styles",
-         *     "imagePath": "/images",
-         *     "jsPath": "/javascripts",
-         *     "sitePath": "",
-         *     "title": "微信商城"
-         * }
-         */
-        var pageConfig = {{{json pageConfig}}};
-    </script>
-    <script type="text/javascript">
-        /*
-         * {
-         *     "name": "",
-         *     "version": "",
-         *     "officialURL": ""
-         * }
-         */
+        var pageConfig     = {{{json pageConfig}}};
         var softwareConfig = {{{json softwareConfig}}};
+        var globalData     = {{{json data}}};
     </script>
-    <script type="text/javascript">var globalData = {{{json data}}};</script>
     <script type="text/javascript" src="{{jsPath}}/vendor.bundle.js"></script>
     <script type="text/javascript" src="{{jsPath}}/admin/app.js"></script>
   </body>
