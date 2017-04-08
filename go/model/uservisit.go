@@ -44,7 +44,7 @@ func (userVisit UserVisit) Latest30DayPV() (PVPerDay) {
 	sqlData      := before29Date.Format("2006-01-02")
     sqlArr       := []string{
 		"SELECT count(*) as pv, DATE_FORMAT(visit_time,'%Y-%m-%d') as date",
-		"FROM user_visit",
+		"FROM user_visits",
 		"WHERE visit_time >= ?",
 		"GROUP BY DATE_FORMAT(visit_time,'%Y-%m-%d');",
 	};

@@ -1,7 +1,6 @@
 {
   "plugins": [
     "transform-runtime",
-    "recharts",
     ["import", { libraryName: "antd", style: "css" }]
   ]
 }

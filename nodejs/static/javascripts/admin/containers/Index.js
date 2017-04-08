@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { connect }          from 'react-redux';
 import { Row, Col }         from 'antd';
+
+import LineChart            from '../components/LineChart';
 import requestSystemIndex   from '../actions/requestSystemIndex';
+import requestRecentPV      from '../actions/requestRecentPV';
 import analyze              from '../../sdk/analyze';
 import '../../../styles/admin/index.css';
 
@@ -13,6 +16,7 @@ class Index extends Component {
 	componentDidMount() {
 		const { dispatch } = this.props;
 		dispatch(requestSystemIndex());
+        dispatch(requestRecentPV());
         analyze.pv();
 	}
     render() {
@@ -58,6 +62,9 @@ class Index extends Component {
                         <Col span={12}>
                             <div className="index-box">
                                 <div className="index-box-title">平台访客</div>
+                                <div className="index-box-chart">
+                                    <LineChart title="PV" xName="date" yName="pv" data={systemIndex.recentPV}></LineChart>
+                                </div>
                             </div>
                         </Col>
                         <Col span={12}>

@@ -36,6 +36,11 @@
     color: #000;
 }
 
+.index-box-chart {
+	width: 100%;
+	height: 330px;
+}
+
 .index-platform {
 	border: 1px #108ee9 solid;
 	border-left-width: 4px;
