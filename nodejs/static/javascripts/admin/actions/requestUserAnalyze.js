@@ -16,7 +16,7 @@ function receiveUserAnalyze(json) {
 
 export default function() {
     return dispatch => {
-        var url = pageConfig.sitePath + '/admin/user/analyze';
+        var url = pageConfig.apiURL + '/admin/user/analyze';
         return fetch(url)
             .then(response => response.json())
             .then(json => dispatch(receiveUserAnalyze(json.data)))

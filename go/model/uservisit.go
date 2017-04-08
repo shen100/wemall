@@ -16,8 +16,8 @@ type UserVisit struct {
 	UserID         uint       `json:"userID"`
 	VisitTime      time.Time  `json:"visitTime"`
 	IP             string     `json:"ip"`
-	DeviceWidth    uint       `json:"deviceWidth"`
-	DeviceHeight   uint       `json:"deviceHeight"`
+	DeviceWidth    int        `json:"deviceWidth"`
+	DeviceHeight   int        `json:"deviceHeight"`
 	BrowserName    string     `json:"browserName"`
 	BrowserVersion string     `json:"browserVersion"`
 	DeviceModel    string     `json:"deviceModel"`

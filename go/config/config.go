@@ -68,6 +68,7 @@ func initServer() {
 type apiConfig struct {
 	Prefix   string
 	URL      string
+	NodeURL  string
 }
 
 // APIConfig api相关配置

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect }          from 'react-redux';
 import { Row, Col }         from 'antd';
 import requestSystemIndex   from '../actions/requestSystemIndex';
+import analyze              from '../../sdk/analyze';
 import '../../../styles/admin/index.css';
 
 class Index extends Component {
@@ -12,6 +13,7 @@ class Index extends Component {
 	componentDidMount() {
 		const { dispatch } = this.props;
 		dispatch(requestSystemIndex());
+        analyze.pv();
 	}
     render() {
     	let { systemIndex } = this.props;

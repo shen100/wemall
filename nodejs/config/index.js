@@ -16,7 +16,8 @@ var config = {
 		sitePath  : configData.nodejs.page.sitePath,
 		jsPath    : configData.nodejs.page.jsPath,
 		imagePath : configData.nodejs.page.imagePath,
-		cssPath   : configData.nodejs.page.cssPath
+		cssPath   : configData.nodejs.page.cssPath,
+		apiURL    : configData.api.URL
 	},
 	software: {
 		name        : configData.software.name,
@@ -35,7 +36,7 @@ var config = {
 };
 
 (function() {
-	var url = configData.api.URL + configData.api.Prefix;
+	var url = configData.api.NodeURL;
 	for (var key in config.api) {
 		if (config.api.hasOwnProperty(key)) {
 			config.api[key] = url + config.api[key];

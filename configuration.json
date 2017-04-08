@@ -43,8 +43,9 @@
 		"officialURL" : "https://www.shen100.com"
 	},
 	"api": {
-		"Prefix": "/api",
-		"URL": "http://127.0.0.1:8012"
+		"Prefix"  : "/api",
+		"URL"     : "/api",
+		"NodeURL" : "http://127.0.0.1:8012/api"
 	},
 	"docs": {
 		"github": "https://xxx.com/shen100"

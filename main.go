@@ -27,6 +27,12 @@ func main() {
 	app.Adapt(httprouter.New())
 
 	apiPrefix   := config.APIConfig.Prefix
+
+	router := app.Party(apiPrefix) 
+	{
+		router.Get("/visit",   visit.PV)
+    }
+
 	adminRouter := app.Party(apiPrefix + "/admin", admin.Authentication) 
 	{
 		adminRouter.Get("/categories",              category.List)
