@@ -8,6 +8,7 @@ import (
 	"./go/controller/product"
 	"./go/controller/order"
 	"./go/controller/user"
+	"./go/controller/visit"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"gopkg.in/kataras/iris.v6"
 	"gopkg.in/kataras/iris.v6/adaptors/httprouter"
@@ -49,6 +50,8 @@ func main() {
 		adminRouter.Get("/user/yesterday",          user.YesterdayRegisterUser)
 		adminRouter.Get("/user/latest/30",          user.Latest30Day)
 		adminRouter.Get("/user/analyze",            user.Analyze)
+
+		adminRouter.Get("/visit/pv/latest/30",      visit.Latest30Day)
     }
 
 	app.OnError(iris.StatusNotFound, func(ctx *iris.Context) {
