@@ -2,10 +2,10 @@ import {
 	REQUEST_RECENT_PV
 } from '../constants';
 
-function receiveRecentPV(json) {
+function receiveRecentPV(data) {
     return {
         type: REQUEST_RECENT_PV,
-        recentPV: json.list
+        recentPV: data.list
     };
 }
 

@@ -20,7 +20,8 @@ function getEntryMap() {
         'react', 
         'react-dom',
         'react-redux',
-        'redux'
+        'redux',
+        'echarts'
     ];
     return entryMap;
 }

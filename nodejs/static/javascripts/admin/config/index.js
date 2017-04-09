@@ -22,7 +22,7 @@ var sidebarData = [
 			{
 				id    : getId(),
 				title : '订单分析',
-				url   : '/admin/overview/order/analyze'	
+				url   : '/order/analyze'	
 			},
 			{
 				id    : getId(),

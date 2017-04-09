@@ -2,14 +2,14 @@ import {
 	REQUEST_USER_ANALYZE
 } from '../constants';
 
-function receiveUserAnalyze(json) {
+function receiveUserAnalyze(data) {
     return {
         type: REQUEST_USER_ANALYZE,
         userAnalyze: {
-	        todayNewUser          : json.todayNewUser,
-	        yesterdayNewUser      : json.yesterdayNewUser,
-	        todayPurchaseUser     : json.todayPurchaseUser,
-	        yesterdayPurchaseUser : json.yesterdayPurchaseUser
+	        todayNewUser          : data.todayNewUser,
+	        yesterdayNewUser      : data.yesterdayNewUser,
+	        todayPurchaseUser     : data.todayPurchaseUser,
+	        yesterdayPurchaseUser : data.yesterdayPurchaseUser
 	    }
     };
 }

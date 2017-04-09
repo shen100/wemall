@@ -8,11 +8,6 @@ let initState = {
     todayTotalSale  : globalData.todayTotalSale,
     totalOrderCount : globalData.totalOrderCount,
     totalSale       : globalData.totalSale,
-    software: {
-    	name        : softwareConfig.name,
-    	version     : softwareConfig.version,
-    	officialURL : softwareConfig.officialURL
-    },
     recentPV: []
 };
 
