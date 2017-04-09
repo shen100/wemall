@@ -63,7 +63,7 @@ class Index extends Component {
                             <div className="index-box">
                                 <div className="index-box-title">平台访客</div>
                                 <div className="index-box-chart">
-                                    <LineChart title="PV" xName="date" yName="pv" data={systemIndex.recentPV}></LineChart>
+                                    <LineChart collapsed={this.props.collapsed} title="PV" xName="date" yName="pv" data={systemIndex.recentPV}></LineChart>
                                 </div>
                             </div>
                         </Col>

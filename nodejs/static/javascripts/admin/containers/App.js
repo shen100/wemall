@@ -24,6 +24,10 @@ class App extends Component {
     }
     render() {
     	let location = this.props.location;
+    	let children = this.props.children;
+    	let childrenWithProps = React.Children.map(children, (child) => React.cloneElement(child, {
+			collapsed: this.state.collapsed
+		}));
         return (
         	<Layout>
         		<HeaderNavbar 
@@ -40,7 +44,7 @@ class App extends Component {
 		        	</Sider>
 	                <Layout>
 	                    <Content className="content">
-	                        {this.props.children}
+	                        {childrenWithProps}
 	                    </Content>
 	                </Layout>
 	            </Layout>

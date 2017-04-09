@@ -4,21 +4,20 @@ import echarts              from 'echarts';
 export default class extends React.Component {
 	constructor(props) {
 		super(props);
-		this.state = {
-			windowWidth: window.innerWidth
-		};
 		this.onResize    = this.onResize.bind(this);
 		this.updateChart = this.updateChart.bind(this);
+		this.state = {
+			windowWidth: 1
+		};
 	}
     componentDidMount() {
-    	this.updateChart();
+    	this.setState({
+			windowWidth: window.innerWidth
+		});
 		window.addEventListener('resize', this.onResize);
     }
     componentWillUnmount() {
     	window.removeEventListener('resize', this.onResize);	
-    }
-    componentDidUpdate(prevProps, prevState) {
-    	this.updateChart();
     }
     onResize() {
     	if (this.state.windowWidth != window.innerWidth) {
@@ -26,6 +25,19 @@ export default class extends React.Component {
 				windowWidth: window.innerWidth
 			});
     	}
+    }
+    componentWillReceiveProps(nextProps) {
+    	if (this.props.collapsed != nextProps.collapsed) {
+    		var self = this;
+    		//Sidebar展开或收缩时有动画，图表容器的宽度在不断得变化，
+    		//这里做兼容处理，动画结束后，刷新图表
+	    	setTimeout(function() {
+	    		self.updateChart();
+	    	}, 400);
+    	}
+    }
+    componentDidUpdate(prevProps, prevState) {
+    	this.updateChart();
     }
     updateChart() {
     	var myChart = echarts.init(this.refs.chart);
@@ -113,7 +125,7 @@ export default class extends React.Component {
     		height : '100%'
         };
         return (
-            <div style={style} ref="chart"></div>
+			<div style={style} ref="chart"></div>
         )
     }
 }
