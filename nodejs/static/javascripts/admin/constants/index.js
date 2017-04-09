@@ -12,4 +12,8 @@ export const REQUEST_ORDER_30d = 'requestOrder30d';
 
 export const REQUEST_ORDER_AMOUNT_30d = 'requestOrderAmount30d';
 
+export const REQUEST_HOT_PRODUCT_LIST = 'requestHotProductList';
+
+export const REQUEST_PRODUCT_LIST = 'requestProductList';
+
 

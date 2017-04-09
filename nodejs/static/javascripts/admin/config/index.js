@@ -27,7 +27,7 @@ var sidebarData = [
 			{
 				id    : getId(),
 				title : '商品分析',
-				url   : '/admin/overview/product/analyze'	
+				url   : '/product/analyze'	
 			}
 		]
 	},
@@ -69,7 +69,7 @@ var sidebarData = [
             {
                 id    : getId(),
                 title : '商品管理',
-                url   : '/admin/product/list' 
+                url   : '/product/manage' 
             },
             {
                 id    : getId(),

@@ -15,6 +15,10 @@ func List(ctx *iris.Context) {
 	var products []model.Product
 	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
 
+	if config.DBConfig.SQLLog {
+		db.LogMode(true)
+	}
+
 	if err != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.ERROR,
@@ -33,7 +37,20 @@ func List(ctx *iris.Context) {
 	}
 
 	offset   := (pageNo - 1) * config.ServerConfig.PageSize
-	queryErr := db.Offset(offset).Limit(config.ServerConfig.PageSize).Find(&products).Error
+
+	//默认按创建时间，降序来排序
+	var orderStr = "created_at"
+	if ctx.FormValue("order") == "1" {
+		orderStr = "total_sale"
+	} else if ctx.FormValue("order") == "2" {
+		orderStr = "created_at"
+	}
+	if ctx.FormValue("asc") == "1" {
+		orderStr += " asc"
+	} else {
+		orderStr += " desc"	
+	}
+	queryErr := db.Offset(offset).Limit(config.ServerConfig.PageSize).Order(orderStr).Find(&products).Error
 
 	if queryErr != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{
@@ -169,4 +186,89 @@ func Create(ctx *iris.Context) {
 // Update 更新产品
 func Update(ctx *iris.Context) {
 	
+}
+
+// UpdateStatus 更新产品状态
+func UpdateStatus(ctx *iris.Context) {
+	var productID int
+	var status    int
+	var err error
+	errMsg := ""
+	if productID, err = strconv.Atoi(ctx.Param("id")); err != nil {
+		errMsg = "无效的产品ID"
+	} else if status, err = strconv.Atoi(ctx.Param("status")); err != nil {
+		errMsg = "无效的产品状态"
+	}
+
+	if errMsg != "" {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : errMsg,
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	db, connErr := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
+
+	if connErr != nil {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "error",
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	defer db.Close()
+
+	var product model.Product
+	if err := db.First(&product, productID).Error; err != nil {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "无效的产品ID.",
+			"data"  : iris.Map{},
+		})
+		return
+	}
+	
+	if status != model.ProductDownShelf && status != model.ProductUpShelf {
+		errMsg = "无效的产品状态."
+	} else if status == model.ProductDownShelf && product.Status != model.ProductUpShelf {
+		errMsg = "无效的产品状态."
+	} else if status == model.ProductUpShelf && product.Status != model.ProductDownShelf && product.Status != model.ProductPending {
+		errMsg = "无效的产品状态"
+	}
+
+	if (status == model.ProductDownShelf || status == model.ProductUpShelf) && status == product.Status {
+		errMsg = ""
+	}
+
+	if errMsg != "" {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : errMsg,
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	product.Status = status
+
+	if err := db.Save(&product).Error; err != nil {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "error.",
+			"data"  : iris.Map{},
+		})
+	} else {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.SUCCESS,
+			"msg"   : "success",
+			"data"  : iris.Map{
+				"id"     : product.ID,
+				"status" : product.Status,
+			},
+		})	
+	}
 }

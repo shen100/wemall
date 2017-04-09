@@ -41,8 +41,9 @@ func main() {
 		adminRouter.Post("/category/update/:id",    category.Update)
 		adminRouter.Post("/category/status/update", category.UpdateStatus)
 		
-		adminRouter.Get("/products",                product.List)
-		adminRouter.Post("/product/create",         product.Create)
+		adminRouter.Get("/products",                           product.List)
+		adminRouter.Post("/product/create",                    product.Create)
+		adminRouter.Get("/product/status/update/:id/:status",  product.UpdateStatus)
 
 		adminRouter.Get("/order/analyze",           order.Analyze)
 		adminRouter.Get("/order/todaycount",        order.TodayCount)

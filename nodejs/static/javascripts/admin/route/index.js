@@ -20,6 +20,18 @@ const OrderAnalyze = (location, cb) => {
     }, 'admin/OrderAnalyze');
 };
 
+const ProductAnalyze = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('../containers/ProductAnalyze').default);
+    }, 'admin/ProductAnalyze');
+};
+
+const ProductManage = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('../containers/ProductManage').default);
+    }, 'admin/ProductManage');
+};
+
 const NotFound = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('../containers/NotFound').default);
@@ -33,8 +45,10 @@ export default (history) => {
 	            <Route path="/" component={Index}/>
 	            <Route path="/user/analyze" getComponent={UserAnalyze}/>
 	            <Route path="/order/analyze" getComponent={OrderAnalyze}/>
-	            <Route path="/*" getComponent={NotFound}/>
+                <Route path="/product/analyze" getComponent={ProductAnalyze}/>
+                <Route path="/product/manage" getComponent={ProductManage}/>
 	        </Route>
+            <Route path="/*" getComponent={NotFound}/>
 	    </Router>
 	);
 };

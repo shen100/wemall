@@ -8,6 +8,9 @@ import requestRecentPV      from '../actions/requestRecentPV';
 import analyze              from '../../sdk/analyze';
 import '../../../styles/admin/index.css';
 
+/*
+ * 管理后台首页
+ */
 class Index extends Component {
     constructor(props) {
         super(props);

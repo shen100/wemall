@@ -12,7 +12,7 @@
 	},
 	"nodejs": {
 		"page": {
-			"title"     : "微信商城",
+			"title"     : "wemall-软件微商城",
 			"sitePath"  : "",
 			"jsPath"    : "/javascripts",
 			"imagePath" : "/images",

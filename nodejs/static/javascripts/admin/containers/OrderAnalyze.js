@@ -9,6 +9,9 @@ import requestOrderAmount30d from '../actions/requestOrderAmount30d';
 import analyze               from '../../sdk/analyze';
 import '../../../styles/admin/orderAnalyze.css';
 
+/*
+ * 管理后台，订单分析
+ */
 class OrderAnalyze extends Component {
     constructor(props) {
         super(props);
