@@ -37,19 +37,34 @@ export default class extends React.Component {
     	}
     }
     componentDidUpdate(prevProps, prevState) {
-    	this.updateChart();
+    	try {
+    		let prevPropsStr = JSON.stringify(prevProps);
+    		let propsStr     = JSON.stringify(this.props);
+			if (prevPropsStr != propsStr || prevState.windowWidth != this.state.windowWidth) {
+				this.updateChart();
+			}
+    	} catch(err) {
+
+    	}
     }
     updateChart() {
+		if (this.state.windowWidth <= 1) {
+			return;
+		}
+		if (!this.props.data || this.props.data.length <= 0) {
+			return;
+		}
     	var myChart = echarts.init(this.refs.chart);
 		myChart.setOption(this.getChartOption());
     }
     getChartOption() {
-    	let data  = this.props.data;
-    	let xName = this.props.xName;
-    	let yName = this.props.yName;
-    	let title = this.props.title;
-    	let xArr  = [];
-    	let yArr  = [];
+    	let data   = this.props.data;
+    	let xName  = this.props.xName;
+    	let yName  = this.props.yName;
+    	let yLabel = this.props.yLabel;
+    	let title  = this.props.title;
+    	let xArr   = [];
+    	let yArr   = [];
     	for (let i = 0; i < data.length; i++) {
     		xArr.push(data[i][xName]);
     		yArr.push(data[i][yName]);
@@ -67,7 +82,7 @@ export default class extends React.Component {
 		        		color: '#ddd'
 		        	}
 		        },
-		        formatter: '{b}<br/>' + title + ': {c}'
+		        formatter: '{b}<br/>' + yLabel + ': {c}'
 		    },
 		    xAxis: {
 		        type: 'category',
@@ -120,12 +135,8 @@ export default class extends React.Component {
 		};
     }
     render() {
-    	var style = {
-    		width  : '100%',
-    		height : '100%'
-        };
         return (
-			<div style={style} ref="chart"></div>
+			<div className="linechart" ref="chart"></div>
         )
     }
 }
