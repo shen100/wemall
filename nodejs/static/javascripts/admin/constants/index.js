@@ -16,4 +16,9 @@ export const REQUEST_HOT_PRODUCT_LIST = 'requestHotProductList';
 
 export const REQUEST_PRODUCT_LIST = 'requestProductList';
 
+export const CHANGE_PRODUCT_STATUS = 'changeProductStatus';
+
+export const REQUEST_CATEGORY_LIST = 'requestCategoryList';
+
+export const CHANGE_CATEGORY_STATUS = 'changeCategoryStatus';
 

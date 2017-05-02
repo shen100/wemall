@@ -2,7 +2,7 @@ import React, { Component }      from 'react';
 import { connect }               from 'react-redux';
 import { Link }                  from 'react-router';
 
-import { 
+import {
     Icon, 
     Row, 
     Col, 
@@ -10,53 +10,44 @@ import {
     Table 
 } from 'antd';
 
-import requestProductList        from '../actions/requestProductList';
-import changeProductStatus       from '../actions/changeProductStatus';
+import requestCategoryList       from '../actions/requestCategoryList';
+import changeCategoryStatus      from '../actions/changeCategoryStatus';
 import Software                  from './Software';
 import analyze                   from '../../sdk/analyze';
-import '../../../styles/admin/productManage.css';
+import '../../../styles/admin/categoryManage.css';
 
 /*
- * 管理后台，商品管理
+ * 管理后台，商品分类管理
  */
-class ProductManage extends Component {
+class CategoryManage extends Component {
     constructor(props) {
         super(props);
         var self = this;
         this.state =  {
             columns: [
                 {
-                    title: '商品名称',
+                    title: '分类名称',
                     dataIndex: 'name'
                 },
                 {
-                    title: '浏览量',
-                    dataIndex: 'browseCount'
-                },
-                {
-                    title: '购买量',
-                    dataIndex: 'buyCount'
+                    title: '排序',
+                    dataIndex: 'order'
                 },
                 {
                     title: '创建时间',
                     dataIndex: 'createdAt'
                 },
                 {
-                    title: '销售额',
-                    dataIndex: 'totalSale'
-                },
-                {
                     title: '操作',
                     render: (text, record) => {
-                        let upEnabled   = false;
-                        let downEnabled = false;
-                        //1: 商品已上架
-                        //2: 商品已下架
-                        //3: 商品未上架
-                        if (record.status == 2 || record.status == 3) {
-                            upEnabled = true;
-                        } else if (record.status == 1) {
-                            downEnabled = true;
+                        let openEnabled  = false;
+                        let closeEnabled = false;
+                        //1: 已开启
+                        //2: 已关闭
+                        if (record.status == 1) {
+                            closeEnabled = true;
+                        } else if (record.status == 2) {
+                            openEnabled = true;
                         }
                         return (
                             <span>
@@ -64,34 +55,29 @@ class ProductManage extends Component {
                                     <Icon type="eye"/>
                                     <span>查看</span>
                                 </a>
-                                <span className="ant-divider product-manage-divider" />
+                                <span className="ant-divider category-manage-divider" />
                                 <a>
                                     <Icon type="edit"/>
                                     <span>编辑</span>
                                 </a>
+                                <span className="ant-divider category-manage-divider" />
                                 {
-                                    upEnabled || downEnabled ?
-                                    <span className="ant-divider product-manage-divider" />
-                                    :
-                                    null
-                                }
-                                {
-                                    upEnabled ?
-                                    <Popconfirm title="确定要上架？" okText="确定" cancelText="取消"
-                                        onConfirm={self.onProductUp.bind(self, record)}> 
+                                    openEnabled ?
+                                    <Popconfirm title="确定要开启？" okText="确定" cancelText="取消"
+                                        onConfirm={self.onMenuOpen.bind(self, record)}> 
                                         <a>
                                             <Icon type="arrow-up"/>
-                                            <span>上架</span>
+                                            <span>开启</span>
                                         </a>
                                     </Popconfirm>
                                     : 
                                     (
-                                        downEnabled ?
-                                        <Popconfirm title="确定要下架？" okText="确定" cancelText="取消" 
-                                            onConfirm={self.onProductDown.bind(self, record)}>
+                                        closeEnabled ?
+                                        <Popconfirm title="确定要关闭？" okText="确定" cancelText="取消" 
+                                            onConfirm={self.onMenuClose.bind(self, record)}>
                                             <a>
                                                 <Icon type="arrow-down"/>
-                                                <span>下架</span>
+                                                <span>关闭</span>
                                             </a>
                                         </Popconfirm>
                                         : 
@@ -107,25 +93,23 @@ class ProductManage extends Component {
     }
     componentDidMount() {
         const { dispatch } = this.props;
-        dispatch(requestProductList());
+        dispatch(requestCategoryList());
         analyze.pv();
     }
-    onProductUp(record) {
+    onMenuOpen(record) {
         const { dispatch } = this.props;
-        //1: 商品已上架
-        //2: 商品已下架
-        //3: 商品未上架
-        dispatch(changeProductStatus({
+        //1: 已开启
+        //2: 已关闭
+        dispatch(changeCategoryStatus({
             id     : record.id,
             status : 1
         }));
     }
-    onProductDown(record) {
+    onMenuClose(record) {
         const { dispatch } = this.props;
-        //1: 商品已上架
-        //2: 商品已下架
-        //3: 商品未上架
-        dispatch(changeProductStatus({
+        //1: 已开启
+        //2: 已关闭
+        dispatch(changeCategoryStatus({
             id     : record.id,
             status : 2
         }));
@@ -133,16 +117,16 @@ class ProductManage extends Component {
     render() {
         let { data }    = this.props;
         let { columns } = this.state;
-        let isLoading   = data.products.length > 0 ? false : true;
+        let isLoading   = data.categories.length > 0 ? false : true;
         return (
             <div>
                 <Row gutter={24}>
                     <Col span={24}>
-                        <div className="product-list-box">
-                            <div className="product-list-title">商品列表</div>
+                        <div className="category-list-box">
+                            <div className="category-list-title">商品分类列表</div>
                             <Table rowKey="id" columns={columns} 
                                 loading={isLoading} pagination={false}
-                                dataSource={data.products} bordered /> 
+                                dataSource={data.categories} bordered /> 
                         </div>
                     </Col>
                 </Row>
@@ -154,9 +138,9 @@ class ProductManage extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        data: state.productAnalyze
+        data: state.category
     };
 }
 
-export default connect(mapStateToProps)(ProductManage);
+export default connect(mapStateToProps)(CategoryManage);
 

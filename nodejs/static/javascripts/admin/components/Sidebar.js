@@ -60,7 +60,6 @@ class Sidebar extends React.Component {
         this.setState({
             current: event.key
         });
-
 		hashHistory.push(url.substr(1));
     }
     onMouseEnterSubMenu(event) {

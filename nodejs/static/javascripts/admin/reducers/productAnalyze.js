@@ -1,6 +1,7 @@
 import {
 	REQUEST_HOT_PRODUCT_LIST,
-	REQUEST_PRODUCT_LIST
+	REQUEST_PRODUCT_LIST,
+	CHANGE_PRODUCT_STATUS
 } from '../constants';
 
 let initState = {
@@ -20,6 +21,19 @@ export default (state = initState, action) => {
 			return {
 				...state,
 				products: action.products
+			};
+		}
+		case CHANGE_PRODUCT_STATUS: {
+			let products = state.products.slice(0);
+			for (let i = 0; i < products.length; i++) {
+				if (products[i].id == action.id) {
+					products[i].status = action.status;
+					break;
+				}
+			}
+			return {
+				...state,
+				products: products
 			};
 		}
 		default: {

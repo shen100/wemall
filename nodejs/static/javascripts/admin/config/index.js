@@ -64,7 +64,7 @@ var sidebarData = [
             {
                 id    : getId(),
                 title : '商品分类管理',
-                url   : '/admin/category/list' 
+                url   : '/category/manage' 
             },
             {
                 id    : getId(),

@@ -212,8 +212,16 @@ func List(ctx *iris.Context) {
 		pageNo = 1
 	}
 
+	//默认按创建时间，降序来排序
+	var orderStr = "created_at"
+	if ctx.FormValue("asc") == "1" {
+		orderStr += " asc"
+	} else {
+		orderStr += " desc"	
+	}
+
 	offset   := (pageNo - 1) * config.ServerConfig.PageSize
-	queryErr := db.Offset(offset).Limit(config.ServerConfig.PageSize).Find(&categories).Error
+	queryErr := db.Offset(offset).Limit(config.ServerConfig.PageSize).Order(orderStr).Find(&categories).Error
 
 	if queryErr != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{
