@@ -17,7 +17,7 @@ class Sidebar extends React.Component {
     }
     componentDidMount() {
     	var curData = utils.getSidebarCurData(config.sidebarData, this.props.location);
-    	
+
     	let theState = {
     		current     : curData.parent.id + '-' + curData.menuItem.id + '-' + curData.menuItem.url,
     		sidebarData : config.sidebarData
@@ -99,8 +99,14 @@ class Sidebar extends React.Component {
 	                    	onMouseLeave={self.onMouseLeaveSubMenu.bind(self)}
 	                    	title={<span><Icon type="team" /><span className="nav-text">{subMenu.title}</span></span>}>
 	                        {subMenu.children.map(function(item) {
+                                let url;
+                                if (typeof item.url == 'string') {
+                                    url = item.url;
+                                } else {
+                                    url = item.url ? item.url[0] : '';
+                                }
 	                            return (
-	                                <Menu.Item key={subMenu.id + '-' + item.id + '-' + item.url}>{item.title}</Menu.Item>
+	                                <Menu.Item key={subMenu.id + '-' + item.id + '-' + url}>{item.title}</Menu.Item>
 	                            );
 	                        })}
 	                    </Menu.SubMenu>

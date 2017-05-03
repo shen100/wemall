@@ -20,5 +20,11 @@ export const CHANGE_PRODUCT_STATUS = 'changeProductStatus';
 
 export const REQUEST_CATEGORY_LIST = 'requestCategoryList';
 
+export const REQUEST_CATEGORY_LIST_SUCCESS = 'requestCategoryListSuccess';
+
 export const CHANGE_CATEGORY_STATUS = 'changeCategoryStatus';
+
+export const REQUEST_CATEGORY = 'requestCategory';
+
+export const REQUEST_CATEGORY_SUCCESS = 'requestCategorySuccess';
 

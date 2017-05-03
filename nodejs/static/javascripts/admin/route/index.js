@@ -38,6 +38,12 @@ const CategoryManage = (location, cb) => {
     }, 'admin/categoryManage');
 };
 
+const EditCategory = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('../containers/EditCategory').default);
+    }, 'admin/editCategory');
+};
+
 const NotFound = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('../containers/NotFound').default);
@@ -54,6 +60,7 @@ export default (history) => {
                 <Route path="/product/analyze" getComponent={ProductAnalyze}/>
                 <Route path="/product/manage" getComponent={ProductManage}/>
                 <Route path="/category/manage" getComponent={CategoryManage}/>
+                <Route path="/category/edit/:id" getComponent={EditCategory}/>
 	        </Route>
             <Route path="/*" getComponent={NotFound}/>
 	    </Router>

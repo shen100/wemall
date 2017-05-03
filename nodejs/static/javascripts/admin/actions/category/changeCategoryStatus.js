@@ -1,6 +1,6 @@
 import {
 	CHANGE_CATEGORY_STATUS
-} from '../constants';
+} from '../../constants';
 
 function receiveCategoryStatus(data) {
     return {

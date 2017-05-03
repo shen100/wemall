@@ -1,15 +1,26 @@
 import {
 	REQUEST_CATEGORY_LIST,
-	CHANGE_CATEGORY_STATUS
+	REQUEST_CATEGORY_LIST_SUCCESS,
+	CHANGE_CATEGORY_STATUS,
+	REQUEST_CATEGORY,
+	REQUEST_CATEGORY_SUCCESS
 } from '../constants';
 
 let initState = {
-	categories: []
+	category   : null,
+	categories : []
 };
 
 export default (state = initState, action) => {
 	switch (action.type) {
 		case REQUEST_CATEGORY_LIST: {
+			return {
+				...state,
+				categories: []
+			};
+			break;
+		}
+		case REQUEST_CATEGORY_LIST_SUCCESS: {
 			return {
 				...state,
 				categories: action.categories
@@ -27,6 +38,18 @@ export default (state = initState, action) => {
 				...state,
 				categories: categories
 			};
+		}
+		case REQUEST_CATEGORY: {
+			return {
+				...state,
+				category: null
+			};	
+		}
+		case REQUEST_CATEGORY_SUCCESS: {
+			return {
+				...state,
+				category: action.category
+			};	
 		}
 		default: {
 			return state

@@ -10,8 +10,8 @@ import {
     Table 
 } from 'antd';
 
-import requestCategoryList       from '../actions/requestCategoryList';
-import changeCategoryStatus      from '../actions/changeCategoryStatus';
+import requestCategoryList       from '../actions/category/requestCategoryList';
+import changeCategoryStatus      from '../actions/category/changeCategoryStatus';
 import Software                  from './Software';
 import analyze                   from '../../sdk/analyze';
 import '../../../styles/admin/categoryManage.css';
@@ -51,15 +51,15 @@ class CategoryManage extends Component {
                         }
                         return (
                             <span>
-                                <a>
+                                <Link href={"#category/" + record.id}>
                                     <Icon type="eye"/>
                                     <span>查看</span>
-                                </a>
+                                </Link>
                                 <span className="ant-divider category-manage-divider" />
-                                <a>
+                                <Link href={"#category/edit/" + record.id}>
                                     <Icon type="edit"/>
                                     <span>编辑</span>
-                                </a>
+                                </Link>
                                 <span className="ant-divider category-manage-divider" />
                                 {
                                     openEnabled ?

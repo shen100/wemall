@@ -64,7 +64,7 @@ var sidebarData = [
             {
                 id    : getId(),
                 title : '商品分类管理',
-                url   : '/category/manage' 
+                url   : ['/category/manage', /^\/category\/edit\/[0-9]+$/]
             },
             {
                 id    : getId(),
