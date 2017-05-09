@@ -33,8 +33,7 @@ npm install --registry=https://registry.npm.taobao.org
 ```
 
 2 **配置nginx**  
-将文件`dev.wemall.com.conf`拷贝到nginx的虚拟主机目录下  
->dev.wemall.com.conf所在位置为, wemall/nginx/dev.wemall.com.conf
+将`wemall/nginx/dev.wemall.com.conf`文件拷贝到nginx的虚拟主机目录下  
 
 3 **配置hosts**    
 127.0.0.1 dev.wemall.com  
