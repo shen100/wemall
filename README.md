@@ -1,24 +1,5 @@
 # 微商城
 
-## 技术选型
-### 前端
-* web服务器: nginx
-* 后台渲染: node.js
-* M站框架集: vue, vuex, vue-router
-* M站UI组件库: vux
-* 后台管理框架集: react, redux, react-router-redux
-* 后台管理UI组件库: antd
-* 数据可视化: echarts
-* 富文本编辑器: ueditor
-* 打包工具: webpack
-* 构建工具: gulp  
-
-### 后台
-* web框架: iris
-* 路由: httprouter
-* 持久层框架: gorm
-* 数据库: mysql  
-
 ## 项目环境搭建
 1 **克隆代码**
 
@@ -63,12 +44,31 @@ npm start
 npm run staticServ
 ```
 
-8 **运行go程序**  
+7 **运行go程序**  
 进入`wemall`目录下，运行
 
 ```
 go run main.go
 ```
+
+## 技术选型
+### 前端
+* web服务器: nginx
+* 后台渲染: node.js
+* M站框架集: vue, vuex, vue-router
+* M站UI组件库: vux
+* 后台管理框架集: react, redux, react-router-redux
+* 后台管理UI组件库: antd
+* 数据可视化: echarts
+* 富文本编辑器: ueditor
+* 打包工具: webpack
+* 构建工具: gulp  
+
+### 后台
+* web框架: iris
+* 路由: httprouter
+* 持久层框架: gorm
+* 数据库: mysql 
 
 ## 项目结构
 | 目录或文件     |目录或文件| 说明     |  
