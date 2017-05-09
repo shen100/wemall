@@ -15,7 +15,7 @@
 
 ### 后台
 * 框架: iris
-* 模板引擎: handlebars
+* 路由: httprouter
 * 持久层: gorm
 * 数据库: mysql  
 
@@ -66,27 +66,20 @@ go run main.go
 ```
 
 ## 项目结构
-| 目录或文件     | 子目录     | 功能     |  
-|:--------|:--------|:-------:|  
-| client  |         |  前端静态目录|
-|         | images        |  图片|
-|         | javascripts   |  JS代码|
-|         | styles        |  样式|
-| docs    |         |  文档|
-| nginx    |         |  nginx配置|
-| server   |         |  后台代码目录|
-|          | config        |  配置|
-|          | controller        |  控制器|
-|          | model        |  数据模型|
-|          | utils        |  实用工具|
-|          | views        |  后端视图|
-| sql      |         |  sql文件目录|
-| test     |         | 单元测试|
-| main.go     |         | 后台程序入口|
-| staticServ.js |         | 静态文件服务器(开发时使用)|
-| webpack.config.js     |         | 开发模式下webapck的配置|
-| webpack.config.prod.js     |         | 产品模式下webapck的配置|
-
+| 目录或文件     |目录或文件| 说明     |  
+|:--------|:--------|:-------:|
+| docs     |                        |  文档|
+| go       |                        |  后台代码目录|
+|          | config                 |  配置|
+|          | controller             |  控制器|
+|          | model                  |  数据模型|
+|          | utils                  |  实用工具|
+| nginx    |                        |  nginx配置|
+| nodejs   |                        |  前端目录|
+| sql      |                        |           |
+|          | wemall.sql             | sql文件    |
+| configuration.json  |             | 项目配置文件 |
+| main.go  |                        | go主程序入口|
 
 
 
