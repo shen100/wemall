@@ -14,9 +14,9 @@
 * 构建工具: gulp  
 
 ### 后台
-* 框架: iris
+* web框架: iris
 * 路由: httprouter
-* 持久层: gorm
+* 持久层框架: gorm
 * 数据库: mysql  
 
 ## 项目环境搭建
