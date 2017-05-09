@@ -26,12 +26,6 @@
 git clone https://github.com/shen100/wemall.git
 ``` 
 
-如果安装失败，或速度慢，可尝试阿里的镜像
-
-```
-npm install --registry=https://registry.npm.taobao.org
-```
-
 2 **配置nginx**  
 将`wemall/nginx/dev.wemall.com.conf`文件拷贝到nginx的虚拟主机目录下  
 
@@ -43,21 +37,33 @@ npm install --registry=https://registry.npm.taobao.org
 >注意: 本地开发模式下，数据库是`wemall`，用户是`root`，密码是`test1234`  
 >可以通过`wemall/configuration.json`配置文件进行修改  
 
-5 **安装模块**  
+5 **安装node.js第三方模块**  
 进入`wemall/nodejs`目录，运行命令
   
 ```
 npm install
 ``` 
-  
-6 **启动静态文件服务器**  
+
+如果安装失败，或速度慢，可尝试阿里的镜像
+
+```
+npm install --registry=https://registry.npm.taobao.org
+```
+
+6 **启动node.js程序**  
 进入`wemall/nodejs`目录，运行命令
 
 ```
 npm start
 ```
 
-7 **运行go程序**  
+再开一个新的命令行窗口， 运行命令
+
+```
+npm run staticServ
+```
+
+8 **运行go程序**  
 进入`wemall`目录下，运行
 
 ```
