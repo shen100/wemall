@@ -26,6 +26,7 @@
 	},
 	"go": {
 		"Debug"               : true,
+		"UploadImgDir"        : "/Users/liushen/dev/uploads/img",
 		"Port"                : 8012,
 		"MaxOrder"            : 10000,
 		"MinOrder"            : 0,

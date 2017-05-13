@@ -12,7 +12,7 @@ function receiveCategoryStatus(data) {
 
 export default function(reqData) {
     return dispatch => {
-        var url = pageConfig.apiURL + '/admin/category/status/update';
+        var url = pageConfig.apiPath + '/admin/category/status/update';
         return fetch(url, {
 				method: 'POST',
 				headers: {

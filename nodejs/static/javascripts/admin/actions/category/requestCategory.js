@@ -15,7 +15,7 @@ export default function(id) {
         dispatch({
             type: REQUEST_CATEGORY,
         });
-        var url = pageConfig.apiURL + '/admin/category/:id';
+        var url = pageConfig.apiPath + '/admin/category/:id';
         url     = url.replace(':id', id);
         return fetch(url)
 			.then(response => response.json())

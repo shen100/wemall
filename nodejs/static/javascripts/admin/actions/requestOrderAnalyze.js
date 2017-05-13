@@ -13,7 +13,7 @@ function receiveOrderAnalyze(data) {
 
 export default function() {
     return dispatch => {
-        var url = pageConfig.apiURL + '/admin/order/analyze';
+        var url = pageConfig.apiPath + '/admin/order/analyze';
         return fetch(url)
             .then(response => response.json())
             .then(json => dispatch(receiveOrderAnalyze(json.data)))

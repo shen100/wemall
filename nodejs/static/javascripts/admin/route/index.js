@@ -32,6 +32,12 @@ const ProductManage = (location, cb) => {
     }, 'admin/productManage');
 };
 
+const EditProduct = (location, cb) => {
+    require.ensure([], require => {
+        cb(null, require('../containers/product/EditProduct').default);
+    }, 'admin/editProduct');
+};
+
 const CategoryManage = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('../containers/CategoryManage').default);
@@ -59,6 +65,7 @@ export default (history) => {
 	            <Route path="/order/analyze" getComponent={OrderAnalyze}/>
                 <Route path="/product/analyze" getComponent={ProductAnalyze}/>
                 <Route path="/product/manage" getComponent={ProductManage}/>
+                <Route path="/product/edit/:id" getComponent={EditProduct}/>
                 <Route path="/category/manage" getComponent={CategoryManage}/>
                 <Route path="/category/edit/:id" getComponent={EditCategory}/>
 	        </Route>

@@ -13,6 +13,7 @@ import (
 	"wemall/go/controller/order"
 	"wemall/go/controller/user"
 	"wemall/go/controller/visit"
+	"wemall/go/controller/ueditor"
 )
 
 func main() {
@@ -31,6 +32,8 @@ func main() {
 	router := app.Party(apiPrefix) 
 	{
 		router.Get("/visit",   visit.PV)
+		router.Get("/ueditor", ueditor.Handler)
+		router.Post("/ueditor", ueditor.Handler)
     }
 
 	adminRouter := app.Party(apiPrefix + "/admin", admin.Authentication) 

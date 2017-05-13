@@ -60,7 +60,7 @@ export default {
 		for (let key in params) {
 			paramArr.push(key + '=' + params[key]);
 		}
-		let url = pageConfig.apiURL + '/visit?' + paramArr.join('&');
+		let url = pageConfig.apiPath + '/visit?' + paramArr.join('&');
 		fetch(url)
             .then(response => response.json())
 	}	

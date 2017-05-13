@@ -15,7 +15,7 @@ export default function() {
         dispatch({
             type: REQUEST_CATEGORY_LIST,
         });
-        var url = pageConfig.apiURL + '/admin/categories';
+        var url = pageConfig.apiPath + '/admin/categories';
         return fetch(url)
             .then(response => response.json())
             .then(json => dispatch(receiveCategories(json.data)))

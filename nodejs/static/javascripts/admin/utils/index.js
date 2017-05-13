@@ -28,6 +28,15 @@ export default {
 		}
 	},
 
+	loadJS: function(url, onLoad) {
+	    var s    = document.createElement('script');
+	    var tag  = document.getElementsByTagName('script')[0];
+	    s.async  = true;
+	    s.src    = url;
+	    s.onload = onLoad;
+	    tag.parentNode.insertBefore(s, tag);
+	},
+
 	parseCategoryTree: function(nodes) {
 		var copyList = nodes.slice();
 		var root = {

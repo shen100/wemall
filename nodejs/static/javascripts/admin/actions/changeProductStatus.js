@@ -12,7 +12,7 @@ function receiveProductStatus(data) {
 
 export default function(reqData) {
     return dispatch => {
-        var url = pageConfig.apiURL + '/admin/product/status/update/:id/:status';
+        var url = pageConfig.apiPath + '/admin/product/status/update/:id/:status';
         url     = url.replace(':id', reqData.id);
         url     = url.replace(':status', reqData.status);
         return fetch(url)

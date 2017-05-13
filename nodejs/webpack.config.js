@@ -3,7 +3,7 @@
 var path                     = require('path');
 var webpack                  = require('webpack');
 var BellOnBundlerErrorPlugin = require('bell-on-bundler-error-plugin');
-var config                   = require('./config');
+var config                   = require('./server/config');
 var hotMiddleware            = 'webpack-hot-middleware/client?reload=true';
 var jsPath                   = config.page.jsPath;
 

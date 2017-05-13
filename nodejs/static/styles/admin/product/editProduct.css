@@ -13,3 +13,11 @@
     -ms-transform: rotate(270deg) scale(.59) !important;
     transform: rotate(270deg) scale(.59) !important;
 }
+
+#productDetailUEditor {
+	line-height: normal;
+}
+
+#productDetailUEditor .edui-arrow {
+	width: 12px;
+}

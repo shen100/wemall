@@ -45,6 +45,7 @@ func initDB() {
 
 type serverConfig struct {
 	Debug               bool
+	UploadImgDir        string
 	Port                int
 	StaticPort          int
 	MaxOrder            int

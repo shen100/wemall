@@ -11,7 +11,7 @@ function receiveRecentPV(data) {
 
 export default function() {
     return dispatch => {
-        var url = pageConfig.apiURL + '/admin/visit/pv/latest/30';
+        var url = pageConfig.apiPath + '/admin/visit/pv/latest/30';
         return fetch(url)
             .then(response => response.json())
             .then(json => dispatch(receiveRecentPV(json.data)))

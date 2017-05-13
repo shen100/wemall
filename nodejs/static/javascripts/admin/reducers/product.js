@@ -1,13 +1,18 @@
 import {
 	REQUEST_HOT_PRODUCT_LIST,
 	REQUEST_PRODUCT_LIST,
-	CHANGE_PRODUCT_STATUS
+	CHANGE_PRODUCT_STATUS,
+	REQUEST_PRODUCT,
+	REQUEST_PRODUCT_SUCCESS,
+	REQUEST_CATEGORY_LIST,
+	REQUEST_CATEGORY_LIST_SUCCESS
 } from '../constants';
 
 let initState = {
 	hotProducts: [],
 	products   : [],  //产品列表
-	category   : null //当前查询出的产品
+	product    : null, //当前查询出的产品
+	categories : [] //所有的分类
 };
 
 export default (state = initState, action) => {
@@ -37,17 +42,30 @@ export default (state = initState, action) => {
 				products: products
 			};
 		}
-		case REQUEST_CATEGORY: {
+		case REQUEST_PRODUCT: {
 			return {
 				...state,
 				product: null
 			};	
 		}
-		case REQUEST_CATEGORY_SUCCESS: {
+		case REQUEST_PRODUCT_SUCCESS: {
 			return {
 				...state,
 				product: action.product
 			};	
+		}
+		case REQUEST_CATEGORY_LIST: {
+			return {
+				...state,
+				categories: []
+			};
+			break;
+		}
+		case REQUEST_CATEGORY_LIST_SUCCESS: {
+			return {
+				...state,
+				categories: action.categories
+			};
 		}
 		default: {
 			return state

@@ -10,7 +10,7 @@ var webpack              = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleware = require('webpack-hot-middleware');
 var webpackConfig        = require('./webpack.config');
-var config               = require('./config');
+var config               = require('./server/config');
 var compiler             = webpack(webpackConfig);
 
 var app = express();
@@ -37,7 +37,7 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 
 app.use(webpackHotMiddleware(compiler));
-app.use(express.static(path.join(__dirname, 'client')));
+app.use(express.static(path.join(__dirname, 'static')));
 
 var server = http.Server(app);
 

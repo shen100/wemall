@@ -15,7 +15,7 @@ export default function(id) {
         dispatch({
             type: REQUEST_PRODUCT,
         });
-        var url = pageConfig.apiURL + '/admin/product/:id';
+        var url = pageConfig.apiPath + '/admin/product/:id';
         url     = url.replace(':id', id);
         return fetch(url)
 			.then(response => response.json())

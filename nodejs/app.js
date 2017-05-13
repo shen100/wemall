@@ -1,4 +1,4 @@
-var config = require('./config');
+var config = require('./server/config');
 
 if (config.env === 'development') {
     process.stderr.on('data', function(data) {
@@ -7,7 +7,7 @@ if (config.env === 'development') {
 }
 
 //检查下依赖的模块是否都已安装
-var EnvUtil = require('./utils').EnvUtil;
+var EnvUtil = require('./server/utils').EnvUtil;
 
 if (!EnvUtil.checkPackages()) {
     process.exit(0);
@@ -20,8 +20,8 @@ var path          = require('path');
 var cookieParser  = require('cookie-parser');
 var bodyParser    = require('body-parser');
 var hbs           = require('hbs');
-var helpers       = require('./helpers');
-var route         = require('./route');
+var helpers       = require('./server/helpers');
+var route         = require('./server/route');
 
 var app = express();
 
@@ -32,7 +32,7 @@ for (var key in helpers) {
 }
 
 app.enable('trust proxy');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, 'server', 'views'));
 app.set('view engine', 'hbs');
 
 app.use(logger('dev'));

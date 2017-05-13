@@ -10,7 +10,7 @@ const reducers = {
     systemIndex,
     userAnalyze,
     orderAnalyze,
-    productAnalyze,
+    product,
     category
 };
 

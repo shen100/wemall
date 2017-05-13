@@ -11,7 +11,7 @@ function receiveOrderAmount30d(data) {
 
 export default function() {
     return dispatch => {
-        var url = pageConfig.apiURL + '/admin/order/amount/latest/30';
+        var url = pageConfig.apiPath + '/admin/order/amount/latest/30';
         return fetch(url)
             .then(response => response.json())
             .then(json => dispatch(receiveOrderAmount30d(json.data)))

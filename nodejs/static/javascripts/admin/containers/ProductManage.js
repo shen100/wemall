@@ -65,10 +65,10 @@ class ProductManage extends Component {
                                     <span>查看</span>
                                 </a>
                                 <span className="ant-divider product-manage-divider" />
-                                <a>
+                                <Link href={"#product/edit/" + record.id}>
                                     <Icon type="edit"/>
                                     <span>编辑</span>
-                                </a>
+                                </Link>
                                 {
                                     upEnabled || downEnabled ?
                                     <span className="ant-divider product-manage-divider" />
@@ -154,7 +154,7 @@ class ProductManage extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        data: state.productAnalyze
+        data: state.product
     };
 }
 
