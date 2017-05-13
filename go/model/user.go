@@ -3,8 +3,8 @@ package model
 import (
 	"strings"
 	"time"
-	"../config"
 	"github.com/jinzhu/gorm"
+	"wemall/go/config"
 )
 
 // User 用户

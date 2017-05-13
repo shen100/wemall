@@ -6,7 +6,8 @@ import {
 
 let initState = {
 	hotProducts: [],
-	products: []
+	products   : [],  //产品列表
+	category   : null //当前查询出的产品
 };
 
 export default (state = initState, action) => {
@@ -35,6 +36,18 @@ export default (state = initState, action) => {
 				...state,
 				products: products
 			};
+		}
+		case REQUEST_CATEGORY: {
+			return {
+				...state,
+				product: null
+			};	
+		}
+		case REQUEST_CATEGORY_SUCCESS: {
+			return {
+				...state,
+				product: action.product
+			};	
 		}
 		default: {
 			return state

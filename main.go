@@ -1,18 +1,18 @@
 package main
 
 import (
-	"./go/config"
-	"./go/model"
-	"./go/controller/admin"
-	"./go/controller/category"
-	"./go/controller/product"
-	"./go/controller/order"
-	"./go/controller/user"
-	"./go/controller/visit"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"gopkg.in/kataras/iris.v6"
 	"gopkg.in/kataras/iris.v6/adaptors/httprouter"
 	"strconv"
+	"wemall/go/config"
+	"wemall/go/model"
+	"wemall/go/controller/admin"
+	"wemall/go/controller/category"
+	"wemall/go/controller/product"
+	"wemall/go/controller/order"
+	"wemall/go/controller/user"
+	"wemall/go/controller/visit"
 )
 
 func main() {

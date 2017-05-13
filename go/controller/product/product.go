@@ -1,13 +1,13 @@
 package product
 
 import (
-	"../../config"
-	"../../model"
 	"strconv"
 	"strings"
 	"unicode/utf8"
 	"github.com/jinzhu/gorm"
 	"gopkg.in/kataras/iris.v6"
+	"wemall/go/config"
+	"wemall/go/model"
 )
 
 // List 产品列表

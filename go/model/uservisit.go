@@ -2,9 +2,9 @@ package model
 
 import (
 	"time"
-	"../config"
 	"strings"
 	"github.com/jinzhu/gorm"
+	"wemall/go/config"
 )
 
 // UserVisit 访客记录

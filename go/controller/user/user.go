@@ -1,9 +1,9 @@
 package user
 
 import (
-	"../../model"
 	"time"
 	"gopkg.in/kataras/iris.v6"
+	"wemall/go/model"
 )
 
 // YesterdayRegisterUser 昨日注册的用户数

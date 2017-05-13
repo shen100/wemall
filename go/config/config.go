@@ -5,7 +5,7 @@ import (
 	"encoding/json"
     "fmt"
     "io/ioutil"
-	"../utils"
+	"wemall/go/utils"
 )
 
 var jsonData map[string]interface{}

@@ -1,9 +1,9 @@
 package order
 
 import (
-	"../../model"
 	"gopkg.in/kataras/iris.v6"
 	"time"
+	"wemall/go/model"
 )
 
 // TodayCount 今日总订单数

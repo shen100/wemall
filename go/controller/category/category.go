@@ -4,10 +4,10 @@ import (
 	"unicode/utf8"
 	"strings"
 	"strconv"
-	"../../config"
-	"../../model"
 	"github.com/jinzhu/gorm"
 	"gopkg.in/kataras/iris.v6"
+	"wemall/go/config"
+	"wemall/go/model"
 )
 
 // Save 保存分类（创建或更新）

@@ -1,12 +1,12 @@
 package visit
 
 import (
-	"../../config"
-	"../../model"
 	"strconv"
 	"time"
 	"gopkg.in/kataras/iris.v6"
 	"github.com/jinzhu/gorm"
+	"wemall/go/config"
+	"wemall/go/model"
 )
 
 // Latest30Day 近30天，每天的PV

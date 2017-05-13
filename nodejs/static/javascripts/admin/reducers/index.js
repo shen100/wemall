@@ -2,7 +2,7 @@ import software       from './software';
 import systemIndex    from './systemIndex';
 import userAnalyze    from './userAnalyze';
 import orderAnalyze   from './orderAnalyze';
-import productAnalyze from './productAnalyze';
+import product        from './product';
 import category       from './category';
 
 const reducers = {
