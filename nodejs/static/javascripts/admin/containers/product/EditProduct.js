@@ -31,12 +31,11 @@ class EditProduct extends Component {
         };
     }
     componentWillMount() {
-        console.log(this.state.productId);   
+         
     }
     componentDidMount() {
         analyze.pv();
         const { dispatch } = this.props;
-        console.log(this.state.productId);
         if (this.state.productId) {
             dispatch(requestProduct(this.state.productId));
         }
@@ -46,7 +45,7 @@ class EditProduct extends Component {
 
         let self = this;
 
-        window.UEDITOR_HOME_URL = pageConfig.UEDITOR_HOME_URL;
+        window.UEDITOR_HOME_URL = pageConfig.ueditorURL;
 
         function loadCallback() {
             if (configLoaded && editorLoaded) {

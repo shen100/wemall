@@ -59,6 +59,7 @@ func upload(ctx *iris.Context) {
 	var index    = strings.LastIndex(filename, ".")
 
 	if index < 0 {
+		errResData["state"] = "无效的文件名"
 		ctx.JSON(iris.StatusInternalServerError, errResData)
 		return
 	}
@@ -67,6 +68,7 @@ func upload(ctx *iris.Context) {
 	var mimeType = mime.TypeByExtension(ext)
 
 	if mimeType == "" {
+		errResData["state"] = "无效的图片类型"
 		ctx.JSON(iris.StatusInternalServerError, errResData)
 		return
 	}
@@ -107,18 +109,13 @@ func upload(ctx *iris.Context) {
 	}
 
 	uploadFilePath := uploadDir + sep + title
+
 	fmt.Println(uploadFilePath);
+
 	out, err := os.OpenFile(uploadFilePath, os.O_WRONLY|os.O_CREATE, 0666)
 
 	if err != nil {
-		ctx.JSON(iris.StatusInternalServerError, iris.Map{
-			"state"    : "FAIL", //上传状态，上传成功时必须返回"SUCCESS"
-			"url"      : "",     //返回的地址
-			"title"    : "",     //新文件名
-			"original" : "",     //原始文件名
-			"type"     : "",     //文件类型
-			"size"     : "",     //文件大小
-		})
+		ctx.JSON(iris.StatusInternalServerError, errResData)
 		return
 	}
 
@@ -126,13 +123,15 @@ func upload(ctx *iris.Context) {
 
 	io.Copy(out, file)
 
+	imgURL := config.ServerConfig.ImgPath + sep + timeDir + sep + title
+
 	ctx.JSON(iris.StatusOK, iris.Map{
-		"state"    : "SUCCESS", //上传状态，上传成功时必须返回"SUCCESS"
-		"url"      : "error.",  //返回的地址
-		"title"    : title, //新文件名
+		"state"    : "SUCCESS",     //上传状态，上传成功时必须返回"SUCCESS"
+		"url"      : imgURL,        //返回的地址
+		"title"    : title,         //新文件名
 		"original" : info.Filename, //原始文件名
-		"type"     : "",            //文件类型
-		"size"     : "",           //文件大小
+		"type"     : mimeType,      //文件类型
+		"size"     : "",            //文件大小
 	})
 	return	
 }

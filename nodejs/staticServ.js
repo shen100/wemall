@@ -38,6 +38,7 @@ app.use(webpackDevMiddleware(compiler, {
 
 app.use(webpackHotMiddleware(compiler));
 app.use(express.static(path.join(__dirname, 'static')));
+app.use(config.page.imgPath, express.static(config.uploadImgDir));
 
 var server = http.Server(app);
 

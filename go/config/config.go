@@ -5,6 +5,7 @@ import (
 	"encoding/json"
     "fmt"
     "io/ioutil"
+	"regexp"
 	"wemall/go/utils"
 )
 
@@ -15,6 +16,13 @@ func initJSON() {
     if err != nil {
         fmt.Println("ReadFile: ", err.Error())
     }
+
+	configStr := string(bytes[:])
+	reg       := regexp.MustCompile(`/\*.*\*/`)
+
+	configStr  = reg.ReplaceAllString(configStr, "")
+	bytes      = []byte(configStr)
+
     if err := json.Unmarshal(bytes, &jsonData); err != nil {
         fmt.Println("invalid config: ", err.Error())
     }
@@ -45,6 +53,7 @@ func initDB() {
 
 type serverConfig struct {
 	Debug               bool
+	ImgPath             string
 	UploadImgDir        string
 	Port                int
 	StaticPort          int
@@ -69,7 +78,6 @@ func initServer() {
 type apiConfig struct {
 	Prefix   string
 	URL      string
-	NodeURL  string
 }
 
 // APIConfig api相关配置
