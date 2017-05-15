@@ -71,7 +71,7 @@ class ProductAnalyze extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        data: state.productAnalyze
+        data: state.product
     };
 }
 

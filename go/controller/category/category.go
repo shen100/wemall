@@ -145,7 +145,7 @@ func Update(ctx *iris.Context) {
 }
 
 // Info 获取分类信息
-func Info(ctx *iris.Context)  {
+func Info(ctx *iris.Context) {
 	id, err := ctx.ParamInt("id")
 	if err != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{

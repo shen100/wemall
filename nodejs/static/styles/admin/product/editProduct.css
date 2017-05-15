@@ -21,3 +21,11 @@
 #productDetailUEditor .edui-arrow {
 	width: 12px;
 }
+
+.submit-box {
+	text-align: right;
+}
+
+.submit-cancel-btn {
+	margin-left: 20px;
+}

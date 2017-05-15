@@ -1,8 +1,10 @@
 package product
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
+	"time"
 	"unicode/utf8"
 	"github.com/jinzhu/gorm"
 	"gopkg.in/kataras/iris.v6"
@@ -70,12 +72,11 @@ func List(ctx *iris.Context) {
 	})
 }
 
-// Create 创建产品
-func Create(ctx *iris.Context) {
+func save(ctx *iris.Context, isEdit bool) {
 	var product model.Product
-	err := ctx.ReadJSON(&product)	
 
-	if err != nil {
+	if err := ctx.ReadJSON(&product); err != nil {
+		fmt.Println(err.Error());
 		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.ERROR,
 			"msg"   : "参数无效",
@@ -97,24 +98,49 @@ func Create(ctx *iris.Context) {
 
 	defer db.Close()
 
+	if config.DBConfig.SQLLog {
+		db.LogMode(true)
+	}
+
+	var queryProduct model.Product
+	if isEdit {
+		if db.First(&queryProduct, product.ID).Error != nil {
+			ctx.JSON(iris.StatusOK, iris.Map{
+				"errNo" : model.ErrorCode.ERROR,
+				"msg"   : "无效的产品ID",
+				"data"  : iris.Map{},
+			})
+			return
+		}
+	}
+
 	var isError bool
 	var msg = ""
 
-	product.BrowseCount = 0
-	product.BuyCount    = 0
-	product.TotalSale   = 0
-	product.Status      = model.ProductPending
+	if isEdit {
+		product.BrowseCount  = queryProduct.BrowseCount
+		product.BuyCount     = queryProduct.BuyCount
+		product.TotalSale    = queryProduct.TotalSale
+		product.CreatedAt    = queryProduct.CreatedAt
+		product.UpdatedAt    = time.Now()
+	} else {
+		product.BrowseCount = 0
+		product.BuyCount    = 0
+		product.TotalSale   = 0
+		product.Status      = model.ProductPending
+	}
 
 	product.Name   = strings.TrimSpace(product.Name)
 	product.Detail = strings.TrimSpace(product.Detail)
 	product.Remark = strings.TrimSpace(product.Remark)
+
 	if (product.Name == "") {
 		isError = true
 		msg     = "商品名称不能为空"
 	} else if utf8.RuneCountInString(product.Name) > config.ServerConfig.MaxNameLen {
 		isError = true
 		msg     = "商品名称不能超过" + strconv.Itoa(config.ServerConfig.MaxNameLen) + "个字符"
-	} else if product.Status != model.ProductPending {
+	} else if isEdit && product.Status != model.ProductUpShelf && product.Status != model.ProductDownShelf && product.Status != model.ProductPending {
 		isError = true
 		msg     = "status无效"
 	} else if product.Remark != "" && utf8.RuneCountInString(product.Remark) > config.ServerConfig.MaxRemarkLen {
@@ -125,11 +151,11 @@ func Create(ctx *iris.Context) {
 		msg     = "商品详情不能为空"
 	}  else if utf8.RuneCountInString(product.Detail) > config.ServerConfig.MaxContentLen {
 		isError = true	
-		msg     = "商品详情内容过长"
+		msg     = "商品详情不能超过" + strconv.Itoa(config.ServerConfig.MaxContentLen) + "个字符"	
 	} else if product.Categories == nil || len(product.Categories) <= 0  {
 		isError = true	
 		msg     = "至少要选择一个商品分类"
-	} else if len(product.Categories) > config.ServerConfig.MaxProductCateCount  {
+	} else if len(product.Categories) > config.ServerConfig.MaxProductCateCount {
 		isError = true
 		msg     = "最多只能选择" + strconv.Itoa(config.ServerConfig.MaxProductCateCount) + "个商品分类"
 	} else if product.Price < 0 {
@@ -163,11 +189,23 @@ func Create(ctx *iris.Context) {
 		product.Categories[i] = category
 	}
 
-	db.LogMode(true)
+	var saveErr = false;
 
-	saveErr := db.Create(&product).Error
+	if isEdit {
+		var sql = "DELETE FROM product_category WHERE product_id = ?"
+		if db.Exec(sql, product.ID).Error != nil {
+			saveErr = true;
+		}
+		if db.Save(&product).Error != nil {
+			saveErr = true;
+		}
+	} else {
+		if db.Create(&product).Error != nil {
+			saveErr = true;
+		}
+	}
 
-	if saveErr != nil {
+	if saveErr {
 		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.ERROR,
 			"msg"   : "error.",
@@ -183,31 +221,91 @@ func Create(ctx *iris.Context) {
 	})
 }
 
-// Update 更新产品
-func Update(ctx *iris.Context) {
-	
+// Create 创建产品
+func Create(ctx *iris.Context) {
+	save(ctx, false);	
 }
 
-// UpdateStatus 更新产品状态
-func UpdateStatus(ctx *iris.Context) {
-	var productID int
-	var status    int
-	var err error
-	errMsg := ""
-	if productID, err = strconv.Atoi(ctx.Param("id")); err != nil {
-		errMsg = "无效的产品ID"
-	} else if status, err = strconv.Atoi(ctx.Param("status")); err != nil {
-		errMsg = "无效的产品状态"
-	}
+// Update 更新产品
+func Update(ctx *iris.Context) {
+	save(ctx, true);	
+}
 
-	if errMsg != "" {
+// Info 获取商品信息
+func Info(ctx *iris.Context) {
+	id, err := ctx.ParamInt("id")
+	if err != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : errMsg,
+			"errNo" : model.ErrorCode.NotFound,
+			"msg"   : "错误的商品id",
 			"data"  : iris.Map{},
 		})
 		return
 	}
+
+	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
+
+	if err != nil {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "error",
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	if config.DBConfig.SQLLog {
+		db.LogMode(true)
+	}
+
+	defer db.Close()
+
+	var product model.Product
+
+	if db.First(&product, id).Error != nil {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.NotFound,
+			"msg"   : "错误的商品id",
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	if db.Model(&product).Related(&product.Categories, "categories").Error != nil {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "error.",
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	ctx.JSON(iris.StatusOK, iris.Map{
+		"errNo" : model.ErrorCode.SUCCESS,
+		"msg"   : "success",
+		"data"  : iris.Map{
+			"product": product,
+		},
+	})
+}
+
+// UpdateStatus 更新产品状态
+func UpdateStatus(ctx *iris.Context) {
+	var tmpProduct model.Product
+	tmpErr    := ctx.ReadJSON(&tmpProduct)
+
+	if tmpErr != nil {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "无效的id或status",
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	productID := tmpProduct.ID
+	status    := tmpProduct.Status
+	errMsg    := ""
 
 	db, connErr := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
 

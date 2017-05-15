@@ -6,7 +6,7 @@ import {
 function receiveCategory(data) {
     return {
         type     : REQUEST_CATEGORY_SUCCESS,
-        category : data
+        category : data.category
     };
 }
 

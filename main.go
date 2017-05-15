@@ -41,12 +41,14 @@ func main() {
 		adminRouter.Get("/categories",              category.List)
 		adminRouter.Get("/category/:id",            category.Info)
 		adminRouter.Post("/category/create",        category.Create)
-		adminRouter.Post("/category/update/:id",    category.Update)
+		adminRouter.Post("/category/update",        category.Update)
 		adminRouter.Post("/category/status/update", category.UpdateStatus)
 		
-		adminRouter.Get("/products",                           product.List)
-		adminRouter.Post("/product/create",                    product.Create)
-		adminRouter.Get("/product/status/update/:id/:status",  product.UpdateStatus)
+		adminRouter.Get("/products",                product.List)
+		adminRouter.Get("/product/:id",             product.Info)
+		adminRouter.Post("/product/create",         product.Create)
+		adminRouter.Post("/product/update",         product.Update)
+		adminRouter.Post("/product/status/update",  product.UpdateStatus)
 
 		adminRouter.Get("/order/analyze",           order.Analyze)
 		adminRouter.Get("/order/todaycount",        order.TodayCount)

@@ -2,6 +2,7 @@ import React, { Component }      from 'react';
 import { connect }               from 'react-redux';
 
 import {
+    Button,
     Row, 
     Col,
     Form,
@@ -24,14 +25,18 @@ import '../../../../styles/admin/product/editProduct.css';
 class EditProduct extends Component {
     constructor(props) {
         super(props);
-        this.state =  {
-            productId  : this.props.routeParams.id,
-            parents    : [], //父分类
-            ueditor    : null
+        this.state = {
+            productId     : this.props.routeParams.id,
+            parents       : [], //父分类
+            name          : '',
+            detail        : '',
+            originalPrice : 0,
+            price         : 0,
+            remark        : '',
+            status        : '3', //等待上架
+            ueditor       : null,
+            loadCalled    : false
         };
-    }
-    componentWillMount() {
-         
     }
     componentDidMount() {
         analyze.pv();
@@ -40,20 +45,27 @@ class EditProduct extends Component {
             dispatch(requestProduct(this.state.productId));
         }
         dispatch(requestCategoryList());
+    }
+    loadUEditor() {
+        if (this.state.loadCalled) {
+            return;
+        }
+        this.setState({
+            loadCalled: true
+        });
+
+        window.UEDITOR_HOME_URL = pageConfig.ueditorURL;
 
         let configLoaded, editorLoaded;
 
         let self = this;
 
-        window.UEDITOR_HOME_URL = pageConfig.ueditorURL;
-
         function loadCallback() {
             if (configLoaded && editorLoaded) {
                 var ueditor = UE.getEditor('productDetailUEditor', {
-                    initialFrameWidth: '100%',
-                    initialFrameHeight: 600
+                    initialFrameWidth  : '100%',
+                    initialFrameHeight : 600
                 });
-                console.log(ueditor);
                 self.setState({
                     ueditor: ueditor
                 });
@@ -65,32 +77,65 @@ class EditProduct extends Component {
             loadCallback();
         });
 
-        utils.loadJS(pageConfig.sitePath + '/ueditor/ueditor.all.js', function() {
+        utils.loadJS(pageConfig.sitePath + '/ueditor/ueditor.all.min.js', function() {
             editorLoaded = true;
             loadCallback();
         });
     }
+    componentWillReceiveProps(nextProps) {
+        var product = nextProps.data.product;
+        if (product) {
+            var parents = [];
+            for (var i = 0; i < product.categories.length; i++) {
+                var parentId = product.categories[i].parentId;
+                var id       = product.categories[i].id;
+                parents.push(parentId + '-' + id);
+            }
+            this.setState({
+                productId     : product.id,
+                parents       : parents, //父分类
+                name          : product.name,
+                detail        : product.detail,
+                originalPrice : product.originalPrice,
+                price         : product.price,
+                remark        : product.remark,
+                status        : product.status + ''
+            });
+            this.loadUEditor();
+        }
+    }
+    onNameChange() {
+        this.refs.nameInput;
+    }
     onParentsChange(value) {
-        console.log(value);
         this.setState({ parents: value });
     }
-    onOriginalPriceChange() {
-        console.log(arguments);
+    onOriginalPriceChange(price) {
+        this.setState({ originalPrice: price });
     }
-    onPriceChange() {
-        console.log(arguments);
+    onPriceChange(price) {
+        this.setState({ price: price });
+    }
+    onStatusChange(stauts) {
+        this.setState({ stauts: stauts });
     }
     render() {
         let { data }  = this.props;
-        let isLoading = this.state.productId && !data.product ? true : false;
         let editLabel = this.state.productId ? '编辑' : '添加';
-        let detail    = this.state.productId ? (data.product && data.product.detail || '') : '请编辑商品详情';
+        let isLoading = this.state.productId && !data.product ? true : false;
+        
+        let name          = this.state.name;
+        let detail        = this.state.detail;
+        let originalPrice = this.state.originalPrice;
+        let price         = this.state.price;
+        let remark        = this.state.remark;
+        let status        = this.state.status;
 
         const FormItem = Form.Item;
         const formItemLayout = {
             labelCol: {
                 xs: { span: 24 },
-                sm: { span: 3 },
+                sm: { span: 3  },
             },
             wrapperCol: {
                 xs: { span: 24 },
@@ -101,7 +146,7 @@ class EditProduct extends Component {
         const editorLayout = {
             labelCol: {
                 xs: { span: 24 },
-                sm: { span: 3 },
+                sm: { span: 3  },
             },
             wrapperCol: {
                 xs: { span: 24 },
@@ -130,36 +175,43 @@ class EditProduct extends Component {
                     <Col span={24}>
                         <div id="productBox" className="product-box">
                             <div className="product-title">{editLabel}商品</div>
-                            <Form>
-                                <FormItem {...formItemLayout} label="商品名称">
-                                    <Input />
-                                </FormItem>
-                                <FormItem {...formItemLayout} label="父分类">
-                                  <TreeSelect {...treeProps} />
-                                </FormItem>
-                                <FormItem {...formItemLayout} label="父分类">
-                                    <Select defaultValue="3" style={{ width: 120 }} onChange={this.onStatusChange}>
-                                        <Option value="3">等待上架</Option>
-                                        <Option value="1">上架</Option>
-                                        <Option value="2">下架</Option>
-                                    </Select>
-                                </FormItem>
-                                <FormItem {...formItemLayout} label="原价">
-                                    <InputNumber min={0} max={100} step={0.1} onChange={this.onOriginalPriceChange} />
-                                </FormItem>
-                                <FormItem {...formItemLayout} label="促销价">
-                                    <InputNumber min={0} max={100} step={0.1} onChange={this.onPriceChange} />
-                                </FormItem>
-                                <FormItem {...formItemLayout} label="备注">
-                                    <Input type="textarea" rows={4} />
-                                </FormItem>
-                                <FormItem {...editorLayout} label="商品详情">
-                                    <div>
-                                        <script id="productDetailUEditor" name="content" type="text/plain">{detail}</script>
-                                    </div>
-                                </FormItem>
-                            </Form>
+                            {
+                                isLoading ? null :
+                                <Form>
+                                    <FormItem {...formItemLayout} label="商品名称">
+                                        <Input ref="nameInput" defaultValue={name} onBlur={this.onNameChange}/>
+                                    </FormItem>
+                                    <FormItem {...formItemLayout} label="父分类">
+                                        <TreeSelect {...treeProps} />
+                                    </FormItem>
+                                    <FormItem {...formItemLayout} label="父分类">
+                                        <Select defaultValue={status} style={{ width: 120 }} onChange={this.onStatusChange}>
+                                            <Select.Option value="3">等待上架</Select.Option>
+                                            <Select.Option value="1">上架</Select.Option>
+                                            <Select.Option value="2">下架</Select.Option>
+                                        </Select>
+                                    </FormItem>
+                                    <FormItem {...formItemLayout} label="原价">
+                                        <InputNumber min={0} max={100} defaultValue={originalPrice} step={0.1} onChange={this.onOriginalPriceChange} />
+                                    </FormItem>
+                                    <FormItem {...formItemLayout} label="促销价">
+                                        <InputNumber min={0} max={100} defaultValue={price} step={0.1} onChange={this.onPriceChange} />
+                                    </FormItem>
+                                    <FormItem {...formItemLayout} label="备注">
+                                        <Input type="textarea" defaultValue={remark} rows={4} />
+                                    </FormItem>
+                                    <FormItem {...editorLayout} label="商品详情">
+                                        <div>
+                                            <script id="productDetailUEditor" name="content" type="text/plain">{detail}</script>
+                                        </div>
+                                    </FormItem>
+                                </Form>
+                            }
                         </div>
+                    </Col>
+                    <Col span={24} className="submit-box">
+                        <Button type="primary" size="large">保存</Button>
+                        <Button className="submit-cancel-btn" size="large">取消</Button>
                     </Col>
                 </Row>
                 <Software />

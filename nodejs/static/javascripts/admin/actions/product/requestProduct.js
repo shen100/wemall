@@ -6,7 +6,7 @@ import {
 function receive(data) {
     return {
         type    : REQUEST_PRODUCT_SUCCESS,
-        product : data
+        product : data.product
     };
 }
 

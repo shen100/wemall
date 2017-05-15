@@ -10,9 +10,9 @@ import (
 // Order 订单
 type Order struct {
     ID             uint       `gorm:"primary_key" json:"id"`
-	CreatedAt      time.Time  `json:"createdAt"`
-	UpdatedAt      time.Time  `json:"updatedAt"`
-	DeletedAt      *time.Time `sql:"index" json:"deletedAt"`
+    CreatedAt      time.Time  `json:"createdAt"`
+    UpdatedAt      time.Time  `json:"updatedAt"`
+    DeletedAt      *time.Time `sql:"index" json:"deletedAt"`
     UserID         uint       `json:"userId"`
     TotalPrice     float64    `json:"totalPrice"`
     Payment        float64    `json:"payment"`
@@ -22,7 +22,7 @@ type Order struct {
     DeliverStart   time.Time  `json:"deliverStart"`
     DeliverEnd     time.Time  `json:"deliverEnd"`
     Status         int        `json:"status"`
-	PayAt          time.Time  `json:"payAt"`
+    PayAt          time.Time  `json:"payAt"`
 }
 
 // Total 总的订单数
