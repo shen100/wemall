@@ -5,7 +5,8 @@ import {
 	REQUEST_PRODUCT,
 	REQUEST_PRODUCT_SUCCESS,
 	REQUEST_CATEGORY_LIST,
-	REQUEST_CATEGORY_LIST_SUCCESS
+	REQUEST_CATEGORY_LIST_SUCCESS,
+	REQUEST_SAVE_PRODUCT_SUCCESS
 } from '../constants';
 
 let initState = {
@@ -53,6 +54,12 @@ export default (state = initState, action) => {
 				...state,
 				product: action.product
 			};	
+		}
+		case REQUEST_SAVE_PRODUCT_SUCCESS: {
+			return {
+				...state,
+				product: action.product
+			};
 		}
 		case REQUEST_CATEGORY_LIST: {
 			return {

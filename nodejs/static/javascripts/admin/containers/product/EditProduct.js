@@ -13,6 +13,7 @@ import {
 } from 'antd';
 
 import requestProduct            from '../../actions/product/requestProduct';
+import requestSaveProduct        from '../../actions/product/requestSaveProduct';
 import requestCategoryList       from '../../actions/category/requestCategoryList';
 import Software                  from '../Software';
 import utils                     from '../../utils';
@@ -25,9 +26,17 @@ import '../../../../styles/admin/product/editProduct.css';
 class EditProduct extends Component {
     constructor(props) {
         super(props);
+        this.onNameBlur            = this.onNameBlur.bind(this);
+        this.onCategoriesChange    = this.onCategoriesChange.bind(this);
+        this.onOriginalPriceBlur   = this.onOriginalPriceBlur.bind(this);
+        this.onPriceBlur           = this.onPriceBlur.bind(this);
+        this.onRemarkBlur          = this.onRemarkBlur.bind(this);
+        this.onStatusChange        = this.onStatusChange.bind(this);
+        this.onSubmit              = this.onSubmit.bind(this);
+
         this.state = {
             productId     : this.props.routeParams.id,
-            parents       : [], //父分类
+            categories    : [], //产品所属的分类
             name          : '',
             detail        : '',
             originalPrice : 0,
@@ -85,15 +94,15 @@ class EditProduct extends Component {
     componentWillReceiveProps(nextProps) {
         var product = nextProps.data.product;
         if (product) {
-            var parents = [];
+            var categories = [];
             for (var i = 0; i < product.categories.length; i++) {
                 var parentId = product.categories[i].parentId;
                 var id       = product.categories[i].id;
-                parents.push(parentId + '-' + id);
+                categories.push(parentId + '-' + id);
             }
             this.setState({
                 productId     : product.id,
-                parents       : parents, //父分类
+                categories    : categories,
                 name          : product.name,
                 detail        : product.detail,
                 originalPrice : product.originalPrice,
@@ -104,20 +113,43 @@ class EditProduct extends Component {
             this.loadUEditor();
         }
     }
-    onNameChange() {
-        this.refs.nameInput;
+    onNameBlur(event) {
+        this.setState({ name: event.target.value });
     }
-    onParentsChange(value) {
-        this.setState({ parents: value });
+    onCategoriesChange(value) {
+        this.setState({ categories: value });
     }
-    onOriginalPriceChange(price) {
+    onOriginalPriceBlur(event) {
+        var price = event.target.value;
+        price     = Number(price);
         this.setState({ originalPrice: price });
     }
-    onPriceChange(price) {
+    onPriceBlur(event) {
+        var price = event.target.value;
+        price     = Number(price);
         this.setState({ price: price });
     }
-    onStatusChange(stauts) {
-        this.setState({ stauts: stauts });
+    onRemarkBlur(event) {
+        this.setState({ remark: event.target.value });
+    }
+    onStatusChange(status) {
+        this.setState({ status: status });
+    }
+    onSubmit() {
+        if (!this.state.ueditor) {
+            return;
+        }
+        const { dispatch } = this.props;
+        dispatch(requestSaveProduct({
+            id            : this.state.productId,
+            name          : this.state.name,
+            categories    : this.state.categories,
+            status        : this.state.status,
+            originalPrice : this.state.originalPrice,
+            price         : this.state.price,
+            remark        : this.state.remark,
+            detail        : this.state.ueditor.getContent()
+        }));
     }
     render() {
         let { data }  = this.props;
@@ -158,8 +190,8 @@ class EditProduct extends Component {
 
         const treeProps = {
             treeData,
-            value    : this.state.parents,
-            onChange : this.onParentsChange.bind(this),
+            value    : this.state.categories,
+            onChange : this.onCategoriesChange,
             multiple : true,
             treeCheckable: true,
             showCheckedStrategy: TreeSelect.SHOW_PARENT,
@@ -179,12 +211,12 @@ class EditProduct extends Component {
                                 isLoading ? null :
                                 <Form>
                                     <FormItem {...formItemLayout} label="商品名称">
-                                        <Input ref="nameInput" defaultValue={name} onBlur={this.onNameChange}/>
+                                        <Input defaultValue={name} onBlur={this.onNameBlur}/>
                                     </FormItem>
-                                    <FormItem {...formItemLayout} label="父分类">
+                                    <FormItem {...formItemLayout} label="商品分类">
                                         <TreeSelect {...treeProps} />
                                     </FormItem>
-                                    <FormItem {...formItemLayout} label="父分类">
+                                    <FormItem {...formItemLayout} label="商品状态">
                                         <Select defaultValue={status} style={{ width: 120 }} onChange={this.onStatusChange}>
                                             <Select.Option value="3">等待上架</Select.Option>
                                             <Select.Option value="1">上架</Select.Option>
@@ -192,13 +224,13 @@ class EditProduct extends Component {
                                         </Select>
                                     </FormItem>
                                     <FormItem {...formItemLayout} label="原价">
-                                        <InputNumber min={0} max={100} defaultValue={originalPrice} step={0.1} onChange={this.onOriginalPriceChange} />
+                                        <InputNumber min={0} max={100} defaultValue={originalPrice} step={0.1} onBlur={this.onOriginalPriceBlur} />
                                     </FormItem>
                                     <FormItem {...formItemLayout} label="促销价">
-                                        <InputNumber min={0} max={100} defaultValue={price} step={0.1} onChange={this.onPriceChange} />
+                                        <InputNumber min={0} max={100} defaultValue={price} step={0.1} onBlur={this.onPriceBlur} />
                                     </FormItem>
                                     <FormItem {...formItemLayout} label="备注">
-                                        <Input type="textarea" defaultValue={remark} rows={4} />
+                                        <Input type="textarea" defaultValue={remark} rows={4} onBlur={this.onRemarkBlur}/>
                                     </FormItem>
                                     <FormItem {...editorLayout} label="商品详情">
                                         <div>
@@ -210,7 +242,7 @@ class EditProduct extends Component {
                         </div>
                     </Col>
                     <Col span={24} className="submit-box">
-                        <Button type="primary" size="large">保存</Button>
+                        <Button onClick={this.onSubmit} type="primary" size="large">保存</Button>
                         <Button className="submit-cancel-btn" size="large">取消</Button>
                     </Col>
                 </Row>

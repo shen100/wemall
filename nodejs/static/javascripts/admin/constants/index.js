@@ -20,6 +20,10 @@ export const REQUEST_HOT_PRODUCT_LIST = 'requestHotProductList';
 
 export const REQUEST_PRODUCT_LIST = 'requestProductList';
 
+export const REQUEST_SAVE_PRODUCT = 'requestSaveProduct';
+
+export const REQUEST_SAVE_PRODUCT_SUCCESS = 'requestSaveProductSuccess';
+
 export const CHANGE_PRODUCT_STATUS = 'changeProductStatus';
 
 export const REQUEST_CATEGORY_LIST = 'requestCategoryList';
