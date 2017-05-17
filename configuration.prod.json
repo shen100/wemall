@@ -19,7 +19,7 @@
 			"cssPath"          : "/styles",         /*前端css请求地址前缀*/
 			"ueditorURL"       : "/ueditor/"        /*前端ueditor请求地址前缀*/
 		},
-		"env"          : "development",             /*模式(开发，测试，产品)*/
+		"env"          : "production",              /*模式(开发，测试，产品)*/
 		"useProxy"     : false,                     /*node.js发请求是否使用代理*/
 		"proxyUri"     : "http://127.0.0.1:8881",   /*代理地址及端口*/
 		"port"         : 8010,                      /*前端node.js监听的端口*/

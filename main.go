@@ -4,6 +4,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"gopkg.in/kataras/iris.v6"
 	"gopkg.in/kataras/iris.v6/adaptors/httprouter"
+	"gopkg.in/kataras/iris.v6/adaptors/sessions"
 	"strconv"
 	"wemall/go/config"
 	"wemall/go/model"
@@ -25,7 +26,12 @@ func main() {
 	if config.ServerConfig.Debug {
 		app.Adapt(iris.DevLogger())
 	}
+
 	app.Adapt(httprouter.New())
+
+	app.Adapt(sessions.New(sessions.Config{
+		Cookie: config.ServerConfig.SessionID,
+	}))
 
 	apiPrefix   := config.APIConfig.Prefix
 
@@ -85,3 +91,5 @@ func main() {
 
 	app.Listen(":" + strconv.Itoa(config.ServerConfig.Port))
 }
+
+

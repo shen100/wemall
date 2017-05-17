@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 	"errors"
+    "golang.org/x/crypto/bcrypt"
 )
 
 func setField(obj interface{}, name string, value interface{}) error {
@@ -45,30 +46,31 @@ func SetStructByJSON(obj interface{}, mapData map[string]interface{}) error {
 
 // StrToIntMonth 字符串月份转整数月份
 func StrToIntMonth(month string) int  {
-    fmt.Println(month)
     var data = map[string]int{
-        "May": 4,
+        "January"   : 0,
+        "February"  : 1,
+        "March"     : 2,
+        "April"     : 3,
+        "May"       : 4,
+        "June"      : 5,
+        "July"      : 6,
+        "August"    : 7,
+        "September" : 8,
+        "October"   : 9,
+        "November"  : 10,
+        "December"  : 11,
     };
     return data[month];
 }
 
- func SubString(str string, begin, length int) (substr string) {  
-    // 将字符串的转换成[]rune  
-    rs  := []rune(str)  
-    len := len(rs)
-        
-    // 简单的越界判断  
-    if begin < 0 {  
-        begin = 0  
-    }  
-    if begin >= len {  
-        begin = len  
-    }  
-    end := begin + length  
-    if end > len {  
-        end = len   
-    }
-      
-    // 返回子串  
-    return string(rs[begin:end])  
-} 
+// HashPassword 将密码加密
+func HashPassword(password string) (string, error) {
+    bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+    return string(bytes), err
+}
+
+// CheckPasswordHash 验证密码
+func CheckPasswordHash(password, hash string) bool {
+    err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+    return err == nil
+}

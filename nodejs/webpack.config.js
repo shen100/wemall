@@ -1,65 +1,59 @@
 'use strict';
 
-var path                     = require('path');
-var webpack                  = require('webpack');
-var BellOnBundlerErrorPlugin = require('bell-on-bundler-error-plugin');
-var config                   = require('./server/config');
-var hotMiddleware            = 'webpack-hot-middleware/client?reload=true';
-var jsPath                   = config.page.jsPath;
+var path              = require('path');
+var webpack           = require('webpack');
+var ProgressBarPlugin = require('progress-bar-webpack-plugin');
+var ManifestPlugin    = require('webpack-manifest-plugin');
+var devWebpack        = require('./webpack.config.dev');
 
-function getEntryMap() {
-    var entryArr = [
-        'admin/app'
-    ];
-    var entryMap = {};
-    entryArr.forEach(function(key) {
-        entryMap[key] = ['babel-polyfill', './static/javascripts/' + key + '.js', hotMiddleware];
-    });
+var entry = {};
 
-    entryMap['vendor'] = [
-        'react', 
-        'react-dom',
-        'react-redux',
-        'redux',
-        'echarts'
-    ];
-    return entryMap;
+for (var key in devWebpack.entry) {
+    if (devWebpack.entry.hasOwnProperty(key)) {
+        if (key == 'vendor') {
+            entry[key] = devWebpack.entry[key];
+        } else {
+            entry[key] = devWebpack.entry[key].slice(0, -1)
+        }
+    }
 }
 
 var config = {
-    entry: getEntryMap(),
+    entry: entry,
     output: {
-        publicPath    : '/',
-        filename      : './javascripts/[name].js',
-        path          : path.resolve(__dirname, './dist/app/client'),
-        chunkFilename : './javascripts/[name].js'
+        publicPath    : '/javascripts/',
+        filename      : '[name]-[hash:10].js',
+        path          : path.resolve(__dirname, './dist/static/javascripts'),
+        chunkFilename : '[name]-[chunkHash:10].js'
     },
     module: {
-        loaders: [
-            {
-                test: /\.css$/,
-                loaders: ['style-loader', 'css-loader']
-            },
-            {
-                test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
-                loader: 'babel-loader?+babelrc,+cacheDirectory,presets[]=es2015,presets[]=stage-0,presets[]=react'
-            }
-        ]
+        loaders: devWebpack.module.loaders
     },
-    devtool: 'cheap-module-eval-source-map',
+    devtool: 'inline-source-map',
     resolve: {
         extensions: ['.js', '.jsx', '.json']
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor', 
-            filename:  './javascripts/vendor.bundle.js'
+            filename: 'vendor-[hash:10].js'
         }),
-        new BellOnBundlerErrorPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoEmitOnErrorsPlugin()
+        new ProgressBarPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
+        new ManifestPlugin({
+            fileName: 'rev-manifest.json'
+        }),
+        new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                warnings: false
+            }
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                'NODE_ENV': '"production"'
+            }
+        })
     ]
 };
 

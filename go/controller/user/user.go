@@ -1,9 +1,13 @@
 package user
 
 import (
+	"fmt"
 	"time"
 	"gopkg.in/kataras/iris.v6"
+	"github.com/jinzhu/gorm"
+	"wemall/go/config"
 	"wemall/go/model"
+	"wemall/go/utils"
 )
 
 // YesterdayRegisterUser 昨日注册的用户数
@@ -77,4 +81,71 @@ func Analyze(ctx *iris.Context) {
 		"msg"   : "success",
 		"data"  : data,
 	})	
+}
+
+// Login 用户登录
+func Login(ctx *iris.Context) {
+	var user model.User
+	session := ctx.Session()
+
+	session.Get("user")
+
+	if err := ctx.ReadJSON(&user); err != nil {
+		fmt.Println(err.Error());
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "参数无效",
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	hash, pwdErr := utils.HashPassword(user.Password)
+
+	if pwdErr != nil {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.LoginError,
+			"msg"   : "用户名或密码错误",
+			"data"  : iris.Map{},
+		})
+	}
+
+	db, connErr := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
+	if connErr != nil {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "error",
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	defer db.Close()
+	var queryUser model.User
+
+	err := db.Model(&queryUser).Where("password = ?", user.Email).Error
+
+	if err != nil {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "error",
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	if utils.CheckPasswordHash(queryUser.Password, hash) {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.SUCCESS,
+			"msg"   : "success",
+			"data"  : iris.Map{},
+		})
+	} else {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.LoginError,
+			"msg"   : "用户名或密码错误",
+			"data"  : iris.Map{},
+		})
+		return	
+	}
 }

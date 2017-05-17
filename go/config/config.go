@@ -56,7 +56,7 @@ type serverConfig struct {
 	ImgPath             string
 	UploadImgDir        string
 	Port                int
-	StaticPort          int
+	SessionID           string
 	MaxOrder            int
 	MinOrder            int
 	PageSize            int

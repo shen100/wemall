@@ -3,9 +3,7 @@
 var path                     = require('path');
 var webpack                  = require('webpack');
 var BellOnBundlerErrorPlugin = require('bell-on-bundler-error-plugin');
-var appConfig                = require('./appconfig.json');
 var hotMiddleware            = 'webpack-hot-middleware/client?reload=true';
-var jsPath                   = appConfig.page.JSPath;
 
 function getEntryMap() {
     var entryArr = [
@@ -13,13 +11,15 @@ function getEntryMap() {
     ];
     var entryMap = {};
     entryArr.forEach(function(key) {
-        entryMap[key] = ['babel-polyfill', './client/javascripts/' + key + '.js', hotMiddleware];
+        entryMap[key] = ['babel-polyfill', './static/javascripts/' + key + '.js', hotMiddleware];
     });
+
     entryMap['vendor'] = [
         'react', 
         'react-dom',
         'react-redux',
-        'redux'
+        'redux',
+        'echarts'
     ];
     return entryMap;
 }
@@ -27,10 +27,10 @@ function getEntryMap() {
 var config = {
     entry: getEntryMap(),
     output: {
-        publicPath    : appConfig.page.SitePath + '/',
-        filename      : '.' + jsPath + '/[name].js',
-        path          : path.resolve(__dirname, './dist/app/client'),
-        chunkFilename : '.' + jsPath + '/[name].js',
+        publicPath    : '/',
+        filename      : './javascripts/[name].js',
+        path          : path.resolve(__dirname, '../dist/nodejs/static'),
+        chunkFilename : './javascripts/[name].js'
     },
     module: {
         loaders: [
@@ -45,14 +45,14 @@ var config = {
             }
         ]
     },
-    devtool: 'inline-source-map',
+    devtool: 'cheap-module-eval-source-map',
     resolve: {
         extensions: ['.js', '.jsx', '.json']
     },
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
             name: 'vendor', 
-            filename: '.' + jsPath + '/vendor.bundle.js'
+            filename:  './javascripts/vendor.js'
         }),
         new BellOnBundlerErrorPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),

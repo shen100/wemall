@@ -9,7 +9,7 @@ var bodyParser           = require('body-parser');
 var webpack              = require('webpack');
 var webpackDevMiddleware = require('webpack-dev-middleware');
 var webpackHotMiddleware = require('webpack-hot-middleware');
-var webpackConfig        = require('./webpack.config');
+var webpackConfig        = require('./webpack.config.dev');
 var config               = require('./server/config');
 var compiler             = webpack(webpackConfig);
 
@@ -48,9 +48,11 @@ app.use(function(req, res, next) {
 });
 
 app.use(function(err, req, res, next) {
-    res.locals.error   = err;
     res.status(err.status || 500);
-    res.render('error');
+    res.render('error', {
+        message : err.message,
+        error   : config.env === 'development' ? err : {}
+    });
 });
 
 server.listen(config.staticPort, function() {

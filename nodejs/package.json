@@ -15,6 +15,7 @@
     "express": "4.15.2",
     "hbs": "4.0.1",
     "morgan": "1.8.1",
+    "request": "2.75.0",
     "serve-favicon": "2.4.2"
   },
   "devDependencies": {
@@ -34,6 +35,7 @@
     "gulp-rename": "1.2.2",
     "gulp-util": "3.0.8",
     "isomorphic-fetch": "2.2.1",
+    "progress-bar-webpack-plugin": "1.9.0",
     "react": "15.4.2",
     "react-dom": "15.4.2",
     "react-redux": "5.0.3",
@@ -46,6 +48,7 @@
     "ua-parser-js": "0.7.12",
     "webpack": "2.3.2",
     "webpack-dev-middleware": "1.10.1",
-    "webpack-hot-middleware": "2.17.1"
+    "webpack-hot-middleware": "2.17.1",
+    "webpack-manifest-plugin": "1.1.0"
   }
 }

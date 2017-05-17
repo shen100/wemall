@@ -136,7 +136,7 @@ type OrderPerDay []struct {
 
 // Latest30Day 近30天，每天的订单数
 func (orders OrderPerDay) Latest30Day() (OrderPerDay) {
-    now          := time.Now()
+	now          := time.Now()
 	year         := now.Year()
 	month        := now.Month()
 	date         := now.Day()

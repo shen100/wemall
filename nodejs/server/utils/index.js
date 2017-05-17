@@ -7,7 +7,7 @@ var EnvUtil = {
         if (config.env === 'development') {
             packages = require('../../package');
         } else {
-            packages = require('../../../package');
+            packages = require('../../../../package');
         }
         Object.keys(packages.dependencies).forEach(function(p) {
             try {
