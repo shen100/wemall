@@ -27,8 +27,8 @@
 	},
 	"go": {
 		"Debug"               : true, /*是否是debug模式*/
-		"UploadImgDir"        : "/Users/liushen/dev/uploads/img", /*图片上传的目录*/
-		"ImgPath"             : "/img",     /*上传后的图片请求地址前缀*/
+		"UploadImgDir"        : "/Users/liushen/dev/upload/img", /*图片上传的目录*/
+		"ImgPath"             : "/upload/img",  /*上传后的图片请求地址前缀*/
 		"Port"                : 8012,       /*go监听的端口*/
 		"SessionID"           : "iris.sid", /*后台设置的session id*/
 		"MaxOrder"            : 10000,      /*最大的排序号*/
