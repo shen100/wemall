@@ -92,13 +92,14 @@ class EditProduct extends Component {
         });
     }
     componentWillReceiveProps(nextProps) {
-        var product = nextProps.data.product;
-        if (product) {
+        var product       = nextProps.data.product;
+        var allCategories = nextProps.data.categories;
+        if (product && allCategories && allCategories.length > 0) {
             var categories = [];
             for (var i = 0; i < product.categories.length; i++) {
                 var parentId = product.categories[i].parentId;
                 var id       = product.categories[i].id;
-                categories.push(parentId + '-' + id);
+                categories.push(utils.parseTreeNodeKey(allCategories, id));
             }
             this.setState({
                 productId     : product.id,
@@ -186,7 +187,7 @@ class EditProduct extends Component {
             }
         };
 
-        let treeData = utils.parseCategoryTree(data.categories);
+        let treeData = utils.parseTree(data.categories);
 
         const treeProps = {
             treeData,

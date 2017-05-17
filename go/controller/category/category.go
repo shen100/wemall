@@ -119,7 +119,7 @@ func Save(ctx *iris.Context) {
 		return	
 	}
 
-	var categoryJSON model.Category = category
+	var categoryJSON = category
 	if createOrUpdate == "update" {
 		categoryJSON = updatedCategory
 	}

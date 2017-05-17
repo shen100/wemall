@@ -7,8 +7,8 @@ import {
 } from '../constants';
 
 let initState = {
-	category   : null,
-	categories : []
+	category       : null,
+	categories     : []
 };
 
 export default (state = initState, action) => {

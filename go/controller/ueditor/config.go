@@ -1,10 +1,12 @@
-/* 前后端通信相关的配置,注释只允许使用多行方式 */
-{
+package ueditor
+
+// UEditor 前后端通信相关的配置,注释只允许使用多行方式
+var UEditor = map[string]interface{}{
     /* 上传图片配置项 */
     "imageActionName": "uploadImage", /* 执行上传图片的action名称 */
     "imageFieldName": "upFile", /* 提交的图片表单名称 */
     "imageMaxSize": 2048000, /* 上传大小限制，单位B */
-    "imageAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"], /* 上传图片格式显示 */
+    "imageAllowFiles": []string{".png", ".jpg", ".jpeg", ".gif", ".bmp"}, /* 上传图片格式显示 */
     "imageCompressEnable": true, /* 是否压缩图片,默认是true */
     "imageCompressBorder": 1600, /* 图片压缩最长边限制 */
     "imageInsertAlign": "none", /* 插入的图片浮动方式 */
@@ -38,13 +40,13 @@
     "snapscreenInsertAlign": "none", /* 插入的图片浮动方式 */
 
     /* 抓取远程图片配置 */
-    "catcherLocalDomain": ["127.0.0.1", "localhost", "img.baidu.com"],
+    "catcherLocalDomain": []string{"127.0.0.1", "localhost", "img.baidu.com"},
     "catcherActionName": "catchimage", /* 执行抓取远程图片的action名称 */
     "catcherFieldName": "source", /* 提交的图片列表表单名称 */
     "catcherPathFormat": "/ueditor/php/upload/image/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
     "catcherUrlPrefix": "", /* 图片访问路径前缀 */
     "catcherMaxSize": 2048000, /* 上传大小限制，单位B */
-    "catcherAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"], /* 抓取图片格式显示 */
+    "catcherAllowFiles": []string{".png", ".jpg", ".jpeg", ".gif", ".bmp"}, /* 抓取图片格式显示 */
 
     /* 上传视频配置 */
     "videoActionName": "uploadvideo", /* 执行上传视频的action名称 */
@@ -52,9 +54,9 @@
     "videoPathFormat": "/ueditor/php/upload/video/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
     "videoUrlPrefix": "", /* 视频访问路径前缀 */
     "videoMaxSize": 102400000, /* 上传大小限制，单位B，默认100MB */
-    "videoAllowFiles": [
+    "videoAllowFiles": []string{
         ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
-        ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid"], /* 上传视频格式显示 */
+        ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid"}, /* 上传视频格式显示 */
 
     /* 上传文件配置 */
     "fileActionName": "uploadfile", /* controller里,执行上传视频的action名称 */
@@ -62,13 +64,13 @@
     "filePathFormat": "/ueditor/php/upload/file/{yyyy}{mm}{dd}/{time}{rand:6}", /* 上传保存路径,可以自定义保存路径和文件名格式 */
     "fileUrlPrefix": "", /* 文件访问路径前缀 */
     "fileMaxSize": 51200000, /* 上传大小限制，单位B，默认50MB */
-    "fileAllowFiles": [
+    "fileAllowFiles": []string{
         ".png", ".jpg", ".jpeg", ".gif", ".bmp",
         ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
         ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid",
         ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso",
-        ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".pdf", ".txt", ".md", ".xml"
-    ], /* 上传文件格式显示 */
+        ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".pdf", ".txt", ".md", ".xml",
+    }, /* 上传文件格式显示 */
 
     /* 列出指定目录下的图片 */
     "imageManagerActionName": "listimage", /* 执行图片管理的action名称 */
@@ -76,19 +78,18 @@
     "imageManagerListSize": 20, /* 每次列出文件数量 */
     "imageManagerUrlPrefix": "", /* 图片访问路径前缀 */
     "imageManagerInsertAlign": "none", /* 插入的图片浮动方式 */
-    "imageManagerAllowFiles": [".png", ".jpg", ".jpeg", ".gif", ".bmp"], /* 列出的文件类型 */
+    "imageManagerAllowFiles": []string{".png", ".jpg", ".jpeg", ".gif", ".bmp"}, /* 列出的文件类型 */
 
     /* 列出指定目录下的文件 */
     "fileManagerActionName": "listfile", /* 执行文件管理的action名称 */
     "fileManagerListPath": "/ueditor/php/upload/file/", /* 指定要列出文件的目录 */
     "fileManagerUrlPrefix": "", /* 文件访问路径前缀 */
     "fileManagerListSize": 20, /* 每次列出文件数量 */
-    "fileManagerAllowFiles": [
+    "fileManagerAllowFiles": []string{
         ".png", ".jpg", ".jpeg", ".gif", ".bmp",
         ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
         ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid",
         ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso",
-        ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".pdf", ".txt", ".md", ".xml"
-    ] /* 列出的文件类型 */
-
+        ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".pdf", ".txt", ".md", ".xml",
+     }, /* 列出的文件类型 */
 }

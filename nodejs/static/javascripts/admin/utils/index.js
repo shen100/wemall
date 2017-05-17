@@ -37,29 +37,45 @@ export default {
 	    tag.parentNode.insertBefore(s, tag);
 	},
 
-	parseCategoryTree: function(nodes) {
+	parseTree: function(nodes, options) {
+		options = options || {};
 		var copyList = nodes.slice();
+		console.log(111, options, copyList);
 		var root = {
-			id       : '',
+			id       : '0',
 			parentId : '0',
 			parent   : null,
-			key      : '',
-			value    : '',
-			label    : '',
+			key      : '0',
+			value    : '0',
+			label    : '无',
 			children : []
 		};
 		var stores = [];
 		stores.push(root);
+		if (options.isFindKey && options.id == '0') {
+			return '0';
+		}
 		while (copyList.length) {
 			var tree = stores[0];
 			for (var i = copyList.length - 1; i >= 0; i--) {
 				if (copyList[i].parentId === tree.id || (!copyList[i].parentId && tree === root)) {
+					var key;
+					if (options.multiple) {
+						key = copyList[i].parentId + '-' + copyList[i].id;
+					} else {
+						key = tree.key + '-' + copyList[i].id;
+					}
+					//如果options有id的话，那么表示要得到结点的key
+					if (options.isFindKey && options.id == copyList[i].id) {
+						console.log('options.id', options.id, copyList[i].id);
+						return key;
+					}
 					var node = {
 						id       : copyList[i].id,
 						parentId : copyList[i].parentId,
 						parent   : tree,
-						key      : copyList[i].parentId + '-' + copyList[i].id,
-						value    : copyList[i].parentId + '-' + copyList[i].id,
+						key      : key,
+						value    : key,
 						label    : copyList[i].name,
 						children : []
 					};
@@ -70,6 +86,29 @@ export default {
 			}
 			stores.splice(0, 1);
 		}
+		if (options.withRoot) {
+			var children = root.children.slice(0);
+			children.unshift({
+				id       : '0',
+				parentId : '0',
+				parent   : null,
+				key      : '0',
+				value    : '0',
+				label    : '无',
+				children : []
+			});
+			return children;
+		}
 		return root.children;
+	},
+
+	parseTreeNodeKey: function(categories, id) {
+		if (!categories || categories.length <= 0) {
+			throw new Error('分类列表为空，或长度为0');
+		}
+		return this.parseTree(categories, {
+			isFindKey: true,
+			id       : id
+		});
 	}
 };

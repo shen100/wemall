@@ -35,7 +35,7 @@ const ProductManage = (location, cb) => {
 const EditProduct = (location, cb) => {
     require.ensure([], require => {
         cb(null, require('../containers/product/EditProduct').default);
-    }, 'admin/editProduct');
+    }, 'admin/product/editProduct');
 };
 
 const CategoryManage = (location, cb) => {
@@ -46,8 +46,8 @@ const CategoryManage = (location, cb) => {
 
 const EditCategory = (location, cb) => {
     require.ensure([], require => {
-        cb(null, require('../containers/EditCategory').default);
-    }, 'admin/editCategory');
+        cb(null, require('../containers/category/EditCategory').default);
+    }, 'admin/category/editCategory');
 };
 
 const NotFound = (location, cb) => {

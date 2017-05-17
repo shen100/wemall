@@ -15,8 +15,9 @@ export default function(product) {
         var url = pageConfig.apiPath + '/admin/product/update';
         var categories = [];
         for (var i = 0; i < product.categories.length; i++) {
+            var idArr = product.categories[i].split('-');
             categories.push({
-                id: parseInt(product.categories[i].split('-')[1])
+                id: parseInt(idArr[idArr.length - 1])
             });
         }
         var reqData ={

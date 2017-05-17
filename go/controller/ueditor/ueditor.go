@@ -1,43 +1,18 @@
 package ueditor
 
 import (
-	"encoding/json"
 	"fmt"
 	"io"
-    "io/ioutil"
 	"mime"
 	"os"
 	"time"
 	"strconv"
 	"strings"
-	"regexp"
 	"gopkg.in/kataras/iris.v6"
 	"github.com/satori/go.uuid"
 	"wemall/go/config"
 	"wemall/go/utils"
 )
- 
-func readConfig(filename string) (map[string]interface{}, error) {
-    bytes, err := ioutil.ReadFile(filename)
-    if err != nil {
-        fmt.Println("ReadFile: ", err.Error())
-        return nil, err
-    }
-
-	configStr := string(bytes[:])
-	reg       := regexp.MustCompile(`/\*.*\*/`)
-
-	configStr  = reg.ReplaceAllString(configStr, "")
-	bytes      = []byte(configStr)
-	
-	var result map[string]interface{}
-
-    if err := json.Unmarshal(bytes, &result); err != nil {
-        fmt.Println("Unmarshal: ", err.Error())
-        return nil, err
-    }
-    return result, nil
-}
 
 func upload(ctx *iris.Context) {
 	errResData := iris.Map{
@@ -141,13 +116,7 @@ func Handler(ctx *iris.Context) {
 	action := ctx.FormValue("action")
 	switch action {
 		case "config": {
-			var result map[string]interface{}
-			var err error
-			if result, err = readConfig("./go/controller/ueditor/config.json"); err != nil {
-				ctx.JSON(iris.StatusOK, iris.Map{})
-				return
-			}
-			ctx.JSON(iris.StatusOK, result)
+			ctx.JSON(iris.StatusOK, UEditor)
 			break
 		}
 		case "uploadImage": {
