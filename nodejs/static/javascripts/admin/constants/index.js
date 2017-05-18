@@ -36,3 +36,7 @@ export const REQUEST_CATEGORY = 'requestCategory';
 
 export const REQUEST_CATEGORY_SUCCESS = 'requestCategorySuccess';
 
+export const REQUEST_SAVE_CATEGORY = 'requestSaveCategory';
+
+export const REQUEST_SAVE_CATEGORY_SUCCESS = 'requestSaveCategorySuccess';
+

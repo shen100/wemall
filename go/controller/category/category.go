@@ -11,7 +11,7 @@ import (
 )
 
 // Save 保存分类（创建或更新）
-func Save(ctx *iris.Context) {
+func Save(ctx *iris.Context, isEdit bool) {
 	// name, parentId, status, order 必须传的参数
 	// remark 非必须
 	minOrder := config.ServerConfig.MinOrder
@@ -83,17 +83,10 @@ func Save(ctx *iris.Context) {
 		}
 	}
 
-	var createOrUpdate string
-	if (ctx.Get("createOrUpdate") != nil) {
-		createOrUpdate = ctx.Get("createOrUpdate").(string)
-	} else {
-		createOrUpdate = ""	
-	}
-
 	var saveErr error
 	var errMsg = "error."
 	var updatedCategory model.Category
-	if (createOrUpdate != "update") {
+	if (!isEdit) {
 		//创建分类
 		saveErr = db.Create(&category).Error
 	} else {
@@ -120,7 +113,7 @@ func Save(ctx *iris.Context) {
 	}
 
 	var categoryJSON = category
-	if createOrUpdate == "update" {
+	if isEdit {
 		categoryJSON = updatedCategory
 	}
 	ctx.JSON(iris.StatusOK, iris.Map{
@@ -135,13 +128,12 @@ func Save(ctx *iris.Context) {
 
 // Create 创建分类
 func Create(ctx *iris.Context) {
-	Save(ctx)	
+	Save(ctx, false)	
 }
 
 // Update 更新分类
 func Update(ctx *iris.Context) {
-	ctx.Set("createOrUpdate", "update")
-	Save(ctx)	
+	Save(ctx, true)	
 }
 
 // Info 获取分类信息

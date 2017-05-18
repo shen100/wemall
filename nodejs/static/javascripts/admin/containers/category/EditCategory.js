@@ -7,6 +7,7 @@ import {
     Col,
     Form,
     Input,
+    Switch,
     InputNumber,
     TreeSelect
 } from 'antd';
@@ -28,6 +29,8 @@ class EitCategory extends Component {
         this.onNameBlur        = this.onNameBlur.bind(this);
         this.onCategoryChange  = this.onCategoryChange.bind(this);
         this.onRemarkBlur      = this.onRemarkBlur.bind(this);
+        this.onStatusChange    = this.onStatusChange.bind(this);
+        this.onOrderChange     = this.onOrderChange.bind(this);
         this.onSubmit          = this.onSubmit.bind(this);
 
         this.state = {
@@ -36,7 +39,10 @@ class EitCategory extends Component {
             parentKey  : [], //父分类, 初始为数组是为了让树形控件显示placeholder
             name       : '',
             remark     : '',
-            treeData   : []
+            treeData   : [],
+            checked    : false,
+            status     : 2,
+            order      : 0
         };
     }
     componentDidMount() {
@@ -59,7 +65,10 @@ class EitCategory extends Component {
                 remark        : category.remark,
                 treeData      : utils.parseTree(categories, {
                     withRoot: true
-                })
+                }),
+                checked       : category.status == 1,
+                status        : category.status,
+                order         : category.order
             });
         }
     }
@@ -76,13 +85,30 @@ class EitCategory extends Component {
     onRemarkBlur(event) {
         this.setState({ remark: event.target.value });
     }
+    onStatusChange(value) {
+        this.setState({
+            status: value ? 1 : 2
+        });
+    }
+    onOrderChange(value) {
+        this.setState({
+            order: value
+        });
+    }
     onSubmit() {
+        var parentId = parseInt(this.state.parentId);
+        if (parentId == this.state.categoryId) {
+            alert('不能选择自身作为父分类');
+            return;
+        }
         const { dispatch } = this.props;
         dispatch(requestSaveCategory({
             id       : this.state.categoryId,
             name     : this.state.name,
-            parentId : this.state.parentId,
-            remark   : this.state.remark
+            parentId : parseInt(this.state.parentId),
+            remark   : this.state.remark,
+            status   : this.state.status,
+            order    : this.state.order
         }));
     }
     render() {
@@ -95,6 +121,8 @@ class EitCategory extends Component {
         let name      = this.state.name;
         let remark    = this.state.remark;
         let treeData  = this.state.treeData;
+        let checked   = this.state.checked;
+        let order     = this.state.order;
 
         const FormItem = Form.Item;
         const formItemLayout = {
@@ -129,6 +157,13 @@ class EitCategory extends Component {
                                             placeholder="请选择父分类"
                                             treeDefaultExpandAll
                                             onChange={this.onCategoryChange} />
+                                    </FormItem>
+                                    <FormItem {...formItemLayout} label="状态">
+                                        <Switch onChange={this.onStatusChange} defaultChecked={checked} 
+                                            checkedChildren={'开启'} unCheckedChildren={'关闭'}/>
+                                    </FormItem>
+                                    <FormItem {...formItemLayout} label="排序">
+                                        <InputNumber min={0} max={10000} defaultValue={order} onChange={this.onOrderChange} />
                                     </FormItem>
                                     <FormItem {...formItemLayout} label="备注">
                                         <Input type="textarea" defaultValue={remark} rows={4} onBlur={this.onRemarkBlur}/>
