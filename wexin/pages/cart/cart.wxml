@@ -1,0 +1,4 @@
+<!--购物车-->
+<view class="container log-list">
+    <text class="log-item">我的购物车</text>
+</view>

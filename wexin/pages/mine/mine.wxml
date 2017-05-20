@@ -1,0 +1,4 @@
+<!--我的-->
+<view class="container log-list">
+    <text class="log-item">我的</text>
+</view>

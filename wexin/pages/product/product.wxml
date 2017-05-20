@@ -1,0 +1,4 @@
+<!--产品详情页-->
+<view class="container log-list">
+    <text class="log-item">我的商品</text>
+</view>

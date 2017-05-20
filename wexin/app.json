@@ -1,0 +1,48 @@
+{
+    "pages":[
+        "pages/index/index",
+        "pages/logs/logs",
+        "pages/product/product",
+        "pages/cart/cart",
+        "pages/mine/mine"
+    ],
+    "window":{
+        "backgroundTextStyle": "light",
+        "backgroundColor": "#ff0",
+        "navigationBarBackgroundColor": "#000",
+        "navigationBarTitleText": "爱宝宝母婴微商城",
+        "navigationBarTextStyle": "white"
+    },
+    "tabBar": {
+        "color": "#5f616c",
+        "selectedColor": "#f13030",
+        "backgroundColor": "#fff",
+        "borderStyle": "white",
+        "position": "bottom",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "首页",
+                "iconPath": "./icons/home.png",
+                "selectedIconPath": "./icons/homeSelected.png"
+            }, 
+            {
+                "pagePath": "pages/cart/cart",
+                "text": "购物车",
+                "iconPath": "./icons/cart.png",
+                "selectedIconPath": "./icons/cartSelected.png"
+            },
+            {
+                "pagePath": "pages/mine/mine",
+                "text": "购物车",
+                "iconPath": "./icons/mine.png",
+                "selectedIconPath": "./icons/mineSelected.png"
+            }
+        ]
+    },
+    "networkTimeout": {
+        "request": 10000,
+        "downloadFile": 10000
+    },
+    "debug": true
+}
