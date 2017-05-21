@@ -88,8 +88,9 @@ go run main.go
 |          | model                  |  数据模型|
 |          | utils                  |  实用工具|
 | nginx    |                        |  nginx配置|
-| nodejs   |                        |  前端目录|
+| nodejs   |                        |  前端项目目录|
 | sql      |                        |           |
+| weixin   |                        | 微信小程序项目目录 |
 |          | wemall.sql             | sql文件    |
 | configuration.json  |             | 项目配置文件 |
 | main.go  |                        | go主程序入口|
