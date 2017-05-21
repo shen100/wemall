@@ -1,10 +1,21 @@
-<!--index.wxml-->
-<view class="container">
-  <view  bindtap="bindViewTap" class="userinfo">
-    <image class="userinfo-avatar" src="{{userInfo.avatarUrl}}" background-size="cover"></image>
-    <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
+<view class="home-box">
+    <scroll-view class="home-box-scroll">
+        <view class="slideshow">
+            <image class="slideshow-img" mode="aspectFill" src="https://img13.360buyimg.com/da/jfs/t5458/60/2543073437/54409/fd724d/591c1354N4fd7c3a6.jpg"></image>
+        </view>
+        <scroll-view class="category-list" scroll-x>
+            <view wx:key="{{item.id}}" class="category-item" wx:for="{{categories}}">
+                <text style="color: {{categoryIndex == index ? '#e4393c': '#666'}}">{{item.name}}</text>
+            </view>
+        </scroll-view>
+        <view class="product-list">
+            <view wx:for="{{products}}" wx:key="{{item.id}}" class="product-item" style="margin-right: {{index % 2 == 0 ? '20rpx;' : '0;'}}">
+                <view class="product-image-box">
+                    <image class="product-image" src="{{item.url}}" mode="aspectFit"></image>
+                </view>
+                <view class="product-name">{{item.name}}</view>
+                <view class="product-price">¥ {{item.price}}</view>
+            </view>
+        </view>
+    </scroll-view>
 </view>

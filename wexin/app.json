@@ -1,14 +1,13 @@
 {
     "pages":[
         "pages/index/index",
-        "pages/logs/logs",
         "pages/product/product",
         "pages/cart/cart",
         "pages/mine/mine"
     ],
     "window":{
         "backgroundTextStyle": "light",
-        "backgroundColor": "#ff0",
+        "backgroundColor": "#f9f9f9",
         "navigationBarBackgroundColor": "#000",
         "navigationBarTitleText": "爱宝宝母婴微商城",
         "navigationBarTextStyle": "white"
@@ -34,7 +33,7 @@
             },
             {
                 "pagePath": "pages/mine/mine",
-                "text": "购物车",
+                "text": "我的",
                 "iconPath": "./icons/mine.png",
                 "selectedIconPath": "./icons/mineSelected.png"
             }

@@ -1,21 +1,84 @@
-/**index.wxss**/
-.userinfo {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+page {
+    height:100%;
 }
 
-.userinfo-avatar {
-  width: 128rpx;
-  height: 128rpx;
-  margin: 20rpx;
-  border-radius: 50%;
+.home-box {
+    background-color: #f9f9f9;
+    width: 100%;
+    height: 100%;
 }
 
-.userinfo-nickname {
-  color: #aaa;
+.home-box-scroll {
+    background-color: #f9f9f9; 
 }
 
-.usermotto {
-  margin-top: 200px;
+.slideshow {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    height: 200rpx;
+}
+
+.slideshow-img {
+    width: 100%;
+    height: 100%;
+}
+
+.category-list {
+    display: flex;
+    white-space: nowrap;
+    background-color: #fff;
+    padding-left: 20rpx;
+    border-bottom: 1px #f8f8f8 solid;
+}
+
+.category-item {
+    display: inline-block;
+    margin-right: 30rpx;
+    font-size: 40rpx;
+    line-height: 100rpx;
+}
+
+.product-list {
+    margin-top: 30rpx;
+    margin-left: 30rpx;
+    margin-right: 30rpx;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.product-item {
+    display: flex; 
+    flex-basis: calc(50% - 10rpx);  
+    justify-content: flex-start;
+    flex-direction: column;
+    margin-bottom: 20rpx;
+    padding-bottom: 20rpx;
+}
+
+.product-image-box {
+    height: 300rpx;
+    background-color: #fff;
+}
+
+.product-image {
+    width: 100%;
+    height:100%;
+}
+
+.product-name {
+    padding-left: 20rpx;
+    line-height: 40rpx;
+    margin-bottom: 20rpx;
+    color: #666;
+    font-size: 32rpx;
+    margin-top: 16rpx;
+}
+
+.product-price {
+    padding-left: 20rpx;
+    color: #e4393c;
+    line-height: 40rpx;
+    font-size: 32rpx;
 }
