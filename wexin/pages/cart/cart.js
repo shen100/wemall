@@ -2,7 +2,7 @@ Page({
     data: {
         name: 'test'
     },
-    onLoad: function () {
+    onLoad: function() {
         this.setData({
             name: 'xxx'
         })

@@ -6,10 +6,13 @@ import {
     Row, 
     Col,
     Form,
+    Icon,
     Input,
     InputNumber,
+    Modal,
     Select,
-    TreeSelect
+    TreeSelect,
+    Upload
 } from 'antd';
 
 import requestProduct            from '../../actions/product/requestProduct';
@@ -32,19 +35,29 @@ class EditProduct extends Component {
         this.onPriceBlur           = this.onPriceBlur.bind(this);
         this.onRemarkBlur          = this.onRemarkBlur.bind(this);
         this.onStatusChange        = this.onStatusChange.bind(this);
+        this.onImageChange         = this.onImageChange.bind(this);
+        this.onImageListChange     = this.onImageListChange.bind(this);
+        this.onPreview             = this.onPreview.bind(this);
+        this.onCancelPreview       = this.onCancelPreview.bind(this);
         this.onSubmit              = this.onSubmit.bind(this);
 
         this.state = {
-            productId     : this.props.routeParams.id,
-            categories    : [], //产品所属的分类
-            name          : '',
-            detail        : '',
-            originalPrice : 0,
-            price         : 0,
-            remark        : '',
-            status        : '3', //等待上架
-            ueditor       : null,
-            loadCalled    : false
+            productId      : this.props.routeParams.id,
+            categories     : [], //产品所属的分类
+            name           : '',
+            detail         : '',
+            originalPrice  : 0,
+            price          : 0,
+            remark         : '',
+            status         : '3', //等待上架
+            imageData      : '',
+            imageURL       : '',
+            previewVisible : false,
+            previewImage   : '',
+            imageList      : [],
+            ueditor        : null,
+            loadCalled     : false, //是否已加载UEditor
+            isLoading      : true
         };
     }
     componentDidMount() {
@@ -101,6 +114,7 @@ class EditProduct extends Component {
                 var id       = product.categories[i].id;
                 categories.push(utils.parseTreeNodeKey(allCategories, id));
             }
+
             this.setState({
                 productId     : product.id,
                 categories    : categories,
@@ -109,7 +123,10 @@ class EditProduct extends Component {
                 originalPrice : product.originalPrice,
                 price         : product.price,
                 remark        : product.remark,
-                status        : product.status + ''
+                status        : product.status + '',
+                imageData     : product.imageURL,
+                imageURL      : product.imageURL,
+                isLoading     : false
             });
             this.loadUEditor();
         }
@@ -136,6 +153,48 @@ class EditProduct extends Component {
     onStatusChange(status) {
         this.setState({ status: status });
     }
+    onBeforeUpload(file) {
+        var isJPG = file.type === 'image/jpeg';
+        if (!isJPG) {
+            message.error('只支持jpg或png格式的图片');
+        }
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isLt2M) {
+            message.error('图片大小要小于2M');
+        }
+        return isJPG && isLt2M;
+    }
+    onImageChange(info) {
+        var self = this;
+        if (info.file.status === 'done') {
+            self.setState({
+                imageURL: info.file.response.data.url
+            });
+            (function(originFileObj, callback) {
+                var reader = new FileReader();
+                reader.addEventListener('load', function() {
+                    callback(reader.result);
+                });
+                reader.readAsDataURL(originFileObj);
+            }(info.file.originFileObj, function(imageData) {
+                self.setState({ imageData })
+            }));
+        }
+    }
+    onCancelPreview() {
+        this.setState({ previewVisible: false }); 
+    }
+    onPreview(file) {
+        this.setState({
+            previewImage   : file.url || file.thumbUrl,
+            previewVisible : true
+        });
+    }
+    onImageListChange(data) {
+        this.setState({ 
+            imageList: data.fileList
+        });
+    }
     onSubmit() {
         if (!this.state.ueditor) {
             return;
@@ -146,6 +205,7 @@ class EditProduct extends Component {
             name          : this.state.name,
             categories    : this.state.categories,
             status        : this.state.status,
+            imageURL      : this.state.imageURL,
             originalPrice : this.state.originalPrice,
             price         : this.state.price,
             remark        : this.state.remark,
@@ -153,16 +213,27 @@ class EditProduct extends Component {
         }));
     }
     render() {
-        let { data }  = this.props;
-        let editLabel = this.state.productId ? '编辑' : '添加';
-        let isLoading = this.state.productId && !data.product ? true : false;
-        
-        let name          = this.state.name;
-        let detail        = this.state.detail;
-        let originalPrice = this.state.originalPrice;
-        let price         = this.state.price;
-        let remark        = this.state.remark;
-        let status        = this.state.status;
+        let { data }       = this.props;
+        let editLabel      = this.state.productId ? '编辑' : '添加';
+        let isLoading      = this.state.isLoading; 
+        let name           = this.state.name;
+        let detail         = this.state.detail;
+        let originalPrice  = this.state.originalPrice;
+        let price          = this.state.price;
+        let remark         = this.state.remark;
+        let status         = this.state.status;
+        let imageData      = this.state.imageData;
+        let uploadURL      = pageConfig.apiPath + '/admin/upload';
+        let previewVisible = this.state.previewVisible;
+        let previewImage   = this.state.previewImage;
+        let imageList      = this.state.imageList;
+
+        let uploadButton = (
+            <div>
+                <Icon type="plus" />
+                <div className="ant-upload-text">点击上传</div>
+            </div>
+        );
 
         const FormItem = Form.Item;
         const formItemLayout = {
@@ -223,6 +294,34 @@ class EditProduct extends Component {
                                             <Select.Option value="1">上架</Select.Option>
                                             <Select.Option value="2">下架</Select.Option>
                                         </Select>
+                                    </FormItem>
+                                    <FormItem {...formItemLayout} label="商品封面图">
+                                        <Upload className="image-uploader" name="upFile"
+                                            showUploadList={false} action={uploadURL}
+                                            beforeUpload={this.onBeforeUpload}
+                                            onChange={this.onImageChange}>
+                                            {
+                                                imageData ?
+                                                <img src={imageData} alt="" className="image" /> 
+                                                :
+                                                <Icon type="plus" className="image-uploader-trigger" />
+                                            }
+                                        </Upload>
+                                    </FormItem>
+                                    <FormItem {...formItemLayout} label="商品图片集">
+                                        <div className="clearfix">
+                                            <Upload action={uploadURL} name="upFile"
+                                                listType="picture-card"
+                                                fileList={imageList}
+                                                onPreview={this.onPreview}
+                                                onChange={this.onImageListChange}>
+                                            { imageList.length >= 3 ? null : uploadButton }
+                                            </Upload>
+                                            <Modal visible={previewVisible} onCancel={this.onCancelPreview}
+                                                footer={null}>
+                                                <img alt="预览图片" style={{ width: '100%' }} src={previewImage} />
+                                            </Modal>
+                                        </div>
                                     </FormItem>
                                     <FormItem {...formItemLayout} label="原价">
                                         <InputNumber min={0} max={100} defaultValue={originalPrice} step={0.1} onBlur={this.onOriginalPriceBlur} />

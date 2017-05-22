@@ -66,7 +66,6 @@ export default (state = initState, action) => {
 				...state,
 				categories: []
 			};
-			break;
 		}
 		case REQUEST_CATEGORY_LIST_SUCCESS: {
 			return {

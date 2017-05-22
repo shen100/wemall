@@ -1,5 +1,8 @@
+var testinAB = require('../../sdk/sdk.js');
+
 Page({
     data: {
+        selectedColor: '#e4393c',
         categories: [
             {
                 "id": 1,
@@ -88,7 +91,27 @@ Page({
             }
         ]
     },
+    onCategoryTap: function() {
+        console.log('onCategoryTap');
+        testinAB.track('click', 1, function() {
+            wx.showModal({
+                title: '提示',
+                content: 'click指标上报成功'
+            })
+        });    
+    },
     onLoad: function() {
-      
+        var self = this;
+        testinAB.init('TESTIN_h7b3111f2-e238-441b-8951-24c4e2121c58');
+        testinAB.setDefVars({
+            selectedColor: '#e4393c'    
+        });
+
+        testinAB.getVars(function(vars) {
+            console.log(vars.get('selectedColor'));
+            self.setData({
+                selectedColor: vars.get('selectedColor')
+            });
+        });
     }
 })

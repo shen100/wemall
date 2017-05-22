@@ -25,6 +25,7 @@ export default function(product) {
             name          : product.name,
             categories    : categories,
             status        : parseInt(product.status),
+            imageURL      : product.imageURL,
             originalPrice : product.originalPrice,
             price         : product.price,
             remark        : product.remark,
