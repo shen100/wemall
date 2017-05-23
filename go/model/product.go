@@ -15,8 +15,10 @@ type Product struct {
     Price          float64    `json:"price"`      
     OriginalPrice  float64    `json:"originalPrice"`
     Status         int        `json:"status"`
-    Image          Image      `gorm:"ForeignKey:ImageID"`
-    ImageID        string     `json:"imageID"`
+    Image          Image      `json:"image"`
+    ImageID        uint       `json:"imageID"`
+    ImageIDs       string     `json:"imageIDs"`
+    Images         []Image    `json:"images"`
     Remark         string     `json:"remark"`
     Detail         string     `json:"detail"`
     Categories     []Category `gorm:"many2many:product_category;ForeignKey:ID;AssociationForeignKey:ID" json:"categories"`

@@ -9,6 +9,7 @@ import {
     Icon,
     Input,
     InputNumber,
+    message,
     Modal,
     Select,
     TreeSelect,
@@ -50,6 +51,7 @@ class EditProduct extends Component {
             price          : 0,
             remark         : '',
             status         : '3', //等待上架
+            imageID        : '',
             imageData      : '',
             imageURL       : '',
             previewVisible : false,
@@ -124,6 +126,7 @@ class EditProduct extends Component {
                 price         : product.price,
                 remark        : product.remark,
                 status        : product.status + '',
+                imageID       : product.imageID,
                 imageData     : product.imageURL,
                 imageURL      : product.imageURL,
                 isLoading     : false
@@ -154,21 +157,22 @@ class EditProduct extends Component {
         this.setState({ status: status });
     }
     onBeforeUpload(file) {
-        var isJPG = file.type === 'image/jpeg';
-        if (!isJPG) {
+        var isImage = file.type === 'image/jpeg' || file.type === 'image/png';
+        if (!isImage) {
             message.error('只支持jpg或png格式的图片');
         }
         const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isLt2M) {
             message.error('图片大小要小于2M');
         }
-        return isJPG && isLt2M;
+        return isImage && isLt2M;
     }
     onImageChange(info) {
         var self = this;
         if (info.file.status === 'done') {
             self.setState({
-                imageURL: info.file.response.data.url
+                imageURL : info.file.response.data.url,
+                imageID  : info.file.response.data.id
             });
             (function(originFileObj, callback) {
                 var reader = new FileReader();
@@ -191,8 +195,16 @@ class EditProduct extends Component {
         });
     }
     onImageListChange(data) {
-        this.setState({ 
-            imageList: data.fileList
+        var fileList = data.fileList || [];
+        var imageIDs = [];
+        for (var i = 0; i < fileList.length; i++) {
+            if (fileList[i].response) {
+                imageIDs.push(fileList[i].response.data.id);
+            } 
+        }
+        this.setState({
+            imageIDs  : imageIDs,
+            imageList : data.fileList
         });
     }
     onSubmit() {
@@ -205,7 +217,8 @@ class EditProduct extends Component {
             name          : this.state.name,
             categories    : this.state.categories,
             status        : this.state.status,
-            imageURL      : this.state.imageURL,
+            imageID       : this.state.imageID,
+            imageIDs      : this.state.imageIDs,
             originalPrice : this.state.originalPrice,
             price         : this.state.price,
             remark        : this.state.remark,
@@ -277,7 +290,7 @@ class EditProduct extends Component {
             <div>
                 <Row gutter={24}>
                     <Col span={24}>
-                        <div id="productBox" className="product-box">
+                        <div id="productBox">
                             <div className="product-title">{editLabel}商品</div>
                             {
                                 isLoading ? null :
@@ -314,6 +327,7 @@ class EditProduct extends Component {
                                                 listType="picture-card"
                                                 fileList={imageList}
                                                 onPreview={this.onPreview}
+                                                beforeUpload={this.onBeforeUpload}
                                                 onChange={this.onImageListChange}>
                                             { imageList.length >= 3 ? null : uploadButton }
                                             </Upload>

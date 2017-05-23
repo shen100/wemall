@@ -20,12 +20,13 @@ export default function(product) {
                 id: parseInt(idArr[idArr.length - 1])
             });
         }
-        var reqData ={
+        var reqData = {
             id            : product.id,
             name          : product.name,
             categories    : categories,
             status        : parseInt(product.status),
-            imageURL      : product.imageURL,
+            imageID       : product.imageID,
+            imageIDs      : JSON.stringify(product.imageIDs),
             originalPrice : product.originalPrice,
             price         : product.price,
             remark        : product.remark,

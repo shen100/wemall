@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 	"unicode/utf8"
+	"encoding/json"
 	"github.com/jinzhu/gorm"
 	"gopkg.in/kataras/iris.v6"
 	"wemall/go/config"
@@ -143,13 +144,16 @@ func save(ctx *iris.Context, isEdit bool) {
 	} else if isEdit && product.Status != model.ProductUpShelf && product.Status != model.ProductDownShelf && product.Status != model.ProductPending {
 		isError = true
 		msg     = "status无效"
+	} else if product.ImageID <= 0 {
+		isError = true
+		msg     = "封面图片不能为空"
 	} else if product.Remark != "" && utf8.RuneCountInString(product.Remark) > config.ServerConfig.MaxRemarkLen {
 		isError = true
 		msg     = "备注不能超过" + strconv.Itoa(config.ServerConfig.MaxRemarkLen) + "个字符"	
 	} else if product.Detail == "" || utf8.RuneCountInString(product.Detail) <= 0 {
 		isError = true	
 		msg     = "商品详情不能为空"
-	}  else if utf8.RuneCountInString(product.Detail) > config.ServerConfig.MaxContentLen {
+	} else if utf8.RuneCountInString(product.Detail) > config.ServerConfig.MaxContentLen {
 		isError = true	
 		msg     = "商品详情不能超过" + strconv.Itoa(config.ServerConfig.MaxContentLen) + "个字符"	
 	} else if product.Categories == nil || len(product.Categories) <= 0  {
@@ -164,6 +168,18 @@ func save(ctx *iris.Context, isEdit bool) {
 	} else if product.OriginalPrice < 0 {
 		isError = true	
 		msg     = "无效的商品原价"
+	} else {
+		var images []uint
+		if err := json.Unmarshal([]byte(product.ImageIDs), &images); err != nil {
+			isError = true
+			msg     = "商品图片集无效"
+    	} else if images == nil || len(images) <= 0 {
+			isError = true
+			msg     = "商品图片集不能为空"
+		} else if len(images) > config.ServerConfig.MaxProductImgCount {
+			isError = true
+			msg     = "商品图片集个数不能超过" + strconv.Itoa(config.ServerConfig.MaxProductImgCount) + "个"
+		}
 	}
 
 	if isError {

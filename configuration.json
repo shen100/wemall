@@ -39,7 +39,8 @@
 		"MaxNameLen"          : 100,        /*最大的名称长度*/
 		"MaxRemarkLen"        : 500,        /*最大的备注长度*/
 		"MaxContentLen"       : 10000,      /*最大的内容长度*/
-		"MaxProductCateCount" : 6           /*产品最多的分类个数*/
+		"MaxProductCateCount" : 6,          /*商品最多的分类个数*/
+		"MaxProductImgCount"  : 6           /*商品最多的图片集个数*/
 	},
 	"software": {
 		"name"        : "wemall微商城", /*软件名称*/
