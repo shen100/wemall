@@ -287,6 +287,22 @@ func Info(ctx *iris.Context) {
 		return
 	}
 
+	if db.First(&product.Image, product.ImageID).Error != nil {
+		product.Image = model.Image{}
+	}
+
+	var imagesSQL []uint
+	if err := json.Unmarshal([]byte(product.ImageIDs), &imagesSQL); err == nil {
+		var images []model.Image
+		if db.Where("id in (?)",  imagesSQL).Find(&images).Error != nil {
+			product.Images = nil
+		} else {
+			product.Images = images
+		}
+	} else {
+		product.Images = nil	
+	}
+
 	if db.Model(&product).Related(&product.Categories, "categories").Error != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.ERROR,

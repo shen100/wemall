@@ -26,7 +26,7 @@ export default function(product) {
             categories    : categories,
             status        : parseInt(product.status),
             imageID       : product.imageID,
-            imageIDs      : JSON.stringify(product.imageIDs),
+            imageIDs      : product.imageIDs,
             originalPrice : product.originalPrice,
             price         : product.price,
             remark        : product.remark,

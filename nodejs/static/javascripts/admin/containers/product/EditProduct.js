@@ -53,9 +53,9 @@ class EditProduct extends Component {
             status         : '3', //等待上架
             imageID        : '',
             imageData      : '',
-            imageURL       : '',
             previewVisible : false,
             previewImage   : '',
+            imageIDs       : '[]',
             imageList      : [],
             ueditor        : null,
             loadCalled     : false, //是否已加载UEditor
@@ -117,6 +117,19 @@ class EditProduct extends Component {
                 categories.push(utils.parseTreeNodeKey(allCategories, id));
             }
 
+            var imageList  = [];
+            var pImageList = product.images || [];
+            for (var i = 0; i < pImageList.length; i++) {
+                imageList.push({
+                    uid    : pImageList[i].id,
+                    name   : pImageList[i].orignalTitle,
+                    status : 'done',
+                    url    : pImageList[i].url
+                });
+            }
+
+            var imageURL = product.image && product.image.url || '';
+
             this.setState({
                 productId     : product.id,
                 categories    : categories,
@@ -127,8 +140,9 @@ class EditProduct extends Component {
                 remark        : product.remark,
                 status        : product.status + '',
                 imageID       : product.imageID,
-                imageData     : product.imageURL,
-                imageURL      : product.imageURL,
+                imageData     : imageURL,
+                imageIDs      : product.imageIDs,
+                imageList     : imageList,
                 isLoading     : false
             });
             this.loadUEditor();
@@ -171,7 +185,6 @@ class EditProduct extends Component {
         var self = this;
         if (info.file.status === 'done') {
             self.setState({
-                imageURL : info.file.response.data.url,
                 imageID  : info.file.response.data.id
             });
             (function(originFileObj, callback) {
@@ -203,7 +216,7 @@ class EditProduct extends Component {
             } 
         }
         this.setState({
-            imageIDs  : imageIDs,
+            imageIDs  : JSON.stringify(imageIDs),
             imageList : data.fileList
         });
     }
@@ -329,7 +342,7 @@ class EditProduct extends Component {
                                                 onPreview={this.onPreview}
                                                 beforeUpload={this.onBeforeUpload}
                                                 onChange={this.onImageListChange}>
-                                            { imageList.length >= 3 ? null : uploadButton }
+                                            { imageList.length >= 6 ? null : uploadButton }
                                             </Upload>
                                             <Modal visible={previewVisible} onCancel={this.onCancelPreview}
                                                 footer={null}>

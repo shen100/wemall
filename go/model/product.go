@@ -15,8 +15,8 @@ type Product struct {
     Price          float64    `json:"price"`      
     OriginalPrice  float64    `json:"originalPrice"`
     Status         int        `json:"status"`
-    Image          Image      `json:"image"`
     ImageID        uint       `json:"imageID"`
+    Image          Image      `json:"image"`
     ImageIDs       string     `json:"imageIDs"`
     Images         []Image    `json:"images"`
     Remark         string     `json:"remark"`
