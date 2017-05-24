@@ -1,4 +1,10 @@
-<!--产品详情页-->
-<view class="container log-list">
-    <text class="log-item">我的商品</text>
+<!--商品详情页-->
+<view class="product-container">
+    <view></view>
+    <ul class="tabbar">
+        <li class="tabbar-item tabbar-home">x</li>
+        <li class="tabbar-item tabbar-cart">y</li>
+        <li class="tabbar-item tabbar-add-cart">加入购物车</li>
+        <li class="tabbar-item tabbar-buy-now">立即购买</li>
+    </ul>
 </view>

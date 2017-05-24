@@ -31,7 +31,7 @@ class CategoryManage extends Component {
                 },
                 {
                     title: '排序',
-                    dataIndex: 'order'
+                    dataIndex: 'sequence'
                 },
                 {
                     title: '创建时间',

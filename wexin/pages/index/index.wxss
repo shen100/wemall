@@ -28,13 +28,12 @@ page {
     display: flex;
     white-space: nowrap;
     background-color: #fff;
-    padding-left: 20rpx;
     border-bottom: 1px #f8f8f8 solid;
 }
 
 .category-item {
     display: inline-block;
-    margin-right: 30rpx;
+    margin-right: 60rpx;
     font-size: 40rpx;
     line-height: 100rpx;
 }

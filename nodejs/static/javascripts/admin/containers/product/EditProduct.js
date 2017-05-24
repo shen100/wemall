@@ -351,10 +351,12 @@ class EditProduct extends Component {
                                         </div>
                                     </FormItem>
                                     <FormItem {...formItemLayout} label="原价">
-                                        <InputNumber min={0} max={100} defaultValue={originalPrice} step={0.1} onBlur={this.onOriginalPriceBlur} />
+                                        <InputNumber min={0} max={100} defaultValue={originalPrice} step={0.01} onBlur={this.onOriginalPriceBlur} />
+                                        元
                                     </FormItem>
                                     <FormItem {...formItemLayout} label="促销价">
-                                        <InputNumber min={0} max={100} defaultValue={price} step={0.1} onBlur={this.onPriceBlur} />
+                                        <InputNumber min={0} max={100} defaultValue={price} step={0.01} onBlur={this.onPriceBlur} />
+                                        元
                                     </FormItem>
                                     <FormItem {...formItemLayout} label="备注">
                                         <Input type="textarea" defaultValue={remark} rows={4} onBlur={this.onRemarkBlur}/>

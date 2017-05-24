@@ -19,6 +19,10 @@ func main() {
 		os.Exit(1)
 	}
 
+	if config.DBConfig.SQLLog {
+		db.LogMode(true)
+	}
+
 	model.DB = db;
 
 	app := iris.New(iris.Configuration{

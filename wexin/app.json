@@ -5,7 +5,7 @@
         "pages/cart/cart",
         "pages/mine/mine"
     ],
-    "window":{
+    "window": {
         "backgroundTextStyle": "light",
         "backgroundColor": "#f9f9f9",
         "navigationBarBackgroundColor": "#000",

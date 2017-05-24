@@ -1,38 +1,9 @@
+var config   = require('../../config/config.js');
 var testinAB = require('../../sdk/sdk.js');
 
 Page({
     data: {
-        selectedColor: '#e4393c',
-        categories: [
-            {
-                "id": 1,
-                "name": '奶粉'
-            },
-            {
-                "id": 2,
-                "name": '尿不湿'
-            },
-            {
-                "id": 3,
-                "name": '澳大利亚swisse'
-            },
-            {
-                "id": 4,
-                "name": '澳大'
-            },
-            {
-                "id": 5,
-                "name": '澳大利亚swisse'
-            },
-            {
-                "id": 6,
-                "name": '澳大利亚swisse'
-            },
-            {
-                "id": 7,
-                "name": '澳大利亚swisse'
-            }
-        ],
+        categories: [],
         categoryIndex: 0,
         products: [
             {
@@ -92,7 +63,6 @@ Page({
         ]
     },
     onCategoryTap: function() {
-        console.log('onCategoryTap');
         testinAB.track('click', 1, function() {
             wx.showModal({
                 title: '提示',
@@ -100,7 +70,24 @@ Page({
             })
         });    
     },
+    onProductTap: function(event) {
+        var id = event.currentTarget.dataset.id;
+        wx.navigateTo({
+            url: '/pages/product/product?id=' + id
+        });
+    },
     onLoad: function() {
+        var self = this;
+        wx.request({
+            url : config.reqCategoryList,
+            success: function(res) {
+                console.log(res);
+                self.setData({
+                    categories: res.data.data.categories 
+                });
+            }
+        })
+
         var self = this;
         testinAB.init('TESTIN_h7b3111f2-e238-441b-8951-24c4e2121c58');
         testinAB.setDefVars({
@@ -110,7 +97,7 @@ Page({
         testinAB.getVars(function(vars) {
             console.log(vars.get('selectedColor'));
             self.setData({
-                selectedColor: vars.get('selectedColor')
+                //selectedColor: vars.get('selectedColor')
             });
         });
     }

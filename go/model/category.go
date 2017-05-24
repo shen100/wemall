@@ -9,7 +9,7 @@ type Category struct {
     UpdatedAt time.Time  `json:"updatedAt"`
     DeletedAt *time.Time `sql:"index" json:"deletedAt"`
     Name      string     `json:"name"`
-    Order     int        `json:"order"`
+    Sequence  int        `json:"sequence"`
     ParentID  int        `json:"parentId"`
     Status    int        `json:"status"`     
     Remark    string     `json:"remark"`

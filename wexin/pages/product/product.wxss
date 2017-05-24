@@ -1,0 +1,40 @@
+.product-container {
+    position: relative;
+}
+
+.tabbar {
+    width: 100%;
+    display: flex;
+    position: fixed;
+    bottom: 0;
+}
+
+.tabbar-item {
+    height: 100rpx;
+}
+
+.tabbar-home {
+    width: 200rpx;
+}
+
+.tabbar-cart {
+    width: 200rpx;
+}
+
+.tabbar-add-cart {
+    color: #fff;
+    background-color: #fd885b;
+    line-height: 100rpx;
+    width: 100%;
+    text-align: center;
+    font-size: 36rpx;
+}
+
+.tabbar-buy-now {
+    color: #fff;
+    background-color: #fc464a;
+    line-height: 100rpx;
+    width: 100%;
+    text-align: center;
+    font-size: 36rpx;
+}

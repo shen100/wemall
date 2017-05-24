@@ -41,7 +41,7 @@ func Save(ctx *iris.Context, isEdit bool) {
 	} else if category.Status != model.CategoryStatusOpen && category.Status != model.CategoryStatusClose {
 		isError = true
 		msg     = "status无效"
-	} else if category.Order < minOrder || category.Order > maxOrder {
+	} else if category.Sequence < minOrder || category.Sequence > maxOrder {
 		isError = true
 		msg     = "分类的排序要在" + strconv.Itoa(minOrder) + "到" + strconv.Itoa(maxOrder) + "之间"
 	} else if category.Remark != "" && utf8.RuneCountInString(category.Remark) > config.ServerConfig.MaxRemarkLen {
@@ -94,7 +94,7 @@ func Save(ctx *iris.Context, isEdit bool) {
 		saveErr = db.First(&updatedCategory, category.ID).Error
 		if saveErr == nil {
 			updatedCategory.Name     = category.Name
-			updatedCategory.Order    = category.Order
+			updatedCategory.Sequence = category.Sequence
 			updatedCategory.ParentID = category.ParentID
 			updatedCategory.Status   = category.Status
 			updatedCategory.Remark   = category.Remark
@@ -182,8 +182,8 @@ func Info(ctx *iris.Context) {
 	})
 }
 
-// List 分类列表
-func List(ctx *iris.Context) {
+// AllList 所有的分类列表
+func AllList(ctx *iris.Context) {
 	var categories []model.Category
 
 	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
@@ -219,6 +219,28 @@ func List(ctx *iris.Context) {
 		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.ERROR,
 			"msg"   : "error.",
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	ctx.JSON(iris.StatusOK, iris.Map{
+		"errNo" : model.ErrorCode.SUCCESS,
+		"msg"   : "success",
+		"data"  : iris.Map{
+			"categories": categories,
+		},
+	})
+}
+
+// List 公开的分类列表
+func List(ctx *iris.Context) {
+	var categories []model.Category
+
+	if model.DB.Where("status = 1").Order("sequence asc").Find(&categories).Error != nil {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "error",
 			"data"  : iris.Map{},
 		})
 		return

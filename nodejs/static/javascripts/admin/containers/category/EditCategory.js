@@ -42,7 +42,7 @@ class EitCategory extends Component {
             treeData   : [],
             checked    : false,
             status     : 2,
-            order      : 0
+            sequence   : 0
         };
     }
     componentDidMount() {
@@ -68,7 +68,7 @@ class EitCategory extends Component {
                 }),
                 checked       : category.status == 1,
                 status        : category.status,
-                order         : category.order
+                sequence      : category.sequence
             });
         }
     }
@@ -92,7 +92,7 @@ class EitCategory extends Component {
     }
     onOrderChange(value) {
         this.setState({
-            order: value
+            sequence: value
         });
     }
     onSubmit() {
@@ -108,7 +108,7 @@ class EitCategory extends Component {
             parentId : parseInt(this.state.parentId),
             remark   : this.state.remark,
             status   : this.state.status,
-            order    : this.state.order
+            sequence : this.state.sequence
         }));
     }
     render() {
@@ -122,7 +122,7 @@ class EitCategory extends Component {
         let remark    = this.state.remark;
         let treeData  = this.state.treeData;
         let checked   = this.state.checked;
-        let order     = this.state.order;
+        let sequence  = this.state.sequence;
 
         const FormItem = Form.Item;
         const formItemLayout = {
@@ -163,7 +163,7 @@ class EitCategory extends Component {
                                             checkedChildren={'开启'} unCheckedChildren={'关闭'}/>
                                     </FormItem>
                                     <FormItem {...formItemLayout} label="排序">
-                                        <InputNumber min={0} max={10000} defaultValue={order} onChange={this.onOrderChange} />
+                                        <InputNumber min={0} max={10000} defaultValue={sequence} onChange={this.onOrderChange} />
                                     </FormItem>
                                     <FormItem {...formItemLayout} label="备注">
                                         <Input type="textarea" defaultValue={remark} rows={4} onBlur={this.onRemarkBlur}/>

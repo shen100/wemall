@@ -4,12 +4,14 @@
             <image class="slideshow-img" mode="aspectFill" src="https://img13.360buyimg.com/da/jfs/t5458/60/2543073437/54409/fd724d/591c1354N4fd7c3a6.jpg"></image>
         </view>
         <scroll-view class="category-list" scroll-x>
-            <view wx:key="{{item.id}}" bindtap="onCategoryTap" class="category-item" wx:for="{{categories}}">
-                <text style="color: {{categoryIndex == index ? selectedColor: '#666'}}">{{item.name}}</text>
+            <view wx:key="{{item.id}}" bindtap="onCategoryTap" class="category-item" 
+                wx:for="{{categories}}" style="padding-left: {{ index == 0 ? '30rpx' : '0' }};">
+                <text style="color: {{categoryIndex == index ? '#e4393c' : '#666'}}">{{item.name}}</text>
             </view>
         </scroll-view>
         <view class="product-list">
-            <view wx:for="{{products}}" wx:key="{{item.id}}" class="product-item" style="margin-right: {{index % 2 == 0 ? '20rpx;' : '0;'}}">
+            <view wx:for="{{products}}" wx:key="{{item.id}}" data-id="{{item.id}}" bindtap="onProductTap"
+                class="product-item" style="margin-right: {{index % 2 == 0 ? '20rpx;' : '0;'}}">
                 <view class="product-image-box">
                     <image class="product-image" src="{{item.url}}" mode="aspectFit"></image>
                 </view>

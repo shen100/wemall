@@ -19,14 +19,15 @@ func Route(app *iris.Framework) {
 
 	router := app.Party(apiPrefix) 
 	{
-		router.Get("/visit",    visit.PV)
-		router.Get("/ueditor",  ueditor.Handler)
-		router.Post("/ueditor", ueditor.Handler)
+		router.Get("/categories",  category.List)
+		router.Get("/visit",       visit.PV)
+		router.Get("/ueditor",     ueditor.Handler)
+		router.Post("/ueditor",    ueditor.Handler)
     }
 
 	adminRouter := app.Party(apiPrefix + "/admin", admin.Authentication) 
 	{
-		adminRouter.Get("/categories",              category.List)
+		adminRouter.Get("/categories",              category.AllList)
 		adminRouter.Get("/category/:id",            category.Info)
 		adminRouter.Post("/category/create",        category.Create)
 		adminRouter.Post("/category/update",        category.Update)
