@@ -3,8 +3,6 @@ package model
 import (
 	"strings"
 	"time"
-	"github.com/jinzhu/gorm"
-	"wemall/go/config"
 )
 
 // User 用户
@@ -38,14 +36,8 @@ func (user User) YesterdayRegisterUser() int {
 	yesterdayYMD  := yesterdayTime.Format("2006-01-02")
 
 	var count int
-	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
-	if err != nil {
-		return 0
-	}
 
-	defer db.Close()
-
-	err = db.Model(&User{}).Where("created_at >= ? AND created_at < ?", yesterdayYMD, todayYMD).Count(&count).Error
+	var err = DB.Model(&User{}).Where("created_at >= ? AND created_at < ?", yesterdayYMD, todayYMD).Count(&count).Error
 	if err != nil {
 		return 0
     }
@@ -63,14 +55,7 @@ func (user User) TodayRegisterUser() int {
 	tomorrowYMD  := tomorrowTime.Format("2006-01-02")
 
 	var count int
-	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
-	if err != nil {
-		return 0
-	}
-
-	defer db.Close()
-
-	err = db.Model(&User{}).Where("created_at >= ? AND created_at < ?", todayYMD, tomorrowYMD).Count(&count).Error
+	var err = DB.Model(&User{}).Where("created_at >= ? AND created_at < ?", todayYMD, tomorrowYMD).Count(&count).Error
 	if err != nil {
 		return 0
     }
@@ -92,20 +77,12 @@ func (user User) PurchaseUserByDate(date time.Time) int {
 		"WHERE pay_at >= ? and pay_at < ? and status = ?",
 		"GROUP BY DATE_FORMAT(pay_at,'%Y-%m-%d');",
 	};
-	sql     := strings.Join(sqlArr, " ")
-	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
-
-	if err != nil {
-		return 0
-	}
-
-	defer db.Close()
-
+	sql    := strings.Join(sqlArr, " ")
 	result := new(struct{
 		Count int
 		PayAt string `gorm:"column:payAt"` 
 	})
-	err = db.Raw(sql, startYMD, endYMD, OrderStatusPaid).Scan(&result).Error
+	var err = DB.Raw(sql, startYMD, endYMD, OrderStatusPaid).Scan(&result).Error
 	if err != nil {
 		return 0
 	}
@@ -134,16 +111,9 @@ func (users UserPerDay) Latest30Day() (UserPerDay) {
 		"GROUP BY DATE_FORMAT(created_at,'%Y-%m-%d');",
 	};
 
-	sql     := strings.Join(sqlArr, " ")
-	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
-	if err != nil {
-		return nil
-	}
-
-	defer db.Close()
-
+	sql := strings.Join(sqlArr, " ")
 	var result UserPerDay
-	err = db.Raw(sql, sqlData).Scan(&result).Error
+	var err = DB.Raw(sql, sqlData).Scan(&result).Error
 	if err != nil {
 		return nil
 	}

@@ -1,5 +1,9 @@
 # 微商城
 
+## 项目截图
+### 微信小程序
+![image](http://res.cloudinary.com/dcemaqxcp/image/upload/q_20/v1495726849/D55DF2778A92A721C4B5A509AE7ACD96_lkz2g8.png) 
+
 ## 项目环境搭建
 1 **克隆代码**
 

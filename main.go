@@ -23,6 +23,9 @@ func main() {
 		db.LogMode(true)
 	}
 
+	db.DB().SetMaxIdleConns(config.DBConfig.MaxIdleConns);
+	db.DB().SetMaxOpenConns(config.DBConfig.MaxOpenConns)
+
 	model.DB = db;
 
 	app := iris.New(iris.Configuration{
@@ -61,4 +64,3 @@ func main() {
 
 	app.Listen(":" + strconv.Itoa(config.ServerConfig.Port))
 }
-

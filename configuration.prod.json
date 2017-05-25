@@ -2,13 +2,15 @@
 	"webPoweredBy": "wemall",     /*前端node.js加的X-Powered-By*/
 	"apiPoweredBy": "wemall api", /*后台go加的X-Powered-By*/
 	"database": {
-		"Dialect"  : "mysql",
-		"Database" : "wemall",
-		"User"	   : "root",
-		"Password" : "test1234",
-		"Charset"  : "utf8",
-		"SQLLog"   : true, /*是否输出SQL*/
-		"URL"      : ""    /*数据库连接地址*/
+		"Dialect"      : "mysql",
+		"Database"     : "wemall",
+		"User"	       : "root",
+		"Password"     : "test1234",
+		"Charset"      : "utf8",
+		"SQLLog"       : true, /*是否输出SQL*/
+		"URL"          : "",    /*数据库连接地址*/
+		"MaxIdleConns" : 5,    /*空闲时最大的连接数*/
+		"MaxOpenConns" : 10    /*最大的连接数*/
 	},
 	"nodejs": {
 		"page": {

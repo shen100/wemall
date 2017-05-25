@@ -3,8 +3,6 @@ package model
 import (
 	"time"
 	"strings"
-	"github.com/jinzhu/gorm"
-	"wemall/go/config"
 )
 
 // UserVisit 访客记录
@@ -49,16 +47,9 @@ func (userVisit UserVisit) Latest30DayPV() (PVPerDay) {
 		"GROUP BY DATE_FORMAT(visit_time,'%Y-%m-%d');",
 	};
 
-	sql     := strings.Join(sqlArr, " ")
-	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
-	if err != nil {
-		return nil
-	}
-
-	defer db.Close()
-
+	sql := strings.Join(sqlArr, " ")
 	var result PVPerDay
-	err = db.Raw(sql, sqlData).Scan(&result).Error
+	var err = DB.Raw(sql, sqlData).Scan(&result).Error
 	if err != nil {
 		return nil
 	}

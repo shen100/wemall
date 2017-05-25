@@ -7,7 +7,6 @@ import (
 	"time"
 	"unicode/utf8"
 	"encoding/json"
-	"github.com/jinzhu/gorm"
 	"gopkg.in/kataras/iris.v6"
 	"wemall/go/config"
 	"wemall/go/model"
@@ -16,23 +15,6 @@ import (
 // List 产品列表
 func List(ctx *iris.Context) {
 	var products []model.Product
-	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
-
-	if config.DBConfig.SQLLog {
-		db.LogMode(true)
-	}
-
-	if err != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error",
-			"data"  : iris.Map{},
-		})
-		return
-	}
-
-	defer db.Close()
-
 	pageNo, err := strconv.Atoi(ctx.FormValue("pageNo"))
  
 	if err != nil || pageNo < 1 {
@@ -53,7 +35,7 @@ func List(ctx *iris.Context) {
 	} else {
 		orderStr += " desc"	
 	}
-	queryErr := db.Offset(offset).Limit(config.ServerConfig.PageSize).Order(orderStr).Find(&products).Error
+	queryErr := model.DB.Offset(offset).Limit(config.ServerConfig.PageSize).Order(orderStr).Find(&products).Error
 
 	if queryErr != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{
@@ -86,26 +68,9 @@ func save(ctx *iris.Context, isEdit bool) {
 		return
 	}
 
-	db, connErr := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
-
-	if connErr != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error",
-			"data"  : iris.Map{},
-		})
-		return
-	}
-
-	defer db.Close()
-
-	if config.DBConfig.SQLLog {
-		db.LogMode(true)
-	}
-
 	var queryProduct model.Product
 	if isEdit {
-		if db.First(&queryProduct, product.ID).Error != nil {
+		if model.DB.First(&queryProduct, product.ID).Error != nil {
 			ctx.JSON(iris.StatusOK, iris.Map{
 				"errNo" : model.ErrorCode.ERROR,
 				"msg"   : "无效的产品ID",
@@ -193,7 +158,7 @@ func save(ctx *iris.Context, isEdit bool) {
 
 	for i := 0; i < len(product.Categories); i++ {
 		var category model.Category
-		queryErr := db.First(&category, product.Categories[i].ID).Error
+		queryErr := model.DB.First(&category, product.Categories[i].ID).Error
 		if queryErr != nil {
 			ctx.JSON(iris.StatusOK, iris.Map{
 				"errNo" : model.ErrorCode.ERROR,
@@ -209,14 +174,14 @@ func save(ctx *iris.Context, isEdit bool) {
 
 	if isEdit {
 		var sql = "DELETE FROM product_category WHERE product_id = ?"
-		if db.Exec(sql, product.ID).Error != nil {
+		if model.DB.Exec(sql, product.ID).Error != nil {
 			saveErr = true;
 		}
-		if db.Save(&product).Error != nil {
+		if model.DB.Save(&product).Error != nil {
 			saveErr = true;
 		}
 	} else {
-		if db.Create(&product).Error != nil {
+		if model.DB.Create(&product).Error != nil {
 			saveErr = true;
 		}
 	}
@@ -259,26 +224,9 @@ func Info(ctx *iris.Context) {
 		return
 	}
 
-	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
-
-	if err != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error",
-			"data"  : iris.Map{},
-		})
-		return
-	}
-
-	if config.DBConfig.SQLLog {
-		db.LogMode(true)
-	}
-
-	defer db.Close()
-
 	var product model.Product
 
-	if db.First(&product, id).Error != nil {
+	if model.DB.First(&product, id).Error != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.NotFound,
 			"msg"   : "错误的商品id",
@@ -287,14 +235,14 @@ func Info(ctx *iris.Context) {
 		return
 	}
 
-	if db.First(&product.Image, product.ImageID).Error != nil {
+	if model.DB.First(&product.Image, product.ImageID).Error != nil {
 		product.Image = model.Image{}
 	}
 
 	var imagesSQL []uint
 	if err := json.Unmarshal([]byte(product.ImageIDs), &imagesSQL); err == nil {
 		var images []model.Image
-		if db.Where("id in (?)",  imagesSQL).Find(&images).Error != nil {
+		if model.DB.Where("id in (?)",  imagesSQL).Find(&images).Error != nil {
 			product.Images = nil
 		} else {
 			product.Images = images
@@ -303,7 +251,7 @@ func Info(ctx *iris.Context) {
 		product.Images = nil	
 	}
 
-	if db.Model(&product).Related(&product.Categories, "categories").Error != nil {
+	if model.DB.Model(&product).Related(&product.Categories, "categories").Error != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.ERROR,
 			"msg"   : "error.",
@@ -339,21 +287,8 @@ func UpdateStatus(ctx *iris.Context) {
 	status    := tmpProduct.Status
 	errMsg    := ""
 
-	db, connErr := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
-
-	if connErr != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error",
-			"data"  : iris.Map{},
-		})
-		return
-	}
-
-	defer db.Close()
-
 	var product model.Product
-	if err := db.First(&product, productID).Error; err != nil {
+	if err := model.DB.First(&product, productID).Error; err != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.ERROR,
 			"msg"   : "无效的产品ID.",
@@ -385,7 +320,7 @@ func UpdateStatus(ctx *iris.Context) {
 
 	product.Status = status
 
-	if err := db.Save(&product).Error; err != nil {
+	if err := model.DB.Save(&product).Error; err != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.ERROR,
 			"msg"   : "error.",

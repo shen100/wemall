@@ -4,8 +4,6 @@ import (
 	"strconv"
 	"time"
 	"gopkg.in/kataras/iris.v6"
-	"github.com/jinzhu/gorm"
-	"wemall/go/config"
 	"wemall/go/model"
 )
 
@@ -68,20 +66,7 @@ func PV(ctx *iris.Context) {
 		return
 	}
 
-	db, connErr := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
-
-	if connErr != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error",
-			"data"  : iris.Map{},
-		})
-		return
-	}
-
-	defer db.Close()
-
-	if err := db.Create(&userVisit).Error; err != nil {
+	if err := model.DB.Create(&userVisit).Error; err != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.ERROR,
 			"msg"   : "error.",

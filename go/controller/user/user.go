@@ -4,8 +4,6 @@ import (
 	"fmt"
 	"time"
 	"gopkg.in/kataras/iris.v6"
-	"github.com/jinzhu/gorm"
-	"wemall/go/config"
 	"wemall/go/model"
 	"wemall/go/utils"
 )
@@ -110,20 +108,9 @@ func Login(ctx *iris.Context) {
 		})
 	}
 
-	db, connErr := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
-	if connErr != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error",
-			"data"  : iris.Map{},
-		})
-		return
-	}
-
-	defer db.Close()
 	var queryUser model.User
 
-	err := db.Model(&queryUser).Where("password = ?", user.Email).Error
+	err := model.DB.Model(&queryUser).Where("password = ?", user.Email).Error
 
 	if err != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{

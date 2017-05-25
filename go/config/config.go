@@ -29,13 +29,15 @@ func initJSON() {
 }
 
 type dBConfig struct {
-	Dialect  string
-	Database string
-	User     string
-	Password string
-	Charset  string
-	SQLLog   bool
-	URL      string
+	Dialect       string
+	Database      string
+	User          string
+	Password      string
+	Charset       string
+	SQLLog        bool
+	URL           string
+	MaxIdleConns  int    
+	MaxOpenConns  int 
 }
 
 // DBConfig 数据库相关配置

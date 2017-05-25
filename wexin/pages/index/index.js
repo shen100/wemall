@@ -8,25 +8,25 @@ Page({
         products: [
             {
                 "id": 1,
-                "name": "testin超级AB测试",
+                "name": "[爱宝宝母婴微商城]雅培菁智1段老包装3听装",
                 "url": "../../images/1.jpg",
                 "price": 23.44
             },
             {
                 "id": 2,
-                "name": "testin超级AB测试",
+                "name": "[爱宝宝母婴微商城]雅培菁智1段老包装3听装",
                 "url": "https:\/\/img.yzcdn.cn\/upload_files\/2017\/03\/21\/FhYyxdpE9iQU2V1HIwqUf4H8jOXs.jpg",
                 "price": 23.44
             },
             {
                 "id": 3,
-                "name": "测试一下工工fadi地3",
+                "name": "[爱宝宝母婴微商城]雅培菁智1段老包装3听装",
                 "url": "../../images/1.jpg",
                 "price": 23.44
             },
             {
                 "id": 4,
-                "name": "测试一下工工fadi地4",
+                "name": "[爱宝宝母婴微商城]雅培菁智1段老包装3听装",
                 "url": "../../images/1.jpg",
                 "price": 23.44
             },
