@@ -1,6 +1,7 @@
 Page({
     data: {
-        name: 'test'
+        name: 'test',
+        url: "../../images/1.jpg"
     },
     onLoad: function () {
         this.setData({

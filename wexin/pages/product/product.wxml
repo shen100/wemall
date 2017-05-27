@@ -1,10 +1,19 @@
 <!--商品详情页-->
 <view class="product-container">
-    <view></view>
-    <ul class="tabbar">
-        <li class="tabbar-item tabbar-home">x</li>
-        <li class="tabbar-item tabbar-cart">y</li>
-        <li class="tabbar-item tabbar-add-cart">加入购物车</li>
-        <li class="tabbar-item tabbar-buy-now">立即购买</li>
-    </ul>
+    <view class="tabbar">
+        <view class="tabbar-item tabbar-home">
+            <view>
+                <image class="home-icon" mode="aspectFit" src="../../icons/home.png"></image>
+            </view>
+            <text class="home-text">首页</text>
+        </view>
+        <view class="tabbar-item tabbar-cart">
+            <view>
+                <image class="cart-icon" mode="aspectFit" src="../../icons/cart.png"></image>
+            </view>
+            <text class="cart-text">购物车</text>
+        </view>
+        <view class="tabbar-item tabbar-add-cart"><text>加入购物车</text></view>
+        <view class="tabbar-item tabbar-buy-now"><text>立即购买</text></view>
+    </view>
 </view>
