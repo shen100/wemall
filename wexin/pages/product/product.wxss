@@ -1,6 +1,7 @@
 page {
     width: 100%;
     height: 100%;
+    background-color: #f9f9f9;
 }
 
 .product-container {
@@ -8,6 +9,130 @@ page {
     font-size: 0;
     width: 100%;
     height: 100%;
+}
+
+.product-box-scroll {
+    padding-bottom: 120rpx;
+}
+
+.product-swiper {
+    width: 100%;
+    height: 100%;
+}
+
+.product-swiper-image {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+}
+
+.product-name-box {
+    padding: 30rpx;
+    background-color: #fff; 
+}
+
+.product-name {
+    font-size: 40rpx;
+    line-height: 60rpx;
+    color: #000;
+}
+
+.product-price-box {
+    padding-left: 30rpx;
+    padding-bottom: 30rpx;
+    background-color: #fff; 
+}
+
+.product-price-y {
+    font-size: 40rpx;
+    color: #e4393c;
+}
+
+.product-price {
+    font-size: 40rpx;
+    color: #e4393c;
+    font-weight: bold;
+}
+
+.delivery-stock-box {
+    margin: 0;
+    padding-left: 30rpx;
+    padding-right: 30rpx;
+    background-color: #fff; 
+    border-top: 1px #f2f2f2 solid;
+    border-bottom: 1px #f2f2f2 solid;
+    display: flex;
+}
+
+.delivery-price {
+    font-size: 30rpx;
+    line-height: 80rpx;
+    color: #b0b0b0;
+}
+
+.stock {
+    font-size: 30rpx;
+    line-height: 80rpx;
+    color: #b0b0b0;
+}
+
+.product-spec-picker {
+    padding: 0 30rpx;
+    background-color: #fff;
+    border-top: 1px #f2f2f2 solid;
+    border-bottom: 1px #f2f2f2 solid;
+    display: flex;
+    margin: 30rpx 0;
+}
+
+.product-spec {
+    font-size: 36rpx;
+    line-height: 100rpx;
+    color: #111;
+}
+
+.product-spec-arrow {
+    font-size: 36rpx;
+    line-height: 100rpx;
+    color: #111;
+}
+
+.product-spec-arrow-img {
+    width: 32rpx;
+    height: 32rpx;
+}
+
+.product-detail-title {
+    width: 100%;
+    color: #222;
+    line-height: 110rpx;
+    background-color: #fff;
+    font-size: 32rpx;
+    border-top: 1px #f2f2f2 solid;
+    padding-left: 30rpx;
+}
+
+.product-content-box {
+    width: 100%;
+}
+
+.product-content-item {
+    width: 100%;
+    display: flex;
+    margin-bottom: 30rpx;
+}
+
+.product-content-image {
+    width: 100%;
+}
+
+.product-content-text {
+    padding-left: 30rpx;
+    padding-right: 30rpx;
+    width: 100%;
+    font-size: 36rpx;
+    line-height: 60rpx;
+    color: #222;
 }
 
 .tabbar {
@@ -26,6 +151,7 @@ page {
     width: 200px;
     text-align: center;
     border-right: 1rpx #e6e6e6 solid;
+    background-color: #fff;
 }
 
 .home-icon {
@@ -44,6 +170,7 @@ page {
 .tabbar-cart {
     width: 200px;
     text-align: center;
+    background-color: #fff;
 }
 
 .cart-icon {

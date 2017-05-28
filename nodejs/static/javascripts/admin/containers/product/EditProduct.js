@@ -40,13 +40,16 @@ class EditProduct extends Component {
         this.onImageListChange     = this.onImageListChange.bind(this);
         this.onPreview             = this.onPreview.bind(this);
         this.onCancelPreview       = this.onCancelPreview.bind(this);
+        this.onContentTypeChange   = this.onContentTypeChange.bind(this);
+        this.onAddContent          = this.onAddContent.bind(this);
+        this.onContentTextChange   = this.onContentTextChange.bind(this);
+        this.onContentImageChange  = this.onContentImageChange.bind(this);
         this.onSubmit              = this.onSubmit.bind(this);
 
         this.state = {
             productId      : this.props.routeParams.id,
             categories     : [], //产品所属的分类
             name           : '',
-            detail         : '',
             originalPrice  : 0,
             price          : 0,
             remark         : '',
@@ -57,8 +60,8 @@ class EditProduct extends Component {
             previewImage   : '',
             imageIDs       : '[]',
             imageList      : [],
-            ueditor        : null,
-            loadCalled     : false, //是否已加载UEditor
+            contentType    : 'image',
+            contents       : [],
             isLoading      : true
         };
     }
@@ -70,42 +73,6 @@ class EditProduct extends Component {
         }
         dispatch(requestCategoryList());
     }
-    loadUEditor() {
-        if (this.state.loadCalled) {
-            return;
-        }
-        this.setState({
-            loadCalled: true
-        });
-
-        window.UEDITOR_HOME_URL = pageConfig.ueditorURL;
-
-        let configLoaded, editorLoaded;
-
-        let self = this;
-
-        function loadCallback() {
-            if (configLoaded && editorLoaded) {
-                var ueditor = UE.getEditor('productDetailUEditor', {
-                    initialFrameWidth  : '100%',
-                    initialFrameHeight : 600
-                });
-                self.setState({
-                    ueditor: ueditor
-                });
-            }
-        }
-
-        utils.loadJS(pageConfig.sitePath + '/ueditor/ueditor.config.js', function() {
-            configLoaded = true;
-            loadCallback();
-        });
-
-        utils.loadJS(pageConfig.sitePath + '/ueditor/ueditor.all.min.js', function() {
-            editorLoaded = true;
-            loadCallback();
-        });
-    }
     componentWillReceiveProps(nextProps) {
         var self          = this;
         var product       = nextProps.data.product;
@@ -113,12 +80,11 @@ class EditProduct extends Component {
 
         function onDataReady(data) {
             var product = data.product;
-            self.loadUEditor();
             self.setState({
                 productId     : product && product.id || '',
                 categories    : data.categories || [],
                 name          : product && product.name || '',
-                detail        : product && product.detail || '',
+                contents      : product && JSON.parse(product.detail) || [],
                 originalPrice : product && product.originalPrice,
                 price         : product && product.price,
                 remark        : product && product.remark || '',
@@ -193,6 +159,7 @@ class EditProduct extends Component {
         var isImage = file.type === 'image/jpeg' || file.type === 'image/png';
         if (!isImage) {
             message.error('只支持jpg或png格式的图片');
+            return false;
         }
         const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isLt2M) {
@@ -229,20 +196,65 @@ class EditProduct extends Component {
     onImageListChange(data) {
         var fileList = data.fileList || [];
         var imageIDs = [];
+        console.log(fileList);
         for (var i = 0; i < fileList.length; i++) {
             if (fileList[i].response) {
                 imageIDs.push(fileList[i].response.data.id);
-            } 
+            } else if (fileList[i].status == 'done') {
+                imageIDs.push(fileList[i].uid);
+            }
         }
         this.setState({
             imageIDs  : JSON.stringify(imageIDs),
             imageList : data.fileList
         });
     }
-    onSubmit() {
-        if (!this.state.ueditor) {
-            return;
+    onContentTypeChange(value) {
+        console.log(value);
+        this.setState({
+            contentType: value
+        });
+    }
+    onAddContent() {
+        console.log(123, this.state.contents);
+        var contents = this.state.contents.slice(0);
+        contents.push({
+            id    : utils.uuid(),
+            type  : this.state.contentType,
+            value : ''
+        });
+        this.setState({
+            contents: contents
+        });
+    }
+    onContentTextChange(id, event) {
+        var contents = this.state.contents.slice(0);
+        for (var i = 0; i < contents.length; i++) {
+            if (contents[i].id == id) {
+                contents[i].value = event.target.value;
+                this.setState({
+                    contents: contents
+                });
+                break;
+            }
         }
+    }
+    onContentImageChange(id, info) {
+        console.log(id, info);
+        if (info.file.status === 'done') {
+            var contents = this.state.contents.slice(0);
+            for (var i = 0; i < contents.length; i++) {
+                if (contents[i].id == id) {
+                    contents[i].value = info.file.response.data.url;
+                    this.setState({
+                        contents: contents
+                    });
+                    return;
+                }
+            }
+        }
+    }
+    onSubmit() {
         const { dispatch } = this.props;
         dispatch(requestSaveProduct({
             id            : this.state.productId,
@@ -254,15 +266,16 @@ class EditProduct extends Component {
             originalPrice : this.state.originalPrice,
             price         : this.state.price,
             remark        : this.state.remark,
-            detail        : this.state.ueditor.getContent()
+            detail        : JSON.stringify(this.state.contents)
         }));
     }
     render() {
+        let self           = this;
         let { data }       = this.props;
         let editLabel      = this.state.productId ? '编辑' : '添加';
         let isLoading      = this.state.isLoading; 
         let name           = this.state.name;
-        let detail         = this.state.detail;
+        let contents       = this.state.contents;
         let originalPrice  = this.state.originalPrice;
         let price          = this.state.price;
         let remark         = this.state.remark;
@@ -272,6 +285,7 @@ class EditProduct extends Component {
         let previewVisible = this.state.previewVisible;
         let previewImage   = this.state.previewImage;
         let imageList      = this.state.imageList;
+        let contentType    = this.state.contentType;
 
         let uploadButton = (
             <div>
@@ -381,8 +395,36 @@ class EditProduct extends Component {
                                         <Input type="textarea" defaultValue={remark} rows={4} onBlur={this.onRemarkBlur}/>
                                     </FormItem>
                                     <FormItem {...editorLayout} label="商品详情">
+                                    {
+                                        contents.map(function(content) {
+                                            return (
+                                                content.type == 'text' ?
+                                                <div key={content.id}>
+                                                    <Input type="textarea" defaultValue={content.value} rows={4} onBlur={self.onContentTextChange.bind(self, content.id)}/>
+                                                </div>
+                                                :
+                                                <div key={content.id}>
+                                                    <Upload className="image-uploader" name="upFile"
+                                                        showUploadList={false} action={uploadURL}
+                                                        beforeUpload={self.onBeforeUpload}
+                                                        onChange={self.onContentImageChange.bind(self, content.id)}>
+                                                        {
+                                                            content.value ?
+                                                            <img src={content.value} alt="" className="image" /> 
+                                                            :
+                                                            <Icon type="plus" className="image-uploader-trigger" />
+                                                        }
+                                                    </Upload>
+                                                </div>
+                                            )
+                                        })
+                                    }
                                         <div>
-                                            <script id="productDetailUEditor" name="content" type="text/plain">{detail}</script>
+                                            <Select defaultValue={contentType} style={{ width: 120 }} onChange={this.onContentTypeChange}>
+                                                <Select.Option value="image">图片</Select.Option>
+                                                <Select.Option value="text">文本</Select.Option>
+                                            </Select>
+                                            <Button onClick={this.onAddContent} type="primary" size="large">添加</Button>
                                         </div>
                                     </FormItem>
                                 </Form>

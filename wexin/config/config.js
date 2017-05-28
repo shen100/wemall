@@ -1,12 +1,13 @@
-var apiPrefix = 'http://dev.wemall.com/api';
+var apiPrefix = 'https://dev.wemall.com/api';
 
 var config = {
     static: {
-        imageDomain: 'http://dev.wemall.com'
+        imageDomain: 'https://dev.wemall.com'
     },
     api: {
         reqCategoryList: '/categories',
-        reqProductList: '/products'
+        reqProductList: '/products',
+        reqProductDetail: '/product/:id'
     }
 };
 

@@ -177,7 +177,9 @@ func save(ctx *iris.Context, isEdit bool) {
 		product.BrowseCount = 0
 		product.BuyCount    = 0
 		product.TotalSale   = 0
-		product.Status      = model.ProductPending
+		if (product.Status != model.ProductUpShelf && product.Status != model.ProductDownShelf && product.Status != model.ProductPending) {
+			product.Status = model.ProductPending
+		}
 	}
 
 	product.Name   = strings.TrimSpace(product.Name)

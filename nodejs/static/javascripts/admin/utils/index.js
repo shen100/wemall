@@ -95,5 +95,21 @@ export default {
 			isFindNodeKey : true,
 			id            : id
 		});
+	},
+
+	uuid: function() {
+	    function s4() {
+	        var time  = new Date().getTime();
+	        time      = time % 16;
+	        time      = time.toString(16);
+	        var s     = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+	        var pos   = parseInt(Math.random() * 4);
+	        var sArr  = s.split('');
+	        sArr[pos] = time;
+	        return sArr.join('');
+	    }
+	    var timestamp = '' + (new Date().getTime());
+	    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+	        s4() + '-' + timestamp.substring(1);
 	}
 };

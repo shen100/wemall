@@ -88,7 +88,6 @@ page {
 
 .product-price {
     margin-top: 18rpx;
-    display: inline-block
     vertical-align: top;
     padding-left: 20rpx;
     color: #e4393c;
