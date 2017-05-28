@@ -5,6 +5,7 @@ Page({
     data: {
         categories: [],
         categoryIndex: 0,
+        itemWidth: '',
         products: [
             {
                 "id": 1,
@@ -78,15 +79,46 @@ Page({
     },
     onLoad: function() {
         var self = this;
-        wx.request({
-            url : config.reqCategoryList,
+
+        wx.getSystemInfo({
             success: function(res) {
-                console.log(res);
                 self.setData({
-                    categories: res.data.data.categories 
+                    itemWidth: (res.screenWidth - 40) / 2 + 'px'
                 });
+                console.log((res.screenWidth - 60) / 2)
+                console.log(res.pixelRatio)
+                console.log(res.windowWidth)
+                console.log(res.screenWidth)
+                console.log(res.pixelRatio)
+                console.log(res.version)
+                console.log(res.platform)
             }
-        })
+        });
+
+        wx.request({
+            url : config.api.reqCategoryList,
+            success: function(res) {
+                var categories = res.data.data.categories || [];
+                self.setData({
+                    categories: categories 
+                });
+
+                if (categories.length > 0) {
+                    wx.request({
+                        url : config.api.reqProductList + "?cateId=" + categories[0].id,
+                        success: function(res) {
+                            var products = res.data.data.products || [];
+                            for (var i = 0; i < products.length; i++) {
+                                products[i].image.url = config.static.imageDomain + products[i].image.url;
+                            }
+                            self.setData({
+                                products: products 
+                            });
+                        }
+                    });
+                }
+            }
+        });
 
         var self = this;
         testinAB.init('TESTIN_h7b3111f2-e238-441b-8951-24c4e2121c58');

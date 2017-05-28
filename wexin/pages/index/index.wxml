@@ -9,11 +9,11 @@
                 <text style="color: {{categoryIndex == index ? '#e4393c' : '#666'}}">{{item.name}}</text>
             </view>
         </scroll-view>
-        <view class="product-list">
+        <view class="product-list" style="display: {{itemWidth ? 'flex' : 'none'}};">
             <view wx:for="{{products}}" wx:key="{{item.id}}" data-id="{{item.id}}" bindtap="onProductTap"
-                class="product-item" style="margin-right: {{index % 2 == 0 ? '20rpx;' : '0;'}}">
+                class="product-item" style="margin-right: {{index % 2 == 0 ? '12px' : '0'}};width: {{itemWidth}};">
                 <view class="product-image-box">
-                    <image class="product-image" src="{{item.url}}" mode="aspectFit"></image>
+                    <image class="product-image" style="height: {{itemWidth}};" src="{{item.image.url}}" mode="aspectFit"></image>
                 </view>
                 <view class="product-name">{{item.name}}</view>
                 <view class="product-price">¥ {{item.price}}</view>

@@ -107,45 +107,64 @@ class EditProduct extends Component {
         });
     }
     componentWillReceiveProps(nextProps) {
+        var self          = this;
         var product       = nextProps.data.product;
         var allCategories = nextProps.data.categories;
-        if (product && allCategories && allCategories.length > 0) {
-            var categories = [];
-            for (var i = 0; i < product.categories.length; i++) {
-                var parentId = product.categories[i].parentId;
-                var id       = product.categories[i].id;
-                categories.push(utils.parseTreeNodeKey(allCategories, id));
-            }
 
-            var imageList  = [];
-            var pImageList = product.images || [];
-            for (var i = 0; i < pImageList.length; i++) {
-                imageList.push({
-                    uid    : pImageList[i].id,
-                    name   : pImageList[i].orignalTitle,
-                    status : 'done',
-                    url    : pImageList[i].url
-                });
-            }
-
-            var imageURL = product.image && product.image.url || '';
-
-            this.setState({
-                productId     : product.id,
-                categories    : categories,
-                name          : product.name,
-                detail        : product.detail,
-                originalPrice : product.originalPrice,
-                price         : product.price,
-                remark        : product.remark,
-                status        : product.status + '',
-                imageID       : product.imageID,
-                imageData     : imageURL,
-                imageIDs      : product.imageIDs,
-                imageList     : imageList,
+        function onDataReady(data) {
+            var product = data.product;
+            self.loadUEditor();
+            self.setState({
+                productId     : product && product.id || '',
+                categories    : data.categories || [],
+                name          : product && product.name || '',
+                detail        : product && product.detail || '',
+                originalPrice : product && product.originalPrice,
+                price         : product && product.price,
+                remark        : product && product.remark || '',
+                status        : (product && product.status + '') || '3',
+                imageID       : product && product.imageID || '',
+                imageData     : data.imageURL || '',
+                imageIDs      : product && product.imageIDs || '[]',
+                imageList     : data.imageList || [],
                 isLoading     : false
             });
-            this.loadUEditor();
+        }
+        if (allCategories && allCategories.length > 0) {
+            if (this.state.productId) {
+                if (product) {
+                    var categories = [];
+                    for (var i = 0; i < product.categories.length; i++) {
+                        var parentId = product.categories[i].parentId;
+                        var id       = product.categories[i].id;
+                        categories.push(utils.parseTreeNodeKey(allCategories, id));
+                    }
+
+                    var imageList  = [];
+                    var pImageList = product.images || [];
+                    for (var i = 0; i < pImageList.length; i++) {
+                        imageList.push({
+                            uid    : pImageList[i].id,
+                            name   : pImageList[i].orignalTitle,
+                            status : 'done',
+                            url    : pImageList[i].url
+                        });
+                    }
+
+                    var imageURL = product.image && product.image.url || '';
+                    onDataReady({
+                        product    : product,
+                        imageURL   : imageURL,
+                        imageList  : imageList,
+                        categories : categories
+                    });
+                }
+            } else {
+                onDataReady({
+                    product  : null,
+                    imageURL : ''
+                });
+            }
         }
     }
     onNameBlur(event) {
@@ -351,11 +370,11 @@ class EditProduct extends Component {
                                         </div>
                                     </FormItem>
                                     <FormItem {...formItemLayout} label="原价">
-                                        <InputNumber min={0} max={100} defaultValue={originalPrice} step={0.01} onBlur={this.onOriginalPriceBlur} />
+                                        <InputNumber min={0} max={1000000} defaultValue={originalPrice} step={0.01} onBlur={this.onOriginalPriceBlur} />
                                         元
                                     </FormItem>
                                     <FormItem {...formItemLayout} label="促销价">
-                                        <InputNumber min={0} max={100} defaultValue={price} step={0.01} onBlur={this.onPriceBlur} />
+                                        <InputNumber min={0} max={1000000} defaultValue={price} step={0.01} onBlur={this.onPriceBlur} />
                                         元
                                     </FormItem>
                                     <FormItem {...formItemLayout} label="备注">

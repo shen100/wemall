@@ -7,7 +7,7 @@ import (
 
 // UserVisit 访客记录
 type UserVisit struct {
-    ID             uint       `gorm:"primary_key" json:"id"`
+	ID             uint       `gorm:"primary_key" json:"id"`
 	URL            string     `json:"url"`
 	Referrer       string     `json:"referrer"`
 	ClientID       string     `json:"clientID"`
@@ -40,7 +40,7 @@ func (userVisit UserVisit) Latest30DayPV() (PVPerDay) {
 	before29Date := time.Unix(before29, 0)
 
 	sqlData      := before29Date.Format("2006-01-02")
-    sqlArr       := []string{
+	sqlArr       := []string{
 		"SELECT count(*) as pv, DATE_FORMAT(visit_time,'%Y-%m-%d') as date",
 		"FROM user_visits",
 		"WHERE visit_time >= ?",

@@ -3,6 +3,7 @@ import { connect }               from 'react-redux';
 import { Link }                  from 'react-router';
 
 import { 
+    Button,
     Icon, 
     Row, 
     Col, 
@@ -139,7 +140,15 @@ class ProductManage extends Component {
                 <Row gutter={24}>
                     <Col span={24}>
                         <div className="product-list-box">
-                            <div className="product-list-title">商品列表</div>
+                            <div className="product-list-title">商品列表
+                                <ul className="action-group">
+                                    <li>
+                                        <Link href={"#product/add"}>
+                                            <Button type="primary">添加商品</Button>
+                                        </Link>
+                                    </li>
+                                </ul>
+                            </div>
                             <Table rowKey="id" columns={columns} 
                                 loading={isLoading} pagination={false}
                                 dataSource={data.products} bordered /> 

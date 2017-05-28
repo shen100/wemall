@@ -20,6 +20,7 @@ func Route(app *iris.Framework) {
 	router := app.Party(apiPrefix) 
 	{
 		router.Get("/categories",  category.List)
+		router.Get("/products",    product.List)
 		router.Get("/visit",       visit.PV)
 		router.Get("/ueditor",     ueditor.Handler)
 		router.Post("/ueditor",    ueditor.Handler)
@@ -33,7 +34,7 @@ func Route(app *iris.Framework) {
 		adminRouter.Post("/category/update",        category.Update)
 		adminRouter.Post("/category/status/update", category.UpdateStatus)
 		
-		adminRouter.Get("/products",                product.List)
+		adminRouter.Get("/products",                product.AdminList)
 		adminRouter.Get("/product/:id",             product.Info)
 		adminRouter.Post("/product/create",         product.Create)
 		adminRouter.Post("/product/update",         product.Update)

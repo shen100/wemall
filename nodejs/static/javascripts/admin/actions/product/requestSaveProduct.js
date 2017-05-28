@@ -13,6 +13,9 @@ function receive(data) {
 export default function(product) {
     return dispatch => {
         var url = pageConfig.apiPath + '/admin/product/update';
+        if (!product.id) {
+            url = pageConfig.apiPath + '/admin/product/create';
+        }
         var categories = [];
         for (var i = 0; i < product.categories.length; i++) {
             var idArr = product.categories[i].split('-');
@@ -21,7 +24,6 @@ export default function(product) {
             });
         }
         var reqData = {
-            id            : product.id,
             name          : product.name,
             categories    : categories,
             status        : parseInt(product.status),
@@ -32,6 +34,9 @@ export default function(product) {
             remark        : product.remark,
             detail        : product.detail
         };
+        if (product.id) {
+            reqData.id = product.id;
+        }
         return fetch(url, {
                 method: 'POST',
                 headers: {

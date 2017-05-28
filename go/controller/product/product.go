@@ -12,8 +12,92 @@ import (
 	"wemall/go/model"
 )
 
-// List 产品列表
+// List 商品列表
 func List(ctx *iris.Context) {
+	var products []model.Product
+	pageNo, err := strconv.Atoi(ctx.FormValue("pageNo"))
+ 
+	if err != nil || pageNo < 1 {
+		pageNo = 1
+	}
+
+	offset := (pageNo - 1) * config.ServerConfig.PageSize
+
+	//默认按创建时间，降序来排序
+	var orderStr = "created_at"
+	if ctx.FormValue("order") == "1" {
+		orderStr = "total_sale"
+	} else if ctx.FormValue("order") == "2" {
+		orderStr = "created_at"
+	}
+	if ctx.FormValue("asc") == "1" {
+		orderStr += " asc"
+	} else {
+		orderStr += " desc"	
+	}
+
+	isError     := false
+	errMsg      := ""
+	cateID, err := strconv.Atoi(ctx.FormValue("cateId"))
+
+	if err != nil {
+		fmt.Println(err.Error())
+		isError = true
+		errMsg  = "分类ID不正确"
+	}
+
+	var category model.Category
+
+	if model.DB.First(&category, cateID).Error != nil {
+		isError = true
+		errMsg  = "分类ID不正确"
+	}
+
+	if isError {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : errMsg,
+			"data"  : iris.Map{},
+		})
+		return	
+	}
+
+	pageSize := config.ServerConfig.PageSize
+	queryErr := model.DB.Offset(offset).Limit(pageSize).Order(orderStr).Find(&products).Error
+
+	if queryErr != nil {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "error",
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	for i := 0; i < len(products); i++ {
+		err := model.DB.First(&products[i].Image, products[i].ImageID).Error
+		if err != nil {
+			fmt.Println(err.Error())
+			ctx.JSON(iris.StatusOK, iris.Map{
+				"errNo" : model.ErrorCode.ERROR,
+				"msg"   : "error",
+				"data"  : iris.Map{},
+			})
+			return
+		}	
+	}
+
+	ctx.JSON(iris.StatusOK, iris.Map{
+		"errNo" : model.ErrorCode.SUCCESS,
+		"msg"   : "success",
+		"data"  : iris.Map{
+			"products": products,
+		},
+	})
+}
+
+// AdminList 商品列表，后台管理提供的接口
+func AdminList(ctx *iris.Context) {
 	var products []model.Product
 	pageNo, err := strconv.Atoi(ctx.FormValue("pageNo"))
  

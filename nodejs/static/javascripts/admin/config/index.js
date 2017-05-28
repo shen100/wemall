@@ -69,7 +69,7 @@ var sidebarData = [
             {
                 id    : getId(),
                 title : '商品管理',
-                url   : ['/product/manage', /^\/product\/edit\/[0-9]+$/]
+                url   : ['/product/manage', '/product/add', /^\/product\/edit\/[0-9]+$/]
             },
             {
                 id    : getId(),

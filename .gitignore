@@ -8,3 +8,5 @@ dist
 debug
 wemall
 sdk
+configuration.prod.json
+DESIGN.md

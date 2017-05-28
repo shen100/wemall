@@ -12,3 +12,7 @@
 	margin-bottom: 6px;
     color: #000;
 }
+
+.action-group {
+	float: right;
+}
