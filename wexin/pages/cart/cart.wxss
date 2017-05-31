@@ -1,0 +1,114 @@
+page {
+    width: 100%;
+    height: 100%;
+    font-size: 0;
+}
+
+.cart-box {
+    background-color: #f9f9f9;
+    width: 100%;
+    height: 100%;
+}
+
+.cart-box-scroll {
+    width: 100%;
+    padding-bottom: 120rpx;
+    background-color: #fff;
+}
+
+.cart-wemall-header {
+    font-size: 0;
+    margin-top: 30rpx;
+    height: 80rpx;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    background-color: #fff;
+}
+
+.cart-wemall-logo-name {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.cart-wemall-logo {
+    width: 40rpx;
+    height: 40rpx;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.cart-wemall-name {
+    padding-left: 10rpx;
+    font-size: 40rpx;
+    line-height: 40rpx;
+    color: #222;
+}
+
+.wemall-action {
+    display: flex;
+    flex: 1;
+    text-align: right;
+    padding-right: 30rpx;
+}
+
+.wemall-action-edit {
+    flex: 1;
+    color: #666;
+    font-size: 32rpx;
+    line-height: 32rpx;
+}
+
+.wemall-checkbox-container {
+    text-align: center;
+    width: 90rpx;
+    height: 90rpx;
+}
+
+.wemall-checkbox {
+    width: 48rpx;
+    height: 48rpx;
+}
+
+.cart-item {
+    padding-top: 20rpx;
+    display: flex;
+    flex-direction: row;   
+    margin-bottom: 36rpx;
+    background-color: #f9f9f9;
+}
+
+.product-image {
+    width: 200rpx;
+    height: 200rpx;
+}
+
+.product-info {
+    margin-left: 20rpx;
+    flex: 1;
+    display: flex;
+    flex-direction: column;   
+    margin-right: 30rpx;
+}
+
+.product-name {
+    font-size: 36rpx;
+    color: #222;
+    line-height: 50rpx;
+}
+
+.product-price-box {
+    display: flex;
+    flex-direction: row;   
+}
+
+.product-price {
+    font-size: 36rpx;
+}
+
+.product-count {
+    font-size: 36rpx;
+    flex: 1;
+    text-align: right;
+}

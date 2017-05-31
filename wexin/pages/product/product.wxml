@@ -14,7 +14,7 @@
             </view>
             <view class="product-price-box">
                 <text class="product-price-y">¥ </text>
-                <text class="product-price">{{product.price}}</text>
+                <text class="product-price" bindtap="onPriceTap">{{price ? price : product.price}}</text>
             </view>
             <view class="delivery-stock-box">
                 <view class="delivery-price">

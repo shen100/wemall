@@ -4,9 +4,11 @@
             <image class="slideshow-img" mode="aspectFill" src="https://img13.360buyimg.com/da/jfs/t5458/60/2543073437/54409/fd724d/591c1354N4fd7c3a6.jpg"></image>
         </view>
         <scroll-view class="category-list" scroll-x>
-            <view wx:key="{{item.id}}" bindtap="onCategoryTap" class="category-item" 
+            <view wx:key="{{item.id}}" class="category-item" 
                 wx:for="{{categories}}" style="padding-left: {{ index == 0 ? '30rpx' : '0' }};">
-                <text style="color: {{categoryIndex == index ? '#e4393c' : '#666'}}">{{item.name}}</text>
+                <!-- <text style="color: {{categoryIndex == index ? '#e4393c' : '#666'}}">{{item.name}}</text> -->
+                <text bindtap="onCategoryTap"  style="color: {{ index == 1 && niaoBuShiColor ? niaoBuShiColor : (categoryIndex == index ? '#e4393c' : '#666')}}">{{item.name}}</text>
+            
             </view>
         </scroll-view>
         <view class="product-list" style="display: {{itemWidth ? 'flex' : 'none'}};">

@@ -6,13 +6,16 @@ Page({
         categories: [],
         categoryIndex: 0,
         itemWidth: '',
-        products: []
+        products: [],
+
+
+        niaoBuShiColor: '',
     },
     onCategoryTap: function() {
-        testinAB.track('click', 1, function() {
+        testinAB.track('nbsbtnclick', 1, function() {
             wx.showModal({
                 title: '提示',
-                content: 'click指标上报成功'
+                content: 'nbsbtnclick 指标上报成功'
             })
         });    
     },
@@ -30,13 +33,6 @@ Page({
                 self.setData({
                     itemWidth: (res.screenWidth - 40) / 2 + 'px'
                 });
-                console.log((res.screenWidth - 60) / 2)
-                console.log(res.pixelRatio)
-                console.log(res.windowWidth)
-                console.log(res.screenWidth)
-                console.log(res.pixelRatio)
-                console.log(res.version)
-                console.log(res.platform)
             }
         });
 
@@ -66,15 +62,20 @@ Page({
         });
 
         var self = this;
-        testinAB.init('TESTIN_h7b3111f2-e238-441b-8951-24c4e2121c58');
+        testinAB.init('TESTIN_h793c3619-8bac-4ddb-b541-df2c3d7aa1b7');
         testinAB.setDefVars({
             selectedColor: '#e4393c'    
         });
 
-        testinAB.getVars(function(vars) {
-            console.log(vars.get('selectedColor'));
+        testinAB.getVars(function getVars(vars) {
+            var color = vars.get('color');
+            if (color == 'yellow') {
+                color = '#ff0';
+            } else if (color == 'red') {
+                color = '#f00';
+            }
             self.setData({
-                //selectedColor: vars.get('selectedColor')
+                niaoBuShiColor: color
             });
         });
     }
