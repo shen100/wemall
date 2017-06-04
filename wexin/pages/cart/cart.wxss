@@ -112,3 +112,68 @@ page {
     flex: 1;
     text-align: right;
 }
+
+.total-pay-box {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    flex-direction: row;
+    background: #f9f9f9;
+}
+
+.all-select-checkbox {
+    height: 48rpx;
+    padding-top: 36rpx;
+    border-top: 1px #e2e2e2 solid;
+}
+
+.all-select-label {
+    color: #222;
+    font-size: 36rpx;
+    width: 100rpx;
+    text-align: left;
+    line-height: 120rpx;
+    border-top: 1px #e2e2e2 solid;
+}
+
+.total-money-box {
+    border-top: 1px #e2e2e2 solid;
+    line-height: normal;
+    padding-top: 20rpx;
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+}
+
+.total-pay {
+    font-size: 32rpx;
+    line-height: 32rpx;
+    color: #fc464a;
+    flex: 1;
+    text-align: right;
+}
+
+.total-money {
+    padding: 0 10rpx;
+    font-size: 32rpx;
+    line-height: 32rpx;
+    color: #fc464a;
+}
+
+.no-freight {
+    padding: 14rpx 14rpx 0 14rpx;
+    font-size: 28rpx;
+    line-height: 28rpx;
+    color: #999;
+}
+
+.cart-submit {
+    font-size: 40rpx;
+    color: #fff;
+    background-color: #fc464a;
+    width: 260rpx;
+    height: 120rpx;
+    line-height: 120rpx;
+    text-align: center;
+}

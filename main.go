@@ -13,7 +13,7 @@ import (
 	"wemall/go/route"
 )
 
-func main() {
+func init() {
 	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
 	if err != nil {
 		os.Exit(1)
@@ -27,7 +27,9 @@ func main() {
 	db.DB().SetMaxOpenConns(config.DBConfig.MaxOpenConns)
 
 	model.DB = db;
+}
 
+func main() {
 	app := iris.New(iris.Configuration{
         Gzip    : true, 
         Charset : "UTF-8",
@@ -64,3 +66,5 @@ func main() {
 
 	app.Listen(":" + strconv.Itoa(config.ServerConfig.Port))
 }
+
+

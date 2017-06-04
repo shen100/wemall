@@ -32,4 +32,19 @@
             </view>
         </view>
     </scroll-view>
+    <view class="total-pay-box">
+        <view class="wemall-checkbox-container all-select-checkbox">
+            <image wx:if="{{allChecked}}" mode="aspectFit" src="../../icons/check.png" class="wemall-checkbox"></image>
+            <image wx:else mode="aspectFit" src="../../icons/uncheck.png" class="wemall-checkbox"></image>
+        </view>
+        <view class="all-select-label">全选</view>
+        <view class="total-money-box">
+            <view class="total-pay">合计: </view>
+            <view>
+                <view class="total-money">¥ 22.56</view>
+                <view class="no-freight">不含运费</view>
+            </view>
+        </view>  
+        <view class="cart-submit">结算</view>  
+    </view>
 </view>
