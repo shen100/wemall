@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 	"strconv"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/jinzhu/gorm"
@@ -41,11 +42,12 @@ func main() {
 		app.Adapt(iris.DevLogger())
 	}
 
-	app.Adapt(httprouter.New())
-
 	app.Adapt(sessions.New(sessions.Config{
 		Cookie: config.ServerConfig.SessionID,
+		Expires: time.Minute * 20,
 	}))
+
+	app.Adapt(httprouter.New())
 
 	route.Route(app)
 

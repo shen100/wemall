@@ -78,6 +78,19 @@ func initServer() {
 	utils.SetStructByJSON(&ServerConfig, jsonData["go"].(map[string]interface{}))
 }
 
+type weAppConfig struct {
+	LoginURL string
+	AppID    string
+	Secret   string
+}
+
+// WeAppConfig 微信小程序相关配置
+var WeAppConfig weAppConfig
+
+func initWeAppConfig() {
+	utils.SetStructByJSON(&WeAppConfig, jsonData["weApp"].(map[string]interface{}))
+}
+
 type apiConfig struct {
 	Prefix   string
 	URL      string
@@ -94,5 +107,6 @@ func init() {
 	initJSON()
 	initDB()
 	initServer()
+	initWeAppConfig()
 	initAPI()
 }

@@ -1,3 +1,5 @@
+var config = require('./config/config.js');
+
 var userInfoCallbacks = [];
 
 App({
@@ -6,18 +8,35 @@ App({
         wx.login({
             success: function(res) {
                 console.log(res);
-                wx.getUserInfo({
-                    success: function(res) {
-                        for (var i = 0; i < userInfoCallbacks.length; i++) {
-                            userInfoCallbacks[i](res.userInfo);
+
+                if (res.code) {
+                    wx.request({
+                        url: config.api.weappLogin,
+                        data: {
+                            code: res.code
+                        },
+                        success: function(res) {
+                            try {
+                                wx.setStorageSync(config.wemallSession, res.data.data.sid);
+                            } catch (err) {
+                                console.log(err);
+                            }
                         }
-                        userInfoCallbacks = [];
-                        self.globalData.userInfo = res.userInfo;
-                    },
-                    fail: function(data) {
-                        console.log(data);
-                    }
-                })
+                    });
+
+                    wx.getUserInfo({
+                        success: function(res) {
+                            for (var i = 0; i < userInfoCallbacks.length; i++) {
+                                userInfoCallbacks[i](res.userInfo);
+                            }
+                            userInfoCallbacks = [];
+                            self.globalData.userInfo = res.userInfo;
+                        },
+                        fail: function(data) {
+                            console.log(data);
+                        }
+                    });
+                }
             }
         });
     },

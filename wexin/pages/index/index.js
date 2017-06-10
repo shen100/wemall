@@ -5,10 +5,7 @@ Page({
         categories: [],
         categoryIndex: 0,
         itemWidth: '',
-        products: [],
-
-
-        niaoBuShiColor: '',
+        products: []
     },
     onCategoryTap: function() {
         
