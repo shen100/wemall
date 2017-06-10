@@ -1,10 +1,21 @@
 Page({
     data: {
-        name: 'test'
+        userInfo: null
     },
-    onLoad: function () {
+    onUserInfoCallback(userInfo) {
         this.setData({
-            name: 'xxx'
+            userInfo: userInfo
         })
+    },
+    onLoad: function() {
+        var app = getApp();
+        var userInfo = app.globalData.userInfo;
+        if (!userInfo) {
+            app.addUserInfoCallback(this.onUserInfoCallback.bind(this));
+        } else {
+            this.setData({
+                userInfo: userInfo
+            })    
+        }
     }
 })

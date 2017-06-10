@@ -1,0 +1,131 @@
+page {
+    width: 100%;
+    height: 100%;
+    background-color: #f9f9f9;
+}
+
+.mine-box {
+    width: 100%;
+    height: 100%;
+}
+
+.mine-user {
+    width: 100%;
+    height: 400rpx;
+    background: #fff;
+    text-align: center;
+    border-bottom: 1px #f0f0f0 solid;
+}
+
+.mine-user-avatar {
+    width: 150rpx;
+    height: 150rpx;
+    border-radius: 75rpx;
+    margin-top: 100rpx;
+    margin-bottom: 18rpx;
+    border: 1px #fff solid;
+    -moz-box-shadow: 0px 0px 13px #ccc; 
+    -webkit-box-shadow: 0px 0px 13px #ccc; 
+    box-shadow:0px 0px 13px #ccc;
+}
+
+.mine-user-name {
+    font-size: 36rpx;
+    color: #333;
+}
+
+.mine-order {
+    border-top: 1px #f0f0f0 solid;
+    border-bottom: 1px #f0f0f0 solid;
+    margin-top: 30rpx;
+    background: #fff;
+}
+
+.mine-order-head {
+    display: flex;
+    flex-direction: row;
+    margin-left: 30rpx;
+    line-height: 100rpx;
+    border-bottom: 1px #f0f0f0 solid;
+}
+
+.mine-order-title {
+    font-size: 36rpx;
+    color: #222;
+}
+
+.mine-all-order {
+    font-size: 28rpx;
+    color: #999;
+    flex: 1;
+    text-align: right;
+}
+
+.mine-right-arrow {
+    width: 32rpx;
+    height: 32rpx;
+    margin-top: 34rpx;
+    margin-left: 10rpx;
+    margin-right: 30rpx;
+}
+
+.mine-order-status-list {
+    display: flex;
+    flex-direction: row;
+    padding-left: 30rpx;
+    padding-right: 30rpx;
+    margin-top: 60rpx;
+    margin-bottom: 60rpx;
+}
+
+.mine-order-status-item {
+    flex: 1;
+    text-align: center;
+}
+
+.mine-order-img-box {
+    height: 70rpx;
+}
+
+.mine-order-status-img {
+    width: 60rpx;
+    height: 60rpx;
+}
+
+.mine-order-status-label {
+    font-size: 30rpx;
+}
+
+.mine-cart {
+    margin-top: 30rpx;
+    display: flex;
+    flex-direction: row;
+    padding-left: 30rpx;
+    line-height: 100rpx;
+    border-bottom: 1px #f0f0f0 solid;
+    background: #fff;
+}
+
+.mine-cart-title {
+    font-size: 36rpx;
+    color: #222; 
+}
+
+.mine-spacing {
+    flex: 1;
+}
+
+.mine-customer-service {
+    margin-top: 30rpx;
+    display: flex;
+    flex-direction: row;
+    padding-left: 30rpx;
+    line-height: 100rpx;
+    border-bottom: 1px #f0f0f0 solid;
+    background: #fff;
+}
+
+.mine-customer-service-title {
+    font-size: 36rpx;
+    color: #222; 
+}

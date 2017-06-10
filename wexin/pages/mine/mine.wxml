@@ -1,4 +1,51 @@
-<!--我的-->
-<view class="container log-list">
-    <text class="log-item">我的</text>
+<view class="mine-box">
+    <scroll-view>
+        <view class="mine-user">
+            <image class="mine-user-avatar" mode="aspectFill" src="{{userInfo.avatarUrl}}" />
+            <view class="mine-user-name">{{userInfo.nickName}}</view>
+        </view>
+        <view class="mine-order">
+            <view class="mine-order-head">
+                <view class="mine-order-title">我的订单</view>
+                <view class="mine-all-order">查看全部订单</view>
+                <image class="mine-right-arrow" src="../../icons/right_arrow.png"></image>
+            </view>
+            <view class="mine-order-status-list">
+                <view class="mine-order-status-item">
+                    <view class="mine-order-img-box">
+                        <image class="mine-order-status-img" sytle="width:64rpx;height:64rpx;" model="aspectFit" src="../../icons/wait_pay.png"></image>       
+                    </view>
+                    <view class="mine-order-status-label">待付款</view>
+                </view>
+                <view class="mine-order-status-item">
+                    <view class="mine-order-img-box">
+                        <image class="mine-order-status-img" sytle="width:62rpx;height:62rpx;"  model="aspectFit" src="../../icons/wait_deliver.png"></image>        
+                    </view>
+                    <view class="mine-order-status-label">待发货</view>
+                </view>
+                <view class="mine-order-status-item">
+                    <view class="mine-order-img-box">
+                        <image class="mine-order-status-img" sytle="width:58rpx;height:58rpx;"  model="aspectFit" src="../../icons/wait_receive.png"></image>     
+                    </view>
+                    <view class="mine-order-status-label">待收货</view>
+                </view>
+                <view class="mine-order-status-item">
+                    <view class="mine-order-img-box">
+                        <image class="mine-order-status-img" model="aspectFit" src="../../icons/order_done.png"></image>   
+                    </view>
+                    <view class="mine-order-status-label">已完成</view>
+                </view>
+            </view>
+        </view>
+        <view class="mine-cart">
+            <view class="mine-cart-title">购物车</view>
+            <view class="mine-spacing"></view>
+            <image class="mine-right-arrow" src="../../icons/right_arrow.png"></image>
+        </view>
+        <view class="mine-customer-service">
+            <view class="mine-customer-service-title">联系客服</view>
+            <view class="mine-spacing"></view>
+            <image class="mine-right-arrow" src="../../icons/right_arrow.png"></image>
+        </view>
+    </scroll-view>
 </view>

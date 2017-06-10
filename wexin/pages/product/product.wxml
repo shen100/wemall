@@ -42,13 +42,13 @@
         </view>
     </scroll-view>
     <view class="tabbar">
-        <view class="tabbar-item tabbar-home">
+        <view bindtap="onHomeTap" class="tabbar-item tabbar-home">
             <view>
                 <image class="home-icon" mode="aspectFit" src="../../icons/home.png"></image>
             </view>
             <text class="home-text">首页</text>
         </view>
-        <view class="tabbar-item tabbar-cart">
+        <view bindtap="onCartTap" class="tabbar-item tabbar-cart">
             <view>
                 <image class="cart-icon" mode="aspectFit" src="../../icons/cart.png"></image>
             </view>

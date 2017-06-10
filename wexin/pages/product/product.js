@@ -1,5 +1,4 @@
 var config   = require('../../config/config.js');
-var testinAB = require('../../sdk/sdk.js');
 
 Page({
     data: {
@@ -8,12 +7,17 @@ Page({
         swiperHeight : '',
     },
     onPriceTap: function() {
-        testinAB.track('pricebtnclick', 1, function() {
-            wx.showModal({
-                title: '提示',
-                content: 'pricebtnclick 指标上报成功'
-            })
-        }); 
+
+    },
+    onHomeTap() {
+        wx.switchTab({
+            url: '/pages/index/index'
+        });
+    },
+    onCartTap() {
+        wx.switchTab({
+            url: '/pages/cart/cart'
+        });
     },
     onLoad: function(options) {
         var self = this;
@@ -50,13 +54,6 @@ Page({
                     product: product 
                 });
             }
-        });
-
-        var self = this;
-        testinAB.getVars(function(vars) {
-            self.setData({
-                price: vars.get('price')
-            });
         });
     }
 })

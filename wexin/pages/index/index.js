@@ -1,5 +1,4 @@
 var config   = require('../../config/config.js');
-var testinAB = require('../../sdk/sdk.js');
 
 Page({
     data: {
@@ -12,12 +11,7 @@ Page({
         niaoBuShiColor: '',
     },
     onCategoryTap: function() {
-        testinAB.track('nbsbtnclick', 1, function() {
-            wx.showModal({
-                title: '提示',
-                content: 'nbsbtnclick 指标上报成功'
-            })
-        });    
+        
     },
     onProductTap: function(event) {
         var id = event.currentTarget.dataset.id;
@@ -59,24 +53,6 @@ Page({
                     });
                 }
             }
-        });
-
-        var self = this;
-        testinAB.init('TESTIN_h793c3619-8bac-4ddb-b541-df2c3d7aa1b7');
-        testinAB.setDefVars({
-            selectedColor: '#e4393c'    
-        });
-
-        testinAB.getVars(function getVars(vars) {
-            var color = vars.get('color');
-            if (color == 'yellow') {
-                color = '#ff0';
-            } else if (color == 'red') {
-                color = '#f00';
-            }
-            self.setData({
-                niaoBuShiColor: color
-            });
         });
     }
 })

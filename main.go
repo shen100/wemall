@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"strconv"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -16,7 +17,8 @@ import (
 func init() {
 	db, err := gorm.Open(config.DBConfig.Dialect, config.DBConfig.URL)
 	if err != nil {
-		os.Exit(1)
+		fmt.Println(err.Error())
+		os.Exit(-1)
 	}
 
 	if config.DBConfig.SQLLog {
@@ -66,5 +68,3 @@ func main() {
 
 	app.Listen(":" + strconv.Itoa(config.ServerConfig.Port))
 }
-
-
