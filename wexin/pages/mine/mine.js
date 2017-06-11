@@ -1,3 +1,5 @@
+var login = require('../../common/login.js');
+
 Page({
     data: {
         userInfo: null
@@ -11,7 +13,7 @@ Page({
         var app = getApp();
         var userInfo = app.globalData.userInfo;
         if (!userInfo) {
-            app.addUserInfoCallback(this.onUserInfoCallback.bind(this));
+            login.addLoginResponder(this.onUserInfoCallback.bind(this));
         } else {
             this.setData({
                 userInfo: userInfo

@@ -10,7 +10,8 @@ var config = {
         weappLogin: '/weappLogin',
         reqCategoryList: '/categories',
         reqProductList: '/products',
-        reqProductDetail: '/product/:id'
+        reqProductDetail: '/product/:id',
+        addToCart: '/cart/create'
     }
 };
 

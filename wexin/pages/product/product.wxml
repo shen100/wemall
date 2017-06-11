@@ -54,7 +54,7 @@
             </view>
             <text class="cart-text">购物车</text>
         </view>
-        <view class="tabbar-item tabbar-add-cart"><text>加入购物车</text></view>
+        <view bindtap="onAddToCartTap" class="tabbar-item tabbar-add-cart"><text>加入购物车</text></view>
         <view class="tabbar-item tabbar-buy-now"><text>立即购买</text></view>
     </view>
 </view>
