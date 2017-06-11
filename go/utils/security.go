@@ -28,25 +28,28 @@ func DecodeWeAppUserInfo(encryptedData string, sessionKey string, iv string) (st
 	}
 	
 	result, resultErr := AESDecrypt(cipher, key, theIV)
-	resultStr := string(result)
-	fmt.Println(resultStr)
-	return string(result), resultErr
+	if resultErr != nil {
+		return "", resultErr
+	}
+	return string(result), nil
 }
 
-func AESDecrypt(ciphertext, key, iv []byte) ([]byte, error) {
-   block, err := aes.NewCipher(key) //选择加密算法
-   if err != nil {
-      return nil, err
-   }
-   blockModel := cipher.NewCBCDecrypter(block, iv)
-   plantText := make([]byte, len(ciphertext))
-   blockModel.CryptBlocks(plantText, ciphertext)
-   plantText = PKCS7UnPadding(plantText, block.BlockSize())
-   return plantText, nil
+// AESDecrypt AES解密
+func AESDecrypt(cipherBytes, key, iv []byte) ([]byte, error) {
+    block, err := aes.NewCipher(key)
+    if err != nil {
+        return nil, err
+    }
+    blockModel := cipher.NewCBCDecrypter(block, iv)
+    dst        := make([]byte, len(cipherBytes))
+    blockModel.CryptBlocks(dst, cipherBytes)
+    dst = PKCS7UnPadding(dst, block.BlockSize())
+    return dst, nil
 }
 
-func PKCS7UnPadding(plantText []byte, blockSize int) []byte {
-   length := len(plantText)
-   unpadding := int(plantText[length-1])
-   return plantText[:(length - unpadding)]
+// PKCS7UnPadding pkcs7填充方式
+func PKCS7UnPadding(dst []byte, blockSize int) []byte {
+    length    := len(dst)
+    unpadding := int(dst[length - 1])
+    return dst[:(length - unpadding)]
 }

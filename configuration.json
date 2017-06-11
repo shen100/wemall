@@ -7,7 +7,7 @@
 		"User"	       : "root",
 		"Password"     : "test1234",
 		"Charset"      : "utf8",
-		"SQLLog"       : true, /*是否输出SQL*/
+		"SQLLog"       : false, /*是否输出SQL*/
 		"URL"          : "",   /*数据库连接地址*/
 		"MaxIdleConns" : 5,    /*空闲时最大的连接数*/
 		"MaxOpenConns" : 10    /*最大的连接数*/
