@@ -7,7 +7,8 @@ var config = {
         imageDomain: 'https://dev.wemall.com'
     },
     api: {
-        weappLogin: '/weappLogin',
+        weAppLogin: '/weAppLogin',
+        setWeAppUser: '/setWeAppUser',
         reqCategoryList: '/categories',
         reqProductList: '/products',
         reqProductDetail: '/product/:id',

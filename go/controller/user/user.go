@@ -23,15 +23,16 @@ func WeAppLogin(ctx *iris.Context) {
 		})
 		return
 	}
-	appID    := config.WeAppConfig.AppID
-	secret   := config.WeAppConfig.Secret
-	loginURL := config.WeAppConfig.LoginURL
-	loginURL  = strings.Replace(loginURL, "{appid}",  appID,  -1)
-	loginURL  = strings.Replace(loginURL, "{secret}", secret, -1)
-	loginURL  = strings.Replace(loginURL, "{code}",   code,   -1)
+	appID         := config.WeAppConfig.AppID
+	secret        := config.WeAppConfig.Secret
+	CodeToSessURL := config.WeAppConfig.CodeToSessURL
+	CodeToSessURL  = strings.Replace(CodeToSessURL, "{appid}",  appID,  -1)
+	CodeToSessURL  = strings.Replace(CodeToSessURL, "{secret}", secret, -1)
+	CodeToSessURL  = strings.Replace(CodeToSessURL, "{code}",   code,   -1)
 
-	resp, err := http.Get(loginURL)
+	resp, err := http.Get(CodeToSessURL)
     if err != nil {
+		fmt.Println(err.Error())
 		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.ERROR,
 			"msg"   : "error",
@@ -57,6 +58,8 @@ func WeAppLogin(ctx *iris.Context) {
 	
 	if _, ok := data["session_key"]; !ok {
 		isErr = true
+		fmt.Println("session_key 不存在")
+		fmt.Println(data)
 	}
 
 	if isErr {
@@ -83,6 +86,66 @@ func WeAppLogin(ctx *iris.Context) {
 		"msg"   : "success",
 		"data"  : resData,
 	})
+}
+
+// SetWeAppUserInfo 设置小程序用户加密信息
+func SetWeAppUserInfo(ctx *iris.Context) {
+	type EncryptedUser struct {
+		EncryptedData string `json:"encryptedData"`
+		IV            string `json:"iv"`
+	}
+	var weAppUser EncryptedUser
+
+	var isErr bool
+	var errMsg string
+	if ctx.ReadJSON(&weAppUser) != nil {
+		isErr  = true	
+		errMsg = "参数错误"	
+	}
+	session    := ctx.Session()
+	sessionKey := session.GetString("weAppSessionKey")
+	if sessionKey == "" {
+		isErr  = true
+		errMsg = "session error"
+	}  
+
+	if isErr {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : errMsg,
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	userInfoStr, err := utils.DecodeWeAppUserInfo(weAppUser.EncryptedData, sessionKey, weAppUser.IV)
+	if err != nil {
+		fmt.Println(err.Error())
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "error",
+			"data"  : iris.Map{},
+		})
+		return
+	} 
+
+	var user model.WeAppUser
+	if err := json.Unmarshal([]byte(userInfoStr), &user); err != nil {
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "error",
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	session.Set("weAppUser", user)
+	ctx.JSON(iris.StatusOK, iris.Map{
+		"errNo" : model.ErrorCode.SUCCESS,
+		"msg"   : "success",
+		"data"  : iris.Map{},
+	})
+	return
 }
 
 // YesterdayRegisterUser 昨日注册的用户数

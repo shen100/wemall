@@ -79,9 +79,9 @@ func initServer() {
 }
 
 type weAppConfig struct {
-	LoginURL string
-	AppID    string
-	Secret   string
+	CodeToSessURL string
+	AppID         string
+	Secret        string
 }
 
 // WeAppConfig 微信小程序相关配置

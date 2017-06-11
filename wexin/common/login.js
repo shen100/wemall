@@ -1,12 +1,14 @@
+var config = require("../config/config.js");
+
 var login = {
     loginResponders: [],
     addLoginResponder: function(responder) {
         this.loginResponders.push(responder);
     },
-    login: function() {
+    login: function(app) {
         var self    = this;
         var resData = {};
-        var app     = App();
+        var jsCodeDone, userInfoDone;
 
         function setUserInfo() {
             wx.request({
@@ -17,8 +19,9 @@ var login = {
                 },
                 header: {
                     'content-type' : 'application/json',
-                    'Cookie'       : resData.sid
+                    'Cookie'       : "sid=" + resData.sid
                 },
+                method: "POST",
                 success: function(res) {
                     app.globalData.userInfo      = resData.userInfo;
                     app.globalData.encryptedData = resData.encryptedData;
@@ -35,7 +38,7 @@ var login = {
             success: function(res) {
                 if (res.code) {
                     wx.request({
-                        url: config.api.weappLogin,
+                        url: config.api.weAppLogin,
                         data: {
                             code: res.code
                         },

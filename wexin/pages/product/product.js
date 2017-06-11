@@ -19,6 +19,25 @@ Page({
             url: '/pages/cart/cart'
         });
     },
+    onAddToCartTap() {
+        var app = getApp();
+        // todo 验证是否登陆
+        wx.request({
+            url: config.api.addToCart,
+            method: "POST",
+            data: {
+                productId : parseInt(this.data.id),
+                count: 1
+            },
+            header: {
+                'content-type' : 'application/json',
+                'Cookie'       : 'sid=' + app.globalData.sid
+            },
+            success: function(res) {
+                
+            }
+        });
+    },
     onLoad: function(options) {
         var self = this;
         this.setData({

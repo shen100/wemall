@@ -45,9 +45,10 @@
 		"MaxProductImgCount"  : 6           /*商品最多的图片集个数*/
 	},
 	"weApp": {
-		"LoginURL" : "https://api.weixin.qq.com/sns/jscode2session?appid={appid}&secret={secret}&js_code={code}&grant_type=authorization_code",
-		"AppID"    : "",
-		"Secret"   : ""
+		/*code换取session_key*/
+		"CodeToSessURL" : "https://api.weixin.qq.com/sns/jscode2session?appid={appid}&secret={secret}&js_code={code}&grant_type=authorization_code",
+		"AppID"    : "", /*小程序ID*/
+		"Secret"   : ""  /*小程序密钥*/
 	},
 	"software": {
 		"name"        : "wemall微商城", /*软件名称*/

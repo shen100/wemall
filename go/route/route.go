@@ -7,6 +7,7 @@ import (
 	"wemall/go/controller/admin"
 	"wemall/go/controller/category"
 	"wemall/go/controller/product"
+	"wemall/go/controller/cart"
 	"wemall/go/controller/order"
 	"wemall/go/controller/user"
 	"wemall/go/controller/visit"
@@ -19,13 +20,15 @@ func Route(app *iris.Framework) {
 
 	router := app.Party(apiPrefix) 
 	{
-		router.Get("/weappLogin",   user.WeAppLogin)
-		router.Get("/categories",   category.List)
-		router.Get("/products",     product.List)
-		router.Get("/product/:id",  product.Info)
-		router.Get("/visit",        visit.PV)
-		router.Get("/ueditor",      ueditor.Handler)
-		router.Post("/ueditor",     ueditor.Handler)
+		router.Get("/weAppLogin",    user.WeAppLogin)
+		router.Post("/setWeAppUser", user.SetWeAppUserInfo)
+		router.Get("/categories",    category.List)
+		router.Get("/products",      product.List)
+		router.Get("/product/:id",   product.Info)
+		router.Post("/cart/create",  cart.Create)
+		router.Get("/visit",         visit.PV)
+		router.Get("/ueditor",       ueditor.Handler)
+		router.Post("/ueditor",      ueditor.Handler)
     }
 
 	adminRouter := app.Party(apiPrefix + "/admin", admin.Authentication) 

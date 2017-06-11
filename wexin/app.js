@@ -3,7 +3,7 @@ var login  = require('./common/login.js');
 
 App({
     onLaunch: function() {
-        login.login();
+        login.login(this);
     },
     globalData: {
         userInfo: null,

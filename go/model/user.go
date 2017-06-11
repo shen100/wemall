@@ -5,6 +5,14 @@ import (
 	"time"
 )
 
+// WeAppUser 微信用户
+type WeAppUser struct {
+	OpenID         string     `json:"openId"`
+	Nickname       string     `json:"nickName"`	
+	Gender         int        `json:"gender"`
+	AvatarURL      string     `json:"avatarUrl"`
+}
+
 // User 用户
 type User struct {
     ID             uint       `gorm:"primary_key" json:"id"`
