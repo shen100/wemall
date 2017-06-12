@@ -103,5 +103,5 @@ go run main.go
 求star，star就是继续下去的动力  
 
 ## License
-[GPL](https://github.com/shen100/test2/blob/master/LICENSE "")      
+[GPL](https://github.com/shen100/wemall/blob/master/LICENSE "")      
 Copyright (c) 2013-present, shen100
