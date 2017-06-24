@@ -49,7 +49,7 @@ npm run staticServ
 ```
 
 7 **运行go程序**  
-进入`wemall`目录下，运行
+进入`wemall`目录下，`将configuration.dev.json`改名`为configuration.json`, 运行
 
 ```
 go run main.go
