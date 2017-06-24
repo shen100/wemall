@@ -47,8 +47,8 @@
 	"weApp": {
 		/*code换取session_key*/
 		"CodeToSessURL" : "https://api.weixin.qq.com/sns/jscode2session?appid={appid}&secret={secret}&js_code={code}&grant_type=authorization_code",
-		"AppID"    : "", /*小程序ID*/
-		"Secret"   : ""  /*小程序密钥*/
+		"AppID"    : "wx938a0628ec2c8fff", /*小程序ID*/
+		"Secret"   : "937fe84056f7fbb0acb19795e8cad6e8"  /*小程序密钥*/
 	},
 	"software": {
 		"name"        : "wemall微商城", /*软件名称*/
