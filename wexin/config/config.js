@@ -1,10 +1,11 @@
-var apiPrefix = 'https://dev.wemall.com/api';
+var url       = 'https://dev.wemall.com';
+var apiPrefix = url + '/api';
 
 var config = {
     name: "爱宝宝微商城",
     wemallSession: "wemallSession",
     static: {
-        imageDomain: 'https://dev.wemall.com'
+        imageDomain: url
     },
     api: {
         weAppLogin: '/weAppLogin',

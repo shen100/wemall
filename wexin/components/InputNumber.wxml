@@ -1,0 +1,11 @@
+<template name="input-number">
+    <view class="input-number">
+        <view class="input-number-icon">
+            <image class="input-number-icon-img" mode="aspectFit" src="../../icons/sub.png" />
+        </view>
+        <input class="input-number-input" type="number" value="{{value}}"/>
+        <view class="input-number-icon">
+            <image class="input-number-icon-img" mode="aspectFit" src="../../icons/add.png" />
+        </view>
+    </view>
+</template>

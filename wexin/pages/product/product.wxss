@@ -203,3 +203,127 @@ page {
     text-align: center;
     font-size: 38rpx;
 }
+
+.product-buy {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.product-buy-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.buy-popup {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.buy-product-prop {
+    padding-left: 30rpx;
+    background-color: #fff;
+}
+
+.product-buy-info {
+    display: flex;
+    flex-direction: rows;
+    margin-bottom: 30rpx;
+}
+
+.product-buy-info-close-box {
+    padding-top: 20rpx;
+    width: 48rpx;
+    height: 48rpx;
+    margin-right: 30rpx;
+}
+
+.product-buy-info-close {
+    width: 48rpx;
+    height: 48rpx;
+}
+
+.product-buy-info-img-box {
+    width: 200rpx;
+    height: 175rpx;
+    background: #fff;
+    position: relative;
+    margin-right: 20rpx;
+    margin-bottom: 0;
+}
+
+.product-buy-info-img {
+    border-radius: 12rpx 12rpx 6rpx 6rpx;
+    border: 1px #e2e2e2 solid;
+    width: 200rpx;
+    height: 200rpx;
+    position: absolute;
+    top: -25rpx;
+}
+
+.product-buy-info-name-box {
+    padding-top: 20rpx;
+    flex: 1;
+}
+
+.product-buy-info-name {
+    font-size: 36rpx;
+    line-height: 48rpx;
+
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.product-buy-info-price {
+    line-height: 48rpx;
+    font-size: 40rpx;
+    color: #e4393c;
+}
+
+.buy-count-box {
+    border-top: 1px #e2e2e2 solid;
+    display: flex;
+    flex-direction: rows;
+    padding-top: 30rpx;
+    padding-right: 30rpx;
+    padding-bottom: 36rpx;
+}
+
+.inventory-remain {
+    padding: 0;
+    line-height: 60rpx;
+    height: auto;
+    font-size: 32rpx;
+    color: #828282;
+}
+
+.buy-count-title {
+    line-height: 36rpx;
+    height: auto;
+    padding: 0;
+    color: #222;
+    font-size: 36rpx;
+}
+
+.buy-count-spacing {
+    flex: 1;
+}
+
+.buy-next-step {
+    text-align: center;
+    line-height: 120rpx;
+    height: 120rpx;
+    color: #fff;
+    font-size: 48rpx;
+    background-color: #fc464a;
+}

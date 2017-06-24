@@ -1,1 +1,28 @@
+.input-number {
+    display: flex;
+    flex-direction: rows;
+}
 
+.input-number-icon {
+    border: 1px #aaa solid;
+    width: 60rpx;
+    height: 60rpx;
+    background-color: #fff;
+}
+
+.input-number-icon-img {
+    margin-left: 15rpx;
+    margin-top: 15rpx;
+    width: 30rpx;
+    height: 30rpx;
+}
+
+.input-number-input {
+    padding-left: 16rpx;
+    width: 80rpx;
+    height: 60rpx;
+    color: #222;
+    font-size: 36rpx;
+    border-top: 1px #aaa solid;
+    border-bottom: 1px #aaa solid;
+}

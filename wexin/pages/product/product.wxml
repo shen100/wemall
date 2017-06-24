@@ -1,4 +1,6 @@
 <!--商品详情页-->
+<import src="components/buy.wxml" />
+
 <view class="product-container">
     <scroll-view class="product-box-scroll" lower-threshold="{{0}}">
         <swiper indicator-dots="{{true}}" style="height: {{swiperHeight}};" autoplay="{{true}}" interval="{{5000}}" duration="{{800}}">
@@ -57,4 +59,5 @@
         <view bindtap="onAddToCartTap" class="tabbar-item tabbar-add-cart"><text>加入购物车</text></view>
         <view class="tabbar-item tabbar-buy-now"><text>立即购买</text></view>
     </view>
+    <template is="buy" data="{{product}}"/>
 </view>
