@@ -28,7 +28,7 @@
                 </view>
             </view>
             <view class="product-spec-picker">
-                <view class="product-spec">选择: 规格</view>
+                <view bindtap="onWillBuy" class="product-spec">选择: {{propertyNames}}</view>
                 <view style="flex: 1;"></view>
                 <view class="product-spec-arrow">
                     <image class="product-spec-arrow-img" src="../../icons/right_arrow.png"></image>
@@ -57,7 +57,7 @@
             <text class="cart-text">购物车</text>
         </view>
         <view bindtap="onAddToCartTap" class="tabbar-item tabbar-add-cart"><text>加入购物车</text></view>
-        <view class="tabbar-item tabbar-buy-now"><text>立即购买</text></view>
+        <view bindtap="onWillBuy" class="tabbar-item tabbar-buy-now"><text>立即购买</text></view>
     </view>
-    <template is="buy" data="{{product}}"/>
+    <template is="buy" data="{{product: product, buyPopupBottom: buyPopupBottom, buyPopupVisible: buyPopupVisible, buyAnimationData: buyAnimationData, onPropertySelect: onPropertySelect}}"/>
 </view>

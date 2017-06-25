@@ -5,24 +5,24 @@
 <img src="http://res.cloudinary.com/dcemaqxcp/image/upload/c_scale,q_40,w_640/v1495726849/D55DF2778A92A721C4B5A509AE7ACD96_lkz2g8.jpg" width="320" alt=""/>
 
 ## 项目环境搭建
-1 **克隆代码**
+* **克隆代码**
 
 ```
 git clone https://github.com/shen100/wemall.git
 ``` 
 
-2 **配置nginx**  
+* **配置nginx**  
 将`wemall/nginx/dev.wemall.com.conf`文件拷贝到nginx的虚拟主机目录下  
 
-3 **配置hosts**    
+* **配置hosts**    
 127.0.0.1 dev.wemall.com  
  
-4 **创建数据库**  
+* **创建数据库**  
 先创建数据库如`wemall`，再use wemall，然后导入`wemall/sql/wemall.sql` 
 >注意: 本地开发模式下，数据库是`wemall`，用户是`root`，密码是`test1234`  
 >可以通过`wemall/configuration.json`配置文件进行修改  
 
-5 **安装node.js第三方模块**  
+* **安装node.js第三方模块**  
 进入`wemall/nodejs`目录，运行命令
   
 ```
@@ -35,7 +35,7 @@ npm install
 npm install --registry=https://registry.npm.taobao.org
 ```
 
-6 **启动node.js程序**  
+* **启动node.js程序**  
 进入`wemall/nodejs`目录，运行命令
 
 ```
@@ -48,12 +48,15 @@ npm start
 npm run staticServ
 ```
 
-7 **运行go程序**  
-进入`wemall`目录下，`将configuration.dev.json`改名`为configuration.json`, 运行
+* **运行go程序**  
+进入`wemall`目录，`将configuration.dev.json`改名`为configuration.json`, 运行
 
 ```
 go run main.go
 ```
+
+* **微信小程序**   
+进入`wemall/weixin`目录，`将config.dev.js`改名`为config.js`, 
 
 ## 技术选型
 ### 前端

@@ -1,9 +1,10 @@
 <import src="../../../components/InputNumber.wxml" />
+<import src="../../../components/TextRadio.wxml" />
 
 <template name="buy">
-    <view class="product-buy">
-        <view class="product-buy-bg"></view>
-        <view class="buy-popup">
+    <view wx:if="{{buyPopupVisible}}" class="product-buy">
+        <view bindtap="onWillHideBuy" class="product-buy-bg"></view>
+        <view class="buy-popup" animation="{{buyAnimationData}}" style="bottom: {{buyPopupBottom}};">
             <view class="buy-product-prop">
                 <view class="product-buy-info">
                     <view class="product-buy-info-img-box">
@@ -13,8 +14,19 @@
                         <view class="product-buy-info-name">{{product.name}}阿道夫阿卡的风景爱疯啊阿迪飞道夫阿卡的风景爱疯啊阿迪飞道夫阿卡的风景爱疯啊阿迪飞</view>
                         <view class="product-buy-info-price">¥ {{product.price}}</view>
                     </view>
-                    <view class="product-buy-info-close-box">
+                    <view bindtap="onWillHideBuy" class="product-buy-info-close-box">
                         <image class="product-buy-info-close" mode="aspectFit" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAFG0lEQVRoQ9Vay3HcRhDtBglcTUcgOgKJEZiMQFQEMiMQ98BB8STyxMLsYakIvIpAUgSmIvAqAlERWL5yuduuNzWDGsziM/jQKs2BxQIWmH79ed3TDaaffPFU8mutX4jI8yRJDkXkuOa998x8T0Sr/f39z7PZ7PsUe48CAKGJ6A0EZubDngKtiGiZpun7MWAGASiK4jURXTUJLSJfmLmiYRF5wcy/NIBcbjab68vLS1io1+oFYD6fH4vIgoigeX99EpE7Zr5TSkGzjQvv2G63sNgfRPTM/6GI3GZZdt3HItEA5vP5WxG5chuKyL9EhA1v+2zoC2zj5pyZYVGzROQ+SZKzi4uLuxhTdAJYLBYH6/X6L1/rInI9RvBQsJubm8O9vb0lEf3u3TtTSuFa62oFYF/8wQkP395ut6dDfLVLENwviuLcxpaLlaVS6qzt2UYAoeZF5H2e5/DbJ13WrRBPUSBqAfwo4Z1msP/DwwNAPLfXGt2pFoDW+k8iMtr+vzQfmtWCQPIzlmDmk7rA3gFQFMUpM8PvsT4rpeqy6pO6kXu5705gpyzLjkLGqwCwrvOViA5Ak1mWHQ6lyKkQIrCZGbkH651SCoFergqAoiiQXd9a13mV5/nHqQQZ8x6tNXKCodjNZvObz4IlAF/7P9p1QrC25vq7LiZLAL6pmgKmLtDW6/UiTdNZX1fTWhuSiElW+F1RFEuXsdM0/dXt5wP4iuIMySrP87DW2fGAgGpXaZqexIKwwoPpsKIybmCFWZ7nt4ad8KfpZpff+lpBnR8DIhA+GoCVE9UqCsCVUuqoBOC7TxgkU4IYI7wFAK2/wf/OjZwFwDYvieibUqrvwaTin02WGCs8hLblPArLMrEZAEVRGP8nok9KqdMurdfdb3OnKYR3e2qtxbLRdZ7nV84ClYtDAIRM4SyxXq+hEBewvXy+QVHfUV64Eoctm/xjUZXRPQUIpP/g2BnFOG17e0nNlDlc51dDhXfPBe7kLo8W3gayy8pPByD0+aZCbIiidixgT10o4Eb7p9UQMqzv807OqDzRBWoHgN10kiCuYxvbM3KH9tEgtNaoiVApGMZ0NGoiu65c7dKIR2+h5kufH5Kxm/ZtotFKYMQKHSN8Q2APsoRf8rgayuWBMkUrpTpbLT7APklqrCXqSh7nQuUxUkSiDzJ9hJ/CElrrnZLHL6ddHESVE+GhO7YsDjN2bNMgYMvyaOkDKA8MsRWpd+g+jz2Y+JYAm2RZdhxzjvCPu0R05HqwJQA/I/dhI1giRoA6Yoh9tu24WwnYtsNzX2aa8veB9islSQgACcIcnokIrfKTKQUZ8q6AOnf6VDuUqbUuKVVERlenQ4R2z9R0xkvfd7/ZAWAfwpDCDB9iOxRjBG3Jun6L0xxgwt829UZ9V8Ko6KRr8jI1AL8/29anasy6QZJCjngVOzUZCyZoLn9po9rWsqEm04Lv340VsOl5675oLJuGMnpUXXmis+6pAXG32WzOpp7SYPLJzCCQg1jhTYzGaNNSGeoQf6o4eDTq72kTKBrKZRsf5UWWZecxCTIKADa05gULmMaSWyLyMUmSZZ/pu61rXooIWud+H+obrvXpikcDcAJba8DU/kTR3Qb9rvBJgYiAvczMmJmNdrfbLdgNA+9K82zMyLY3ACepHVjjFIZSvGkC3+qhCFJ8bpBl2TLGXepeNhiA/zI7loKW8cFH4ycF9hMEWCdqqh8Tn5MAqNsIMfP4+Gja9E+ZP/4DhzqPXrNCwSIAAAAASUVORK5CYII=" />
+                    </view>
+                </view>
+                <view wx:if="{{product.properties && product.properties.length}}">
+                    <view class="product-property" wx:for="{{product.properties}}" wx:for-item="property" wx:key="{{property.id}}">
+                        <view class="product-property-name">{{property.name}}:</view>
+                        <view>
+                            <view class="text-radio-container">
+                                <view bindtap="onPropertyChange" data-id="{{property.id + '-' + item.id}}" 
+                                    class="text-radio {{item.selected ? 'text-radio-selected' : ''}}" wx:for="{{property.values}}" wx:key="{{item.id}}">{{item.name}}</view>   
+                            </view>
+                        </view>
                     </view>
                 </view>
                 <view class="buy-count-box">

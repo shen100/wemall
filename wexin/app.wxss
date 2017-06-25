@@ -4,7 +4,7 @@
 }
 
 .input-number-icon {
-    border: 1px #aaa solid;
+    border: 1px #d2d2d2 solid;
     width: 60rpx;
     height: 60rpx;
     background-color: #fff;
@@ -23,6 +23,29 @@
     height: 60rpx;
     color: #222;
     font-size: 36rpx;
-    border-top: 1px #aaa solid;
-    border-bottom: 1px #aaa solid;
+    border-top: 1px #d2d2d2 solid;
+    border-bottom: 1px #d2d2d2 solid;
+}
+
+.text-radio-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.text-radio {
+    margin-right: 32rpx;
+    margin-bottom: 32rpx;
+    color: #333;
+    font-size: 32rpx;
+    padding: 0 30rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    background: #f6f6f6;
+    border-radius: 12rpx;
+}
+
+.text-radio-selected {
+    color: #fff;
+    background: #fc464a;
 }

@@ -223,7 +223,6 @@ page {
 
 .buy-popup {
     position: absolute;
-    bottom: 0;
     width: 100%;
 }
 
@@ -235,14 +234,15 @@ page {
 .product-buy-info {
     display: flex;
     flex-direction: rows;
-    margin-bottom: 30rpx;
+    margin-bottom: 40rpx;
 }
 
 .product-buy-info-close-box {
     padding-top: 20rpx;
-    width: 48rpx;
-    height: 48rpx;
-    margin-right: 30rpx;
+    width: 108rpx;
+    height: 80rpx;
+    text-align: center;
+    background: #fff;
 }
 
 .product-buy-info-close {
@@ -276,7 +276,6 @@ page {
 .product-buy-info-name {
     font-size: 36rpx;
     line-height: 48rpx;
-
     overflow : hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -326,4 +325,17 @@ page {
     color: #fff;
     font-size: 48rpx;
     background-color: #fc464a;
+}
+
+.product-property {
+    border-top: 1px #e2e2e2 solid;
+    padding-top: 20rpx;
+    padding-bottom: 6rpx;
+}
+
+.product-property-name {
+    font-size: 36rpx;
+    height: 60rpx;
+    line-height: 60rpx;
+    margin-bottom: 12rpx;
 }
