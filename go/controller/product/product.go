@@ -337,13 +337,70 @@ func Info(ctx *iris.Context) {
 		product.Images = nil	
 	}
 
-	if model.DB.Model(&product).Related(&product.Categories, "categories").Error != nil {
+	if err := model.DB.Model(&product).Related(&product.Categories, "categories").Error; err != nil {
+		fmt.Println(err.Error())
 		ctx.JSON(iris.StatusOK, iris.Map{
 			"errNo" : model.ErrorCode.ERROR,
 			"msg"   : "error.",
 			"data"  : iris.Map{},
 		})
 		return
+	}
+
+	if err := model.DB.Model(&product).Related(&product.Properties).Error; err != nil {
+		fmt.Println(err.Error())
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "error.",
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	for i := 0; i < len(product.Properties); i++ {
+		property := product.Properties[i]
+		if err := model.DB.Model(&property).Related(&property.PropertyValues).Error; err != nil {
+			fmt.Println(err.Error())
+			ctx.JSON(iris.StatusOK, iris.Map{
+				"errNo" : model.ErrorCode.ERROR,
+				"msg"   : "error",
+				"data"  : iris.Map{},
+			})
+			return
+		}
+		product.Properties[i] = property
+	}
+
+	if err := model.DB.Model(&product).Related(&product.Inventories).Error; err != nil {
+		fmt.Println(err.Error())
+		ctx.JSON(iris.StatusOK, iris.Map{
+			"errNo" : model.ErrorCode.ERROR,
+			"msg"   : "error",
+			"data"  : iris.Map{},
+		})
+		return
+	}
+
+	for i := 0; i < len(product.Inventories); i++ {
+		inventory := product.Inventories[i]
+		if err := model.DB.Model(&inventory).Related(&inventory.PropertyValues, "property_values").Error; err != nil {
+			fmt.Println(err.Error())
+			ctx.JSON(iris.StatusOK, iris.Map{
+				"errNo" : model.ErrorCode.ERROR,
+				"msg"   : "error",
+				"data"  : iris.Map{},
+			})
+			return
+		}
+		product.Inventories[i] = inventory
+	}
+
+	if len(product.Inventories) > 0 {
+		var totalInventory uint
+		for i := 0; i < len(product.Inventories); i++ {
+			totalInventory += product.Inventories[i].Count
+		}
+		product.TotalInventory = totalInventory
 	}
 
 	ctx.JSON(iris.StatusOK, iris.Map{

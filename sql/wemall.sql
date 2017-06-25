@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.35)
 # Database: wemall
-# Generation Time: 2017-06-11 09:46:10 +0000
+# Generation Time: 2017-06-25 14:25:57 +0000
 # ************************************************************
 
 
@@ -279,8 +279,8 @@ DROP TABLE IF EXISTS `product_category`;
 
 CREATE TABLE `product_category` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `product_id` int(11) NOT NULL,
-  `category_id` int(11) NOT NULL,
+  `product_id` int(11) unsigned NOT NULL,
+  `category_id` int(11) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -296,6 +296,159 @@ VALUES
 	(305,50,4);
 
 /*!40000 ALTER TABLE `product_category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table inventories
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `inventories`;
+
+CREATE TABLE `inventories` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `product_id` int(11) unsigned NOT NULL,
+  `count` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `inventories` WRITE;
+/*!40000 ALTER TABLE `inventories` DISABLE KEYS */;
+
+INSERT INTO `inventories` (`id`, `created_at`, `updated_at`, `deleted_at`, `product_id`, `count`)
+VALUES
+	(1,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,20),
+	(2,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,11),
+	(3,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,21),
+	(4,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,22),
+	(5,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,23),
+	(6,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,24),
+	(7,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,25),
+	(8,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,26),
+	(9,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,27),
+	(10,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,28),
+	(11,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,29),
+	(12,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,30),
+	(13,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,31),
+	(14,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,32),
+	(15,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,33);
+
+/*!40000 ALTER TABLE `inventories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table inventory_property
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `inventory_property`;
+
+CREATE TABLE `inventory_property` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `inventory_id` int(11) unsigned NOT NULL,
+  `property_value_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `inventory_property` WRITE;
+/*!40000 ALTER TABLE `inventory_property` DISABLE KEYS */;
+
+INSERT INTO `inventory_property` (`id`, `inventory_id`, `property_value_id`)
+VALUES
+	(1,1,1),
+	(16,1,4),
+	(17,2,1),
+	(18,2,5),
+	(19,3,1),
+	(20,3,6),
+	(21,4,1),
+	(22,4,7),
+	(23,5,1),
+	(24,5,8),
+	(25,6,2),
+	(26,6,4),
+	(27,7,2),
+	(28,7,5),
+	(29,8,2),
+	(30,8,6),
+	(31,9,2),
+	(32,9,7),
+	(33,10,2),
+	(34,10,8),
+	(35,11,3),
+	(36,11,4),
+	(37,12,3),
+	(38,12,5),
+	(39,13,3),
+	(40,13,6),
+	(41,14,3),
+	(42,14,7),
+	(43,15,3),
+	(44,15,8);
+
+/*!40000 ALTER TABLE `inventory_property` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table properties
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `properties`;
+
+CREATE TABLE `properties` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `name` varchar(200) NOT NULL DEFAULT '',
+  `product_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `properties` WRITE;
+/*!40000 ALTER TABLE `properties` DISABLE KEYS */;
+
+INSERT INTO `properties` (`id`, `created_at`, `updated_at`, `deleted_at`, `name`, `product_id`)
+VALUES
+	(1,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'颜色',50),
+	(2,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'尺寸',50);
+
+/*!40000 ALTER TABLE `properties` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table property_values
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `property_values`;
+
+CREATE TABLE `property_values` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `name` varchar(200) NOT NULL DEFAULT '',
+  `note` varchar(100) DEFAULT NULL,
+  `property_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `property_values` WRITE;
+/*!40000 ALTER TABLE `property_values` DISABLE KEYS */;
+
+INSERT INTO `property_values` (`id`, `created_at`, `updated_at`, `deleted_at`, `name`, `note`, `property_id`)
+VALUES
+	(1,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'红色',NULL,1),
+	(2,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'绿色',NULL,1),
+	(3,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'蓝色',NULL,1),
+	(4,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'S',NULL,2),
+	(5,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'M',NULL,2),
+	(6,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'L',NULL,2),
+	(7,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'XL',NULL,2),
+	(8,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'XXL',NULL,2);
+
+/*!40000 ALTER TABLE `property_values` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
@@ -3071,7 +3224,19 @@ VALUES
 	(2695,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-05-29 00:17:02','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
 	(2696,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-05-29 00:17:47','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
 	(2697,'https://dev.wemall.com/admin#/product/edit/50','http://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-05-29 00:25:17','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
-	(2698,'https://dev.wemall.com/admin#/product/edit/50','http://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-05-29 00:44:11','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3');
+	(2698,'https://dev.wemall.com/admin#/product/edit/50','http://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-05-29 00:44:11','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2699,'https://dev.wemall.com/admin#/','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-06-11 21:40:30','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2700,'https://dev.wemall.com/admin#/','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-06-11 21:40:37','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2701,'https://dev.wemall.com/admin#/order/analyze','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-06-11 21:40:43','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2702,'https://dev.wemall.com/admin#/product/analyze','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-06-11 21:40:43','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2703,'https://dev.wemall.com/admin#/category/manage','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-06-11 21:40:45','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2704,'https://dev.wemall.com/admin#/product/manage','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-06-11 21:40:45','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2705,'https://dev.wemall.com/admin#/','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-06-11 21:40:46','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2706,'https://dev.wemall.com/admin#/','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-06-11 21:40:53','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2707,'https://dev.wemall.com/admin#/','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-06-24 16:42:39','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2708,'https://dev.wemall.com/admin#/category/manage','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-06-24 16:43:00','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2709,'https://dev.wemall.com/admin#/product/manage','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-06-24 16:43:03','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2710,'https://dev.wemall.com/admin#/','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-06-24 16:43:04','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3');
 
 /*!40000 ALTER TABLE `user_visits` ENABLE KEYS */;
 UNLOCK TABLES;
