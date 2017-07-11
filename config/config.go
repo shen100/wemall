@@ -6,7 +6,7 @@ import (
     "fmt"
     "io/ioutil"
 	"regexp"
-	"wemall/go/utils"
+	"wemall/utils"
 )
 
 var jsonData map[string]interface{}

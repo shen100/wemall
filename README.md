@@ -86,21 +86,19 @@ go run main.go
 | github.com/satori/go.uuid  | uuid生成工具    |
 
 ## 项目结构
-| 目录或文件 | 目录或文件              | 说明     |  
-|:---------|:-----------------------|:-------:|
-| docs     |                        |  文档|
-| go       |                        |  后台代码目录|
-|          | config                 |  配置|
-|          | controller             |  控制器|
-|          | model                  |  数据模型|
-|          | utils                  |  实用工具|
-| nginx    |                        |  nginx配置|
-| nodejs   |                        |  前端项目目录|
-| sql      |                        |           |
-| weixin   |                        | 微信小程序项目目录 |
-|          | wemall.sql             | sql文件    |
-| configuration.json  |             | 项目配置文件 |
-| main.go  |                        | go主程序入口|
+| 目录或文件 | 说明     |  
+|:---------|:-------:|
+| docs     |  文档|
+| config                 |  配置|
+| controller             |  控制器|
+| model                  |  数据模型|
+| utils                  |  实用工具|
+| nginx    |  nginx配置|
+| nodejs   |  前端项目目录|
+| sql      |  sql文件目录|
+| weixin   | 微信小程序项目目录 |
+| configuration.dev.json  | 项目配置文件 |
+| main.go  | go主程序入口|
 
 ## 最后
 求star，star就是继续下去的动力  

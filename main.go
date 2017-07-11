@@ -10,9 +10,9 @@ import (
 	"gopkg.in/kataras/iris.v6"
 	"gopkg.in/kataras/iris.v6/adaptors/httprouter"
 	"gopkg.in/kataras/iris.v6/adaptors/sessions"
-	"wemall/go/config"
-	"wemall/go/model"
-	"wemall/go/route"
+	"wemall/config"
+	"wemall/model"
+	"wemall/route"
 )
 
 func init() {

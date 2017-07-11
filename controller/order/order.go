@@ -3,7 +3,7 @@ package order
 import (
 	"gopkg.in/kataras/iris.v6"
 	"time"
-	"wemall/go/model"
+	"wemall/model"
 )
 
 // TodayCount 今日总订单数

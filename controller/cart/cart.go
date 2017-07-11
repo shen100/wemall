@@ -2,7 +2,7 @@ package cart
 
 import (
 	"gopkg.in/kataras/iris.v6"
-	"wemall/go/model"
+	"wemall/model"
 )
 
 // Create 购物车中添加商品

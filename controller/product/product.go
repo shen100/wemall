@@ -8,8 +8,8 @@ import (
 	"unicode/utf8"
 	"encoding/json"
 	"gopkg.in/kataras/iris.v6"
-	"wemall/go/config"
-	"wemall/go/model"
+	"wemall/config"
+	"wemall/model"
 )
 
 // List 商品列表

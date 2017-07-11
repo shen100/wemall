@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"time"
 	"gopkg.in/kataras/iris.v6"
-	"wemall/go/model"
+	"wemall/model"
 )
 
 // Latest30Day 近30天，每天的PV
