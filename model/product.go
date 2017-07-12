@@ -27,39 +27,6 @@ type Product struct {
     Categories     []Category         `gorm:"many2many:product_category;ForeignKey:ID;AssociationForeignKey:ID" json:"categories"`
 }
 
-// Property 商品属性
-type Property struct {
-    ID             uint            `gorm:"primary_key" json:"id"`
-    CreatedAt      time.Time       `json:"createdAt"`
-    UpdatedAt      time.Time       `json:"updatedAt"`
-    DeletedAt      *time.Time      `sql:"index" json:"deletedAt"`
-    Name           string          `json:"name"`
-    ProductID      uint            `json:"productID"`
-    PropertyValues []PropertyValue `json:"values"`
-}
-
-// PropertyValue 商品属性值
-type PropertyValue struct {
-    ID             uint       `gorm:"primary_key" json:"id"`
-    CreatedAt      time.Time  `json:"createdAt"`
-    UpdatedAt      time.Time  `json:"updatedAt"`
-    DeletedAt      *time.Time `sql:"index" json:"deletedAt"`
-    Name           string     `json:"name"`
-    Note           string     `json:"note"`
-    PropertyID     uint       `json:"propertyID"`
-}
-
-// Inventory 商品库存
-type Inventory struct {
-    ID             uint            `gorm:"primary_key" json:"id"`
-    CreatedAt      time.Time       `json:"createdAt"`
-    UpdatedAt      time.Time       `json:"updatedAt"`
-    DeletedAt      *time.Time      `sql:"index" json:"deletedAt"`
-    ProductID      uint            `json:"productID"`
-    Count          uint            `json:"count"`
-    PropertyValues []PropertyValue `gorm:"many2many:inventory_property;ForeignKey:ID;AssociationForeignKey:ID" json:"propertyValues"`
-}
-
 const (
     // ProductUpShelf 商品已上架
     ProductUpShelf   = 1

@@ -6,7 +6,9 @@ import {
 	REQUEST_PRODUCT_SUCCESS,
 	REQUEST_CATEGORY_LIST,
 	REQUEST_CATEGORY_LIST_SUCCESS,
-	REQUEST_SAVE_PRODUCT_SUCCESS
+	REQUEST_SAVE_PRODUCT_SUCCESS,
+	REQUEST_SAVE_PRODUCT_PROP_SUCCESS,
+	REQUEST_SAVE_PRODUCT_PROP_VALUE_SUCCESS
 } from '../constants';
 
 let initState = {
@@ -71,6 +73,29 @@ export default (state = initState, action) => {
 			return {
 				...state,
 				categories: action.categories
+			};
+		}
+		case REQUEST_SAVE_PRODUCT_PROP_SUCCESS: {
+			let product        = state.product;
+			let properties     = product.properties.concat(action.property);
+			product.properties = properties;
+			return {
+				...state,
+				product: product
+			};
+		}
+		case REQUEST_SAVE_PRODUCT_PROP_VALUE_SUCCESS: {
+			let product        = state.product;
+			let properties     = product.properties;
+			for (let i = 0; i < properties.length; i++) {
+				if (properties[i].id == action.propertyValue.propertyID) {
+					properties[i].values.push(action.propertyValue);
+					break;
+				}
+			}
+			return {
+				...state,
+				product: product
 			};
 		}
 		default: {

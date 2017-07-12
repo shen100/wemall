@@ -39,11 +39,13 @@ func Route(app *iris.Framework) {
 		adminRouter.Post("/category/update",        category.Update)
 		adminRouter.Post("/category/status/update", category.UpdateStatus)
 		
-		adminRouter.Get("/products",                product.AdminList)
-		adminRouter.Get("/product/:id",             product.Info)
-		adminRouter.Post("/product/create",         product.Create)
-		adminRouter.Post("/product/update",         product.Update)
-		adminRouter.Post("/product/status/update",  product.UpdateStatus)
+		adminRouter.Get("/products",                  product.AdminList)
+		adminRouter.Get("/product/:id",               product.Info)
+		adminRouter.Post("/product/create",           product.Create)
+		adminRouter.Post("/product/update",           product.Update)
+		adminRouter.Post("/product/status/update",    product.UpdateStatus)
+		adminRouter.Post("/product/property/saveval", product.AddPropertyValue)
+		adminRouter.Post("/product/property/create",  product.AddProperty)
 
 		adminRouter.Get("/order/analyze",           order.Analyze)
 		adminRouter.Get("/order/todaycount",        order.TodayCount)

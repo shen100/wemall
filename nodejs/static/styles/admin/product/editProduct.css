@@ -56,6 +56,10 @@
     color: #666;
 }
 
+.product-prop-add label {
+    font-size: 0;
+}
+
 .product-prop-value {
     margin-right: 12px;
 }
@@ -65,12 +69,12 @@
     cursor: pointer;
 }
 
-.product-prop-value-add-input {
+.product-prop-add-input, .product-prop-value-add-input {
     width: 120px;
     margin-right: 12px;
 }
 
-.product-prop-value-add-confirm {
+.product-prop-add-confirm, .product-prop-value-add-confirm {
     margin-right: 12px;
 }
 

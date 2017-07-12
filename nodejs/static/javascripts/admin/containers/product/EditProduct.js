@@ -21,6 +21,8 @@ import {
 import requestProduct            from '../../actions/product/requestProduct';
 import requestSaveProduct        from '../../actions/product/requestSaveProduct';
 import requestCategoryList       from '../../actions/category/requestCategoryList';
+import requestSaveProperty       from '../../actions/product/requestSaveProperty';
+import requestSavePropertyValue  from '../../actions/product/requestSavePropertyValue';
 import Software                  from '../Software';
 import utils                     from '../../utils';
 import analyze                   from '../../../sdk/analyze';
@@ -48,6 +50,10 @@ class EditProduct extends Component {
         this.onContentImageChange     = this.onContentImageChange.bind(this);
         this.onSubmit                 = this.onSubmit.bind(this);
         this.onPropValueVisibleChange = this.onPropValueVisibleChange.bind(this);
+        this.onPropVisibleChange      = this.onPropVisibleChange.bind(this);
+        this.onPropInput              = this.onPropInput.bind(this);
+        this.addProp                  = this.addProp.bind(this);
+        this.cancelAddProp            = this.cancelAddProp.bind(this);
 
         this.state = {
             productId           : this.props.routeParams.id,
@@ -69,6 +75,8 @@ class EditProduct extends Component {
             inventories         : [],
             propValueVisibleMap : {},
             propValueTemp       : '',
+            propPopupVisible    : false,
+            propTemp            : '',
             isLoading           : true
         };
     }
@@ -114,6 +122,7 @@ class EditProduct extends Component {
         if (allCategories && allCategories.length > 0) {
             if (this.state.productId) {
                 if (product) {
+                    console.log(product);
                     var categories = [];
                     for (var i = 0; i < product.categories.length; i++) {
                         var parentId = product.categories[i].parentId;
@@ -306,7 +315,12 @@ class EditProduct extends Component {
             propValueTemp       : '' 
         });
 
-        message.success(propValueTemp + '添加成功! 请完善库存。');
+        const { dispatch } = this.props;
+        dispatch(requestSavePropertyValue({
+            productID  : this.state.productId,
+            propertyID : propId,
+            name       : propValueTemp
+        }));
     }
     cancelAddPropValue(propId) {
         var propValueVisibleMap     = this.state.propValueVisibleMap;
@@ -314,6 +328,34 @@ class EditProduct extends Component {
         this.setState({
             propValueVisibleMap : propValueVisibleMap,
             propValueTemp       : ''
+        });
+    }
+    onPropVisibleChange(visible) {
+        this.setState({ 
+            propPopupVisible: visible
+        });
+    }
+    onPropInput(event) {
+        this.setState({
+            propTemp: event.target.value
+        });
+    }
+    addProp() {
+        var propTemp = this.state.propTemp;
+        this.setState({
+            propTemp         : '',
+            propPopupVisible : false
+        });
+        const { dispatch } = this.props;
+        dispatch(requestSaveProperty({
+            productID  : this.state.productId,
+            name       : propTemp
+        }));
+    }
+    cancelAddProp() {
+        this.setState({
+            propTemp         : '',
+            propPopupVisible : false
         });
     }
     render() {
@@ -337,6 +379,8 @@ class EditProduct extends Component {
         let inventories         = this.state.inventories;
         let propValueVisibleMap = this.state.propValueVisibleMap;
         let propValueTemp       = this.state.propValueTemp;
+        let propPopupVisible    = this.state.propPopupVisible;
+        let propTemp            = this.state.propTemp;
 
         let TabPane = Tabs.TabPane;
 
@@ -514,6 +558,19 @@ class EditProduct extends Component {
                                             );
                                         })
                                     }
+                                        <FormItem className="product-prop-add" {...formItemLayout} label={' '}>
+                                            <Popover content={
+                                                <div>
+                                                    <Input value={propTemp} onChange={self.onPropInput} className="product-prop-add-input"/>
+                                                    <Button onClick={self.addProp} type="primary" className="product-prop-add-confirm">确定</Button>
+                                                    <Button onClick={self.cancelAddProp}>取消</Button>
+                                                </div>} 
+                                                onVisibleChange={self.onPropVisibleChange}
+                                                visible={propPopupVisible}
+                                                title={'添加属性'} trigger="click" >
+                                                <Button type="primary">添加属性</Button>
+                                            </Popover>
+                                        </FormItem>
                                         <FormItem {...formItemLayout} label="库存">
                                         {
                                             inventories.map(function(inv) {

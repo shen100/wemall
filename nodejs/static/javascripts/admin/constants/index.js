@@ -24,6 +24,14 @@ export const REQUEST_SAVE_PRODUCT = 'requestSaveProduct';
 
 export const REQUEST_SAVE_PRODUCT_SUCCESS = 'requestSaveProductSuccess';
 
+export const REQUEST_SAVE_PRODUCT_PROP = 'requestSaveProductProp';
+
+export const REQUEST_SAVE_PRODUCT_PROP_SUCCESS = 'requestSaveProductPropSuccess';
+
+export const REQUEST_SAVE_PRODUCT_PROP_VALUE = 'requestSaveProductPropValue';
+
+export const REQUEST_SAVE_PRODUCT_PROP_VALUE_SUCCESS = 'requestSaveProductPropValueSuccess';
+
 export const CHANGE_PRODUCT_STATUS = 'changeProductStatus';
 
 export const REQUEST_CATEGORY_LIST = 'requestCategoryList';
