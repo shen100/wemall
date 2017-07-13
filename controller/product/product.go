@@ -300,6 +300,7 @@ func Update(ctx *iris.Context) {
 
 // Info 获取商品信息
 func Info(ctx *iris.Context) {
+	reqStartTime := time.Now()
 	id, err := ctx.ParamInt("id")
 	if err != nil {
 		ctx.JSON(iris.StatusOK, iris.Map{
@@ -403,6 +404,7 @@ func Info(ctx *iris.Context) {
 		product.TotalInventory = totalInventory
 	}
 
+	fmt.Println("duration: ", time.Now().Sub(reqStartTime).Seconds())
 	ctx.JSON(iris.StatusOK, iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",

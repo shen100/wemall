@@ -9,9 +9,21 @@ function receive(data) {
         var inventories = product.inventories;
         for (var i = 0; i < inventories.length; i++) {
             inventories[i].propertyValues.sort(function(a, b) {
-                return a.propertyID > b.propertyID;
+                return a.propertyID > b.propertyID ? 1 : -1;
             });
         }
+        inventories.sort(function(a, b) {
+            function compare(pvA, pvB) {
+                var index = pvA.length - 1;
+                if (pvA[index].id > pvB[index].id) {
+                    return 1;
+                } else if (pvA[index].id < pvB[index].id) {
+                    return -1;
+                }
+                return compare(pvA.slice(0, pvA.length - 1), pvB.slice(0, pvB.length - 1));
+            }
+            return compare(a.propertyValues, b.propertyValues);
+        });
     }
     return {
         type    : REQUEST_PRODUCT_SUCCESS,

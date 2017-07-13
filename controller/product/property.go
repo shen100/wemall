@@ -5,10 +5,13 @@ import (
 	"strconv"
 	"strings"
 	"unicode/utf8"
+	"wemall/controller/common"
 	"wemall/model"
 	"wemall/config"
 	"gopkg.in/kataras/iris.v6"
 )
+
+var sendErrJSON = common.SendErrJSON
 
 // AddProperty 添加商品属性
 func AddProperty(ctx *iris.Context) {
@@ -16,36 +19,21 @@ func AddProperty(ctx *iris.Context) {
 
 	if err := ctx.ReadJSON(&property); err != nil {
 		fmt.Println(err.Error())
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "参数无效",
-			"data"  : iris.Map{},
-		})
+		sendErrJSON("参数无效", ctx)
 		return
 	}
 
 	property.Name = strings.TrimSpace(property.Name)
 
-	var isErr bool
-	var errMsg = ""
-
 	if property.ProductID <= 0 {
-		isErr  = true
-		errMsg = "无效的商品ID"
+		sendErrJSON("无效的商品ID", ctx)
+		return
 	} else if utf8.RuneCountInString(property.Name) > config.ServerConfig.MaxNameLen {
-		isErr  = true
-		errMsg = "属性名称不能超过" + strconv.Itoa(config.ServerConfig.MaxNameLen) + "个字符"	
+		errMsg := "属性名称不能超过" + strconv.Itoa(config.ServerConfig.MaxNameLen) + "个字符"
+		sendErrJSON(errMsg, ctx)
+		return
 	} else if utf8.RuneCountInString(property.Name) <= 0 {
-		isErr  = true
-		errMsg = "属性名称不能为空"
-	}
-
-	if isErr {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : errMsg,
-			"data"  : iris.Map{},
-		})
+		sendErrJSON("属性名称不能为空", ctx)
 		return
 	}
 
@@ -53,21 +41,13 @@ func AddProperty(ctx *iris.Context) {
 
 	if err := model.DB.First(&product, property.ProductID).Error; err != nil {
 		fmt.Println(err.Error())
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.NotFound,
-			"msg"   : "错误的商品id",
-			"data"  : iris.Map{},
-		})
+		sendErrJSON("错误的商品id", ctx)
 		return
 	}
 
 	if err := model.DB.Create(&property).Error; err != nil {
 		fmt.Println(err.Error())
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error",
-			"data"  : iris.Map{},
-		})
+		sendErrJSON("error", ctx)
 		return
 	}
 
@@ -88,37 +68,22 @@ func AddPropertyValue(ctx *iris.Context) {
 
 	if err := ctx.ReadJSON(&propertyValue); err != nil {
 		fmt.Println(err.Error());
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "参数无效",
-			"data"  : iris.Map{},
-		})
+		sendErrJSON("参数无效", ctx)
 		return
 	}
 
 	productID = propertyValue.ProductID
 	propertyValue.Name = strings.TrimSpace(propertyValue.Name)
 
-	var isErr bool
-	var errMsg = ""
-
 	if productID <= 0 {
-		isErr  = true
-		errMsg = "无效的商品ID"
+		sendErrJSON("无效的商品ID", ctx)
+		return
 	} else if utf8.RuneCountInString(propertyValue.Name) > config.ServerConfig.MaxNameLen {
-		isErr  = true
-		errMsg = "名称不能超过" + strconv.Itoa(config.ServerConfig.MaxNameLen) + "个字符"	
+		errMsg := "名称不能超过" + strconv.Itoa(config.ServerConfig.MaxNameLen) + "个字符"
+		sendErrJSON(errMsg, ctx)
+		return
 	} else if utf8.RuneCountInString(propertyValue.Name) <= 0 {
-		isErr  = true
-		errMsg = "名称不能为空"
-	}
-
-	if isErr {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : errMsg,
-			"data"  : iris.Map{},
-		})
+		sendErrJSON("名称不能为空", ctx)
 		return
 	}
 
@@ -126,26 +91,43 @@ func AddPropertyValue(ctx *iris.Context) {
 
 	if err := model.DB.First(&product, productID).Error; err != nil {
 		fmt.Println(err.Error())
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.NotFound,
-			"msg"   : "错误的商品id",
-			"data"  : iris.Map{},
-		})
+		sendErrJSON("错误的商品id", ctx)
 		return
 	}
 
 	if err := model.DB.Model(&product).Related(&product.Properties).Error; err != nil {
 		fmt.Println(err.Error())
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error",
-			"data"  : iris.Map{},
-		})
+		sendErrJSON("error", ctx)
 		return
 	}
 
 	var properties = product.Properties
-	var index = -1 //属性（新添加的属性值属于的属性）在属性数组中的索引
+
+	for i := 0; i < len(properties); i++ {
+		property := properties[i]
+		if err := model.DB.Model(&property).Related(&property.PropertyValues).Error; err != nil {
+			fmt.Println(err.Error())
+			sendErrJSON("error", ctx)
+			return
+		}
+		properties[i] = property
+		if property.ID == propertyValue.PropertyID {
+			for j := 0; j < len(property.PropertyValues); j++ {
+				if property.PropertyValues[j].Name == propertyValue.Name {
+					sendErrJSON(propertyValue.Name + "已存在", ctx)
+					return
+				}
+			}
+		}
+	}
+
+	for i := len(properties) - 1; i >= 0; i-- {
+		if properties[i].ID != propertyValue.PropertyID && len(properties[i].PropertyValues) == 0 {
+			properties = append(properties[:i], properties[i + 1:]...)
+		}
+	}
+
+	var index = -1
 	for i := 0; i < len(properties); i++ {
 		if properties[i].ID == propertyValue.PropertyID {
 			index = i
@@ -154,29 +136,87 @@ func AddPropertyValue(ctx *iris.Context) {
 	}
 
 	if index < 0 {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "错误的propertyID",
-			"data"  : iris.Map{},
-		})
-		return	
-	}
-
-	if err := model.DB.Create(&propertyValue).Error; err != nil {
-		fmt.Println(err.Error())
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error",
-			"data"  : iris.Map{},
-		})
+		sendErrJSON("错误的propertyID", ctx)
 		return
 	}
+
+	tx := model.DB.Begin()
+
+	if err := tx.Create(&propertyValue).Error; err != nil {
+		tx.Rollback()
+		fmt.Println(err.Error())
+		sendErrJSON("error", ctx)
+		return
+	}
+
+	var firstPropertyValue bool
+	if len(properties[index].PropertyValues) == 0 {
+		firstPropertyValue = true
+	}
+	properties[index].PropertyValues = append(properties[index].PropertyValues, propertyValue)
+
+	var inventories []model.Inventory
+	var removed bool
+	if len(properties) == 1 {
+		var inventory = model.Inventory{
+			ProductID      : productID,
+			PropertyValues : append([]model.PropertyValue{}, propertyValue),
+		}
+		inventories = append(inventories, inventory)	
+	} else if len(properties) >= 2 {
+		if firstPropertyValue {
+			if err := tx.Model(&product).Related(&product.Inventories).Error; err != nil {
+				tx.Rollback()
+				fmt.Println(err.Error())
+				sendErrJSON("error", ctx)
+				return
+			}
+			for i := 0; i < len(product.Inventories); i++ {
+				if err := tx.Model(&product.Inventories[i]).Related(&product.Inventories[i].PropertyValues, "property_values").Error; err != nil {
+					tx.Rollback()
+					fmt.Println(err.Error())
+					sendErrJSON("error", ctx)
+					return
+				}
+				product.Inventories[i].PropertyValues = append(product.Inventories[i].PropertyValues, propertyValue)
+			}
+			removed = true
+		} else {
+			properties  = append(properties[:index], properties[index + 1:]...)
+			inventories = combinationInventory(productID, properties)
+			for i := 0; i < len(inventories); i++ {
+				inventories[i].PropertyValues = append(inventories[i].PropertyValues, propertyValue)
+			}
+		}
+ 	}
+
+	if removed {
+		inventories = product.Inventories
+	}
+
+	for i := 0; i < len(inventories); i++ {
+		var err error
+		if removed {
+			err = tx.Save(&inventories[i]).Error
+		} else {
+			err = tx.Create(&inventories[i]).Error
+		}
+		if err != nil {
+			tx.Rollback()
+			fmt.Println(err.Error())
+			sendErrJSON("error", ctx)
+			return
+		}
+	}
+	tx.Commit()
 
 	ctx.JSON(iris.StatusOK, iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
 		"data"  : iris.Map{
-			"propertyValue": propertyValue,
+			"propertyValue" : propertyValue,
+			"inventories"   : inventories,
+			"removed"       : removed,
 		},
 	})
 }
