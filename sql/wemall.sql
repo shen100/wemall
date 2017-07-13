@@ -7,7 +7,7 @@
 #
 # Host: 127.0.0.1 (MySQL 5.6.35)
 # Database: wemall
-# Generation Time: 2017-06-25 14:25:57 +0000
+# Generation Time: 2017-07-13 11:58:20 +0000
 # ************************************************************
 
 
@@ -235,6 +235,85 @@ VALUES
 UNLOCK TABLES;
 
 
+# Dump of table inventories
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `inventories`;
+
+CREATE TABLE `inventories` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `product_id` int(11) unsigned NOT NULL,
+  `count` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `inventories` WRITE;
+/*!40000 ALTER TABLE `inventories` DISABLE KEYS */;
+
+INSERT INTO `inventories` (`id`, `created_at`, `updated_at`, `deleted_at`, `product_id`, `count`)
+VALUES
+	(144,'2017-07-13 17:02:06','2017-07-13 17:03:10',NULL,50,0),
+	(145,'2017-07-13 17:02:12','2017-07-13 17:03:10',NULL,50,0),
+	(146,'2017-07-13 17:03:36','2017-07-13 17:03:36',NULL,50,0),
+	(147,'2017-07-13 17:03:36','2017-07-13 17:03:36',NULL,50,0),
+	(148,'2017-07-13 17:06:45','2017-07-13 17:06:45',NULL,50,0),
+	(149,'2017-07-13 17:06:45','2017-07-13 17:06:45',NULL,50,0),
+	(150,'2017-07-13 17:06:45','2017-07-13 17:06:45',NULL,50,0),
+	(151,'2017-07-13 17:06:45','2017-07-13 17:06:45',NULL,50,0);
+
+/*!40000 ALTER TABLE `inventories` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table inventory_property_value
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `inventory_property_value`;
+
+CREATE TABLE `inventory_property_value` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `inventory_id` int(11) unsigned NOT NULL,
+  `property_value_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `inventory_property_value` WRITE;
+/*!40000 ALTER TABLE `inventory_property_value` DISABLE KEYS */;
+
+INSERT INTO `inventory_property_value` (`id`, `inventory_id`, `property_value_id`)
+VALUES
+	(203,144,75),
+	(204,145,76),
+	(205,144,77),
+	(206,145,77),
+	(207,144,78),
+	(208,145,78),
+	(209,146,78),
+	(210,146,75),
+	(211,146,79),
+	(212,147,78),
+	(213,147,76),
+	(214,147,79),
+	(215,148,79),
+	(216,148,75),
+	(217,148,80),
+	(218,149,79),
+	(219,149,76),
+	(220,149,80),
+	(221,150,77),
+	(222,150,75),
+	(223,150,80),
+	(224,151,77),
+	(225,151,76),
+	(226,151,80);
+
+/*!40000 ALTER TABLE `inventory_property_value` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
 # Dump of table orders
 # ------------------------------------------------------------
 
@@ -299,159 +378,6 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table inventories
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `inventories`;
-
-CREATE TABLE `inventories` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  `product_id` int(11) unsigned NOT NULL,
-  `count` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-LOCK TABLES `inventories` WRITE;
-/*!40000 ALTER TABLE `inventories` DISABLE KEYS */;
-
-INSERT INTO `inventories` (`id`, `created_at`, `updated_at`, `deleted_at`, `product_id`, `count`)
-VALUES
-	(1,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,20),
-	(2,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,11),
-	(3,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,21),
-	(4,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,22),
-	(5,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,23),
-	(6,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,24),
-	(7,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,25),
-	(8,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,26),
-	(9,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,27),
-	(10,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,28),
-	(11,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,29),
-	(12,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,30),
-	(13,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,31),
-	(14,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,32),
-	(15,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,50,33);
-
-/*!40000 ALTER TABLE `inventories` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table inventory_property
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `inventory_property`;
-
-CREATE TABLE `inventory_property` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `inventory_id` int(11) unsigned NOT NULL,
-  `property_value_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-LOCK TABLES `inventory_property` WRITE;
-/*!40000 ALTER TABLE `inventory_property` DISABLE KEYS */;
-
-INSERT INTO `inventory_property` (`id`, `inventory_id`, `property_value_id`)
-VALUES
-	(1,1,1),
-	(16,1,4),
-	(17,2,1),
-	(18,2,5),
-	(19,3,1),
-	(20,3,6),
-	(21,4,1),
-	(22,4,7),
-	(23,5,1),
-	(24,5,8),
-	(25,6,2),
-	(26,6,4),
-	(27,7,2),
-	(28,7,5),
-	(29,8,2),
-	(30,8,6),
-	(31,9,2),
-	(32,9,7),
-	(33,10,2),
-	(34,10,8),
-	(35,11,3),
-	(36,11,4),
-	(37,12,3),
-	(38,12,5),
-	(39,13,3),
-	(40,13,6),
-	(41,14,3),
-	(42,14,7),
-	(43,15,3),
-	(44,15,8);
-
-/*!40000 ALTER TABLE `inventory_property` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table properties
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `properties`;
-
-CREATE TABLE `properties` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  `name` varchar(200) NOT NULL DEFAULT '',
-  `product_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-LOCK TABLES `properties` WRITE;
-/*!40000 ALTER TABLE `properties` DISABLE KEYS */;
-
-INSERT INTO `properties` (`id`, `created_at`, `updated_at`, `deleted_at`, `name`, `product_id`)
-VALUES
-	(1,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'颜色',50),
-	(2,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'尺寸',50);
-
-/*!40000 ALTER TABLE `properties` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
-# Dump of table property_values
-# ------------------------------------------------------------
-
-DROP TABLE IF EXISTS `property_values`;
-
-CREATE TABLE `property_values` (
-  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL,
-  `deleted_at` datetime DEFAULT NULL,
-  `name` varchar(200) NOT NULL DEFAULT '',
-  `note` varchar(100) DEFAULT NULL,
-  `property_id` int(11) unsigned NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-LOCK TABLES `property_values` WRITE;
-/*!40000 ALTER TABLE `property_values` DISABLE KEYS */;
-
-INSERT INTO `property_values` (`id`, `created_at`, `updated_at`, `deleted_at`, `name`, `note`, `property_id`)
-VALUES
-	(1,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'红色',NULL,1),
-	(2,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'绿色',NULL,1),
-	(3,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'蓝色',NULL,1),
-	(4,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'S',NULL,2),
-	(5,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'M',NULL,2),
-	(6,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'L',NULL,2),
-	(7,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'XL',NULL,2),
-	(8,'0000-00-00 00:00:00','0000-00-00 00:00:00',NULL,'XXL',NULL,2);
-
-/*!40000 ALTER TABLE `property_values` ENABLE KEYS */;
-UNLOCK TABLES;
-
-
 # Dump of table products
 # ------------------------------------------------------------
 
@@ -488,6 +414,67 @@ VALUES
 	(50,'【爱宝宝母婴微商城】防腹泻奶粉——赋儿嘉',0,0,0,198,198,1,75,'[92,93,94]','','[{\"id\":\"a8a0645a-8a53-7a62-a467-495961703050\",\"type\":\"image\",\"value\":\"/upload/img/2017/05/28/fa69b85c-5724-45d6-a03e-e1c8335431ae.jpg\"},{\"id\":\"dde82886-685e-8098-cc48-495961707608\",\"type\":\"image\",\"value\":\"/upload/img/2017/05/28/3fe431c8-b6a9-498c-96ea-490c704c6f0d.jpg\"},{\"id\":\"000880cd-08ce-0d19-bf90-495961712448\",\"type\":\"image\",\"value\":\"/upload/img/2017/05/28/d0268462-9a70-4628-b438-452f968f1364.jpg\"},{\"id\":\"9b56d915-7999-59f6-9919-495961713753\",\"type\":\"image\",\"value\":\"/upload/img/2017/05/28/23faebeb-3774-46dd-9aa4-142b4f922239.jpg\"},{\"id\":\"b4048202-b01f-b602-fd0f-495961721664\",\"type\":\"image\",\"value\":\"/upload/img/2017/05/28/3a5a6b33-6404-4fa7-bc8f-9ac4327985c9.jpg\"},{\"id\":\"d1c99d42-a97c-d096-9448-495961726441\",\"type\":\"image\",\"value\":\"/upload/img/2017/05/28/17836e13-e7b7-4096-93bf-b0f2196f38ba.jpg\"},{\"id\":\"850838cc-408a-871e-8844-495961730952\",\"type\":\"image\",\"value\":\"/upload/img/2017/05/28/f3fba034-2a63-46e5-8b00-c61ca7d265ed.jpg\"},{\"id\":\"310c0571-506c-7b00-0487-495961735312\",\"type\":\"image\",\"value\":\"/upload/img/2017/05/28/cd1e5900-f1e2-4414-bd2c-4dde6096c902.jpg\"},{\"id\":\"84959857-b38e-288a-ca28-495988229256\",\"type\":\"text\",\"value\":\"大品牌，值得信奈.\"},{\"id\":\"71927118-e547-67c7-7e51-495989857927\",\"type\":\"text\",\"value\":\"这期我们将把阿里妈妈MUX这两年在矢量图标制作上积累的经验也分享给大家; 大家可能在网上看过很多关于矢量图标制作的教程,而且大多是技术同学分享的技术贴。\"},{\"id\":\"c8d439c7-a3ec-ac2c-cdf1-495989862172\",\"type\":\"image\",\"value\":\"/upload/img/2017/05/29/7a421b80-7e5d-4dde-8f80-e7f651635c8e.jpg\"}]','2017-05-28 16:55:43','2017-05-29 00:44:54',NULL);
 
 /*!40000 ALTER TABLE `products` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table properties
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `properties`;
+
+CREATE TABLE `properties` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `name` varchar(200) NOT NULL DEFAULT '',
+  `product_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `properties` WRITE;
+/*!40000 ALTER TABLE `properties` DISABLE KEYS */;
+
+INSERT INTO `properties` (`id`, `created_at`, `updated_at`, `deleted_at`, `name`, `product_id`)
+VALUES
+	(43,'2017-07-13 17:01:39','2017-07-13 17:01:39',NULL,'尺寸',50),
+	(44,'2017-07-13 17:01:48','2017-07-13 17:01:48',NULL,'颜色',50),
+	(45,'2017-07-13 17:01:54','2017-07-13 17:01:54',NULL,'材质',50);
+
+/*!40000 ALTER TABLE `properties` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+# Dump of table property_values
+# ------------------------------------------------------------
+
+DROP TABLE IF EXISTS `property_values`;
+
+CREATE TABLE `property_values` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  `deleted_at` datetime DEFAULT NULL,
+  `name` varchar(200) NOT NULL DEFAULT '',
+  `note` varchar(100) DEFAULT NULL,
+  `product_id` int(11) unsigned NOT NULL,
+  `property_id` int(11) unsigned NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+LOCK TABLES `property_values` WRITE;
+/*!40000 ALTER TABLE `property_values` DISABLE KEYS */;
+
+INSERT INTO `property_values` (`id`, `created_at`, `updated_at`, `deleted_at`, `name`, `note`, `product_id`, `property_id`)
+VALUES
+	(75,'2017-07-13 17:02:06','2017-07-13 17:06:45',NULL,'S','',50,43),
+	(76,'2017-07-13 17:02:12','2017-07-13 17:06:45',NULL,'M','',50,43),
+	(77,'2017-07-13 17:02:53','2017-07-13 17:06:45',NULL,'黄色','',50,44),
+	(78,'2017-07-13 17:03:10','2017-07-13 17:03:36',NULL,'纯棉','',50,45),
+	(79,'2017-07-13 17:03:36','2017-07-13 17:06:45',NULL,'绿色','',50,44),
+	(80,'2017-07-13 17:06:45','2017-07-13 17:06:45',NULL,'人造革','',50,45);
+
+/*!40000 ALTER TABLE `property_values` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
@@ -3236,7 +3223,355 @@ VALUES
 	(2707,'https://dev.wemall.com/admin#/','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-06-24 16:42:39','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
 	(2708,'https://dev.wemall.com/admin#/category/manage','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-06-24 16:43:00','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
 	(2709,'https://dev.wemall.com/admin#/product/manage','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-06-24 16:43:03','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
-	(2710,'https://dev.wemall.com/admin#/','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-06-24 16:43:04','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3');
+	(2710,'https://dev.wemall.com/admin#/','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-06-24 16:43:04','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2711,'https://dev.wemall.com/admin#/','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 16:46:28','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2712,'https://dev.wemall.com/admin#/product/manage','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 16:46:34','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2713,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 16:46:36','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2714,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:01:15','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2715,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:01:53','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2716,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:02:31','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2717,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:03:10','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2718,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:03:14','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2719,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:04:03','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2720,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:05:18','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2721,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:10:28','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2722,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:13:17','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2723,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:14:50','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2724,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:16:33','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2725,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:18:47','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2726,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:19:44','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2727,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:22:25','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2728,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:22:55','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2729,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:24:31','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2730,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:26:43','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2731,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:27:26','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2732,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:27:53','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2733,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:28:31','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2734,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:28:54','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2735,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:30:28','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2736,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:30:41','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2737,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:30:53','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2738,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:31:28','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2739,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:34:27','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2740,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:34:39','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2741,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:54:14','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2742,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:56:59','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2743,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:58:45','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2744,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 17:59:39','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2745,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 18:00:10','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2746,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 18:01:00','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2747,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 18:07:18','127.0.0.1',1280,800,'Chrome','58.0.3029.110','','CN','zh','Mac OS','10.11.3'),
+	(2748,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 18:08:54','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2749,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 18:09:24','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2750,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 18:09:55','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2751,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 18:10:09','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2752,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 18:13:54','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2753,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 19:33:22','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2754,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 19:34:46','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2755,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 19:35:30','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2756,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 19:37:15','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2757,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 19:38:33','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2758,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 19:39:00','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2759,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 19:48:55','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2760,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 19:49:10','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2761,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 19:59:36','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2762,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:01:08','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2763,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:01:20','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2764,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:03:33','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2765,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:04:40','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2766,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:08:11','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2767,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:09:14','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2768,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:16:13','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2769,'https://dev.wemall.com/admin#/category/manage','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:16:37','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2770,'https://dev.wemall.com/admin#/product/manage','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:17:49','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2771,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:17:52','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2772,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:19:03','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2773,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:22:26','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2774,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:23:16','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2775,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:25:09','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2776,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:25:28','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2777,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:30:56','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2778,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:31:51','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2779,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:33:25','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2780,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:33:51','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2781,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:38:04','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2782,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:38:41','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2783,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:40:46','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2784,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:41:29','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2785,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:42:25','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2786,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:42:36','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2787,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:45:22','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2788,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:50:17','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2789,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:52:24','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2790,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:53:51','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2791,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:54:57','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2792,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:55:00','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2793,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:55:32','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2794,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:56:05','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2795,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:58:26','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2796,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 20:59:09','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2797,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:01:57','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2798,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:05:15','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2799,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:06:50','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2800,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:09:20','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2801,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:09:52','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2802,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:11:31','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2803,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:12:23','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2804,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:12:57','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2805,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:14:23','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2806,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:17:40','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2807,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:17:55','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2808,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:18:28','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2809,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:18:30','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2810,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:33:41','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2811,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:37:39','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2812,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:39:17','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2813,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:42:19','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2814,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:45:47','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2815,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:47:56','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2816,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:48:23','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2817,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:50:58','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2818,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:51:14','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2819,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:51:17','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2820,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:52:52','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2821,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:53:20','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2822,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:53:40','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2823,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:56:21','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2824,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 21:56:42','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2825,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 22:06:51','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2826,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 22:07:34','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2827,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 22:08:04','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2828,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 22:08:32','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2829,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 22:23:04','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2830,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 22:27:38','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2831,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 22:34:29','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2832,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 22:42:42','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2833,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 22:43:09','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2834,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 22:45:19','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2835,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 22:47:27','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2836,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 23:00:19','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2837,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-11 23:41:19','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2838,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 12:21:47','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2839,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 16:52:16','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2840,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 16:53:19','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2841,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 16:55:06','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2842,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 16:56:18','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2843,'https://dev.wemall.com/admin#/','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 18:30:34','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2844,'https://dev.wemall.com/admin#/category/manage','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 18:30:41','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2845,'https://dev.wemall.com/admin#/product/manage','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 18:30:42','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2846,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 18:30:45','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2847,'https://dev.wemall.com/admin#/product/manage','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 18:30:47','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2848,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 18:30:49','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2849,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 19:45:44','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2850,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 19:46:52','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2851,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 19:48:51','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2852,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 19:48:54','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2853,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 19:48:59','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2854,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 19:49:37','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2855,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 19:49:44','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2856,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 19:54:52','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2857,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 19:55:50','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2858,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:24:18','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2859,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:26:53','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2860,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:29:45','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2861,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:30:02','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2862,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:33:38','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2863,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:34:01','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2864,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:34:41','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2865,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:42:23','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2866,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:42:23','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2867,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:42:30','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2868,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:42:32','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2869,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:42:43','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2870,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:42:45','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2871,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:43:00','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2872,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:43:02','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2873,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:43:57','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2874,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:43:59','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2875,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:47:11','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2876,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:47:13','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2877,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:47:50','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2878,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:48:51','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2879,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:58:04','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2880,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:58:04','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2881,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:59:07','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2882,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 20:59:08','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2883,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:00:45','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2884,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:00:47','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2885,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:02:35','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2886,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:02:37','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2887,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:03:17','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2888,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:04:08','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2889,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:05:28','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2890,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:05:31','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2891,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:23:01','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2892,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:23:01','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2893,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:25:02','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2894,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:25:02','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2895,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:25:55','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2896,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:25:56','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2897,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:31:59','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2898,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:31:59','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2899,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:34:14','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2900,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:34:14','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2901,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:34:47','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2902,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:35:34','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2903,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:35:38','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2904,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:35:49','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2905,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:49:15','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2906,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:53:05','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2907,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:53:05','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2908,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:53:20','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2909,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:53:21','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2910,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:53:56','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2911,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:56:05','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2912,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:56:07','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2913,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:58:54','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2914,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:58:55','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2915,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 21:59:01','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2916,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 22:00:46','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2917,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 22:01:29','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2918,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 22:26:57','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2919,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 22:28:52','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2920,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 22:59:22','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2921,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:01:30','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2922,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:04:51','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2923,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:05:21','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2924,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:11:19','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2925,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:11:34','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2926,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:12:32','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2927,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:13:10','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2928,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:20:27','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2929,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:22:14','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2930,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:23:51','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2931,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:29:15','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2932,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:48:13','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2933,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:48:14','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2934,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:49:53','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2935,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:51:19','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2936,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:51:21','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2937,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:52:50','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2938,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:54:07','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2939,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:54:07','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2940,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:54:46','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2941,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:54:46','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2942,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:54:50','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2943,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:55:16','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2944,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:55:16','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2945,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-12 23:55:24','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2946,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 11:59:08','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2947,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 11:59:54','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2948,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 12:00:56','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2949,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 12:01:54','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2950,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 12:14:19','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2951,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 12:18:05','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2952,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 12:19:26','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2953,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 12:24:14','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2954,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 12:28:48','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2955,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 13:02:56','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2956,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 13:03:49','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2957,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 13:08:16','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2958,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 13:13:36','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2959,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 13:14:26','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2960,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 13:15:06','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2961,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 13:57:21','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2962,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 13:58:47','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2963,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 14:01:28','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2964,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 14:05:00','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2965,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 14:08:08','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2966,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 14:18:45','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2967,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 14:21:06','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2968,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 14:30:32','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2969,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 14:38:09','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2970,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 14:44:23','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2971,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 14:53:51','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2972,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 14:53:51','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2973,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 14:54:07','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2974,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 14:54:07','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2975,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 14:54:56','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2976,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 14:54:57','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2977,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 14:56:38','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2978,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 14:56:38','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2979,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 14:56:52','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2980,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:02:16','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2981,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:02:17','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2982,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:03:07','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2983,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:03:47','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2984,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:03:48','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2985,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:15:26','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2986,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:15:27','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2987,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:16:47','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2988,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:16:47','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2989,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:16:52','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2990,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:17:09','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2991,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:17:28','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2992,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:17:46','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2993,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:17:47','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2994,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:18:30','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2995,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:18:31','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2996,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:18:54','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2997,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:18:56','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2998,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:19:00','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(2999,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:20:22','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3000,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:20:23','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3001,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:24:50','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3002,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:24:51','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3003,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:25:44','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3004,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:25:45','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3005,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:26:20','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3006,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:27:19','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3007,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:28:08','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3008,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:30:46','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3009,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:36:12','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3010,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:36:12','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3011,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 15:39:02','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3012,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:00:05','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3013,'https://dev.wemall.com/admin#/category/manage','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:19:15','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3014,'https://dev.wemall.com/admin#/product/manage','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:19:17','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3015,'https://dev.wemall.com/admin#/category/manage','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:19:19','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3016,'https://dev.wemall.com/admin#/product/manage','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:19:20','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3017,'https://dev.wemall.com/admin#/category/manage','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:19:23','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3018,'https://dev.wemall.com/admin#/product/manage','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:19:25','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3019,'https://dev.wemall.com/admin#/category/manage','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:19:26','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3020,'https://dev.wemall.com/admin#/product/manage','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:19:28','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3021,'https://dev.wemall.com/admin#/category/manage','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:19:31','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3022,'https://dev.wemall.com/admin#/product/manage','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:20:18','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3023,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:20:23','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3024,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:47:46','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3025,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:47:52','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3026,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:47:54','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3027,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:47:57','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3028,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:48:16','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3029,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:48:30','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3030,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:50:32','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3031,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:50:49','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3032,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:53:46','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3033,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:54:27','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3034,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:57:24','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3035,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 16:59:53','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3036,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 17:01:04','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3037,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 17:01:24','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3038,'https://dev.wemall.com/admin#/product/edit/50','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 17:04:36','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3039,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 17:14:43','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3040,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 17:14:44','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3041,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 17:18:30','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3042,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 17:18:31','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3043,'https://dev.wemall.com/admin#/','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 17:29:45','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3044,'https://dev.wemall.com/admin#/order/analyze','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 17:29:53','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3045,'https://dev.wemall.com/admin#/product/analyze','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 17:29:54','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3046,'https://dev.wemall.com/admin#/','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 17:29:56','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3047,'https://dev.wemall.com/admin#/category/manage','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 17:29:59','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3048,'https://dev.wemall.com/admin#/product/manage','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 17:30:00','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3049,'https://dev.wemall.com/admin#/category/manage','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 17:30:02','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3050,'https://dev.wemall.com/admin#/product/manage','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 17:30:03','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3051,'https://dev.wemall.com/admin#/','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 17:30:05','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3052,'https://dev.wemall.com/admin#/','','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 17:41:46','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3053,'https://dev.wemall.com/admin#/','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 19:35:17','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3054,'https://dev.wemall.com/admin#/product/manage','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 19:35:21','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3055,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 19:35:23','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3056,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 19:35:33','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3057,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 19:39:45','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3'),
+	(3058,'https://dev.wemall.com/admin#/product/edit/50','https://dev.wemall.com/admin','7177679c-c937-4e0c-9b26-37bb183ebe98',0,'2017-07-13 19:40:33','127.0.0.1',1280,800,'Chrome','59.0.3071.115','','CN','zh','Mac OS','10.11.3');
 
 /*!40000 ALTER TABLE `user_visits` ENABLE KEYS */;
 UNLOCK TABLES;

@@ -1,7 +1,7 @@
 var fs   = require('fs');
 var path = require('path');
 
-var configData
+var configData;
 
 //只在程序启动时，读一次配置文件，此时可以使用同步的io操作
 try {
