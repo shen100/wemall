@@ -12,7 +12,7 @@ git clone https://github.com/shen100/wemall.git
 ``` 
 
 * **配置nginx**  
-将`wemall/nginx/dev.wemall.com.conf`文件拷贝到nginx的虚拟主机目录下  
+将`wemall/nginx/dev.wemall.com.conf`文件拷贝到nginx的虚拟主机目录下, 再将`wemall/nginx/server.key`和`wemall/nginx/server.crt`拷贝到某个目录下，然后修改nginx的虚拟主机目录下的`dev.wemall.com.conf`文件中`server.key`和`server.crt`的路径  
 
 * **配置hosts**    
 127.0.0.1 dev.wemall.com  
@@ -55,8 +55,11 @@ npm run staticServ
 go run main.go
 ```
 
-* **微信小程序**   
-进入`wemall/weixin`目录，`将config.dev.js`改名`为config.js`, 
+* **运行微信小程序**   
+进入`wemall/weixin`目录，`将config.dev.js`改名`为config.js`, 然后通过`微信web开发者工具`来运行小程序  
+
+* **访问网站后台**  
+在浏览器地址栏中输入https://dev.wemall.com/admin  
 
 ## 技术选型
 ### 前端
@@ -93,12 +96,15 @@ go run main.go
 | controller             |  控制器|
 | model                  |  数据模型|
 | utils                  |  实用工具|
-| nginx    |  nginx配置|
+| nginx    |  nginx配置及证书|
 | nodejs   |  前端项目目录|
 | sql      |  sql文件目录|
 | weixin   | 微信小程序项目目录 |
 | configuration.dev.json  | 项目配置文件 |
 | main.go  | go主程序入口|
+
+## 技术交流  
+qq群: 32550512  
 
 ## 最后
 求star，star就是继续下去的动力  
