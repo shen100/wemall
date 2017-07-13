@@ -11,8 +11,8 @@
 git clone https://github.com/shen100/wemall.git
 ``` 
 
-* **修改配置文件**  
-进入wemall目录，将`configuration.dev.json`改名为`configuration.json`, 再找到`UploadImgDir`，填写图片上传目录为 `{项目目录}/upload/img`, 举例：C:\dev\src\wemall\upload\img (Windows系统）或 /dev/src/wemall/upload/img (Mac OS X 或Linux系统)
+* **修改configuration.json**  
+进入wemall目录，将`configuration.dev.json`改名为`configuration.json`, 再找到`UploadImgDir`，填写图片上传目录为 `{wemall所在目录}/upload/img`, 举例：C:\dev\src\wemall\upload\img (Windows系统）或 /dev/src/wemall/upload/img (Mac OS X 或Linux系统)
   
 ```
 {
@@ -21,6 +21,9 @@ git clone https://github.com/shen100/wemall.git
   }
 }
 ```  
+
+* **修改config.js**  
+进入`wemall/weixin/config`目录，将`config.dev.js`改名为`config.js`
 
 * **配置nginx**  
 将`wemall/nginx/dev.wemall.com.conf`文件拷贝到nginx的虚拟主机目录下, 再将`wemall/nginx/server.key`和`wemall/nginx/server.crt`拷贝到某个目录下，然后修改nginx的虚拟主机目录下的`dev.wemall.com.conf`文件中`server.key`和`server.crt`的路径  
