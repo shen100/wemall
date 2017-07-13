@@ -23,6 +23,7 @@ import requestSaveProduct        from '../../actions/product/requestSaveProduct'
 import requestCategoryList       from '../../actions/category/requestCategoryList';
 import requestSaveProperty       from '../../actions/product/requestSaveProperty';
 import requestSavePropertyValue  from '../../actions/product/requestSavePropertyValue';
+import requestResetInventory     from '../../actions/product/requestResetInventory';
 import Software                  from '../Software';
 import utils                     from '../../utils';
 import analyze                   from '../../../sdk/analyze';
@@ -54,6 +55,7 @@ class EditProduct extends Component {
         this.onPropInput              = this.onPropInput.bind(this);
         this.addProp                  = this.addProp.bind(this);
         this.cancelAddProp            = this.cancelAddProp.bind(this);
+        this.onResetInventory         = this.onResetInventory.bind(this);
 
         this.state = {
             productId           : this.props.routeParams.id,
@@ -358,6 +360,12 @@ class EditProduct extends Component {
             propPopupVisible : false
         });
     }
+    onResetInventory() {
+        const { dispatch } = this.props;
+        dispatch(requestResetInventory({
+            productID  : this.state.productId
+        }));   
+    }
     render() {
         let self                = this;
         let { data }            = this.props;
@@ -570,6 +578,9 @@ class EditProduct extends Component {
                                                 title={'添加属性'} trigger="click" >
                                                 <Button type="primary">添加属性</Button>
                                             </Popover>
+                                        </FormItem>
+                                        <FormItem>
+                                            <Button onClick={self.onResetInventory} type="primary">重置库存</Button>
                                         </FormItem>
                                         <FormItem {...formItemLayout} label="库存">
                                         {

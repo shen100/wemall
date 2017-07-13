@@ -4,9 +4,18 @@ import {
 } from '../../constants';
 
 function receive(data) {
+    var product = data.product;
+    if (product.inventories && product.inventories.length) {
+        var inventories = product.inventories;
+        for (var i = 0; i < inventories.length; i++) {
+            inventories[i].propertyValues.sort(function(a, b) {
+                return a.propertyID > b.propertyID;
+            });
+        }
+    }
     return {
         type    : REQUEST_PRODUCT_SUCCESS,
-        product : data.product
+        product : product
     };
 }
 

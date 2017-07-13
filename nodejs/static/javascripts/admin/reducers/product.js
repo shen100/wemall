@@ -8,7 +8,8 @@ import {
 	REQUEST_CATEGORY_LIST_SUCCESS,
 	REQUEST_SAVE_PRODUCT_SUCCESS,
 	REQUEST_SAVE_PRODUCT_PROP_SUCCESS,
-	REQUEST_SAVE_PRODUCT_PROP_VALUE_SUCCESS
+	REQUEST_SAVE_PRODUCT_PROP_VALUE_SUCCESS,
+	REQUEST_RESET_INVENTORY_SUCCESS
 } from '../constants';
 
 let initState = {
@@ -93,6 +94,14 @@ export default (state = initState, action) => {
 					break;
 				}
 			}
+			return {
+				...state,
+				product: product
+			};
+		}
+		case REQUEST_RESET_INVENTORY_SUCCESS: {
+			let product         = state.product;
+			product.inventories = action.inventories;
 			return {
 				...state,
 				product: product
