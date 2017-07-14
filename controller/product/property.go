@@ -11,10 +11,9 @@ import (
 	"gopkg.in/kataras/iris.v6"
 )
 
-var sendErrJSON = common.SendErrJSON
-
 // AddProperty 添加商品属性
 func AddProperty(ctx *iris.Context) {
+	sendErrJSON := common.SendErrJSON
 	var property model.Property
 
 	if err := ctx.ReadJSON(&property); err != nil {
@@ -63,6 +62,7 @@ func AddProperty(ctx *iris.Context) {
 
 // AddPropertyValue 添加商品属性值
 func AddPropertyValue(ctx *iris.Context) {
+	sendErrJSON := common.SendErrJSON
 	var productID uint
 	var propertyValue model.PropertyValue
 

@@ -8,7 +8,8 @@ import {
 	REQUEST_CATEGORY_LIST_SUCCESS,
 	REQUEST_SAVE_PRODUCT_SUCCESS,
 	REQUEST_SAVE_PRODUCT_PROP_SUCCESS,
-	REQUEST_SAVE_PRODUCT_PROP_VALUE_SUCCESS
+	REQUEST_SAVE_PRODUCT_PROP_VALUE_SUCCESS,
+	REQUEST_UPDATE_INVENTORY_SUCCESS
 } from '../constants';
 
 let initState = {
@@ -98,6 +99,19 @@ export default (state = initState, action) => {
 			} else {
 				product.inventories = product.inventories.concat(action.inventories);
 			}
+			return {
+				...state,
+				product: product
+			};
+		}
+		case REQUEST_UPDATE_INVENTORY_SUCCESS: {
+			let product = state.product;
+		    for (let i = 0; i < product.inventories.length; i++) {
+		    	if (product.inventories[i].id == action.inventoryId) {
+		    		product.inventories[i].count = action.count;
+		    		break;
+		    	}
+		    }
 			return {
 				...state,
 				product: product

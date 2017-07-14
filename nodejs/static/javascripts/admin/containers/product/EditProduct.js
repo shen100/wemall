@@ -23,6 +23,8 @@ import requestSaveProduct        from '../../actions/product/requestSaveProduct'
 import requestCategoryList       from '../../actions/category/requestCategoryList';
 import requestSaveProperty       from '../../actions/product/requestSaveProperty';
 import requestSavePropertyValue  from '../../actions/product/requestSavePropertyValue';
+import requestUpdateInventory    from '../../actions/product/requestUpdateInventory';
+import requestSaveInventory      from '../../actions/product/requestSaveInventory';
 import Software                  from '../Software';
 import utils                     from '../../utils';
 import analyze                   from '../../../sdk/analyze';
@@ -54,8 +56,12 @@ class EditProduct extends Component {
         this.onPropInput              = this.onPropInput.bind(this);
         this.addProp                  = this.addProp.bind(this);
         this.cancelAddProp            = this.cancelAddProp.bind(this);
+        this.onInventoryChange        = this.onInventoryChange.bind(this);
+        this.onSaveInventory          = this.onSaveInventory.bind(this);
+        this.onTabChange              = this.onTabChange.bind(this);
 
         this.state = {
+            activeTabKey        : '1',
             productId           : this.props.routeParams.id,
             categories          : [], //产品所属的分类
             name                : '',
@@ -122,7 +128,6 @@ class EditProduct extends Component {
         if (allCategories && allCategories.length > 0) {
             if (this.state.productId) {
                 if (product) {
-                    console.log(product);
                     var categories = [];
                     for (var i = 0; i < product.categories.length; i++) {
                         var parentId = product.categories[i].parentId;
@@ -220,7 +225,6 @@ class EditProduct extends Component {
     onImageListChange(data) {
         var fileList = data.fileList || [];
         var imageIDs = [];
-        console.log(fileList);
         for (var i = 0; i < fileList.length; i++) {
             if (fileList[i].response) {
                 imageIDs.push(fileList[i].response.data.id);
@@ -234,13 +238,11 @@ class EditProduct extends Component {
         });
     }
     onContentTypeChange(value) {
-        console.log(value);
         this.setState({
             contentType: value
         });
     }
     onAddContent() {
-        console.log(123, this.state.contents);
         var contents = this.state.contents.slice(0);
         contents.push({
             id    : utils.uuid(),
@@ -264,7 +266,6 @@ class EditProduct extends Component {
         }
     }
     onContentImageChange(id, info) {
-        console.log(id, info);
         if (info.file.status === 'done') {
             var contents = this.state.contents.slice(0);
             for (var i = 0; i < contents.length; i++) {
@@ -362,6 +363,32 @@ class EditProduct extends Component {
             propPopupVisible : false
         });
     }
+    onInventoryChange(id, count) {
+        const { dispatch } = this.props;
+        dispatch(requestUpdateInventory({
+            inventoryId : id,
+            count       : count
+        }));
+    }
+    onSaveInventory() {
+        const { dispatch } = this.props;
+        var inventories = [];
+        for (var i = 0; i < this.state.inventories.length; i++) {
+            inventories.push({
+                id    : this.state.inventories[i].id,
+                count : this.state.inventories[i].count
+            });
+        }
+        dispatch(requestSaveInventory({
+            productID   : this.state.productId,
+            inventories : inventories
+        }));
+    }
+    onTabChange(activeTabKey) {
+        this.setState({
+            activeTabKey: activeTabKey 
+        });
+    }
     render() {
         let self                = this;
         let { data }            = this.props;
@@ -385,6 +412,7 @@ class EditProduct extends Component {
         let propValueTemp       = this.state.propValueTemp;
         let propPopupVisible    = this.state.propPopupVisible;
         let propTemp            = this.state.propTemp;
+        let activeTabKey        = this.state.activeTabKey;
 
         let TabPane = Tabs.TabPane;
 
@@ -440,7 +468,7 @@ class EditProduct extends Component {
                         <div id="productBox">
                             <div className="product-title">{editLabel}商品</div>
 
-                            <Tabs defaultActiveKey="1">
+                            <Tabs defaultActiveKey="1" onChange={self.onTabChange}>
                                 <TabPane tab="商品信息" key="1">
                                 {
                                     isLoading ? null :
@@ -589,18 +617,21 @@ class EditProduct extends Component {
                                                     <div key={inv.id} className="product-inventory-item">
                                                         <span className="product-inventory-label" dangerouslySetInnerHTML={{__html: str}}/>
                                                         <span className="product-inventory-unit">件</span>
-                                                        <InputNumber min={1} max={10000000000} defaultValue={inv.count} />
+                                                        <InputNumber onChange={self.onInventoryChange.bind(self, inv.id)} min={0} max={10000000000} defaultValue={inv.count} />
                                                     </div>
                                                 )
                                             })
                                         }
+                                            <div className="inventory-save">
+                                                <Button onClick={self.onSaveInventory} type="primary" size="large">保存库存</Button>
+                                            </div>
                                         </FormItem>
                                     </Form>
                                 </TabPane>
                             </Tabs>
                         </div>
                     </Col>
-                    <Col span={24} className="submit-box">
+                    <Col span={24} className="submit-box" style={{display: activeTabKey == '1' ? '' : 'none'}}>
                         <Button onClick={this.onSubmit} type="primary" size="large">保存</Button>
                         <Button className="submit-cancel-btn" size="large">取消</Button>
                     </Col>

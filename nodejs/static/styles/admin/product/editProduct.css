@@ -1,36 +1,36 @@
 .product-title {
-	  font-size: 20px;
-	  margin-bottom: 6px;
+    font-size: 20px;
+    margin-bottom: 6px;
     color: #000;
 }
 
 .ant-select-tree-noline_close:after {
-	  -webkit-transform: rotate(270deg) scale(.59) !important;
+    -webkit-transform: rotate(270deg) scale(.59) !important;
     -ms-transform: rotate(270deg) scale(.59) !important;
     transform: rotate(270deg) scale(.59) !important;
 }
 
 #productDetailUEditor {
-	  line-height: normal;
+    line-height: normal;
 }
 
 #productDetailUEditor .edui-arrow {
-	  width: 12px;
+    width: 12px;
 }
 
 .submit-box {
-	  text-align: right;
+    text-align: right;
 }
 
 .submit-cancel-btn {
-	  margin-left: 20px;
+    margin-left: 20px;
 }
 
 .image-uploader,
 .image-uploader-trigger,
 .image {
-  	width: 150px;
-  	height: 150px;
+    width: 150px;
+    height: 150px;
 }
 .image-uploader {
   	display: block;
@@ -39,15 +39,15 @@
   	cursor: pointer;
 }
 .image-uploader-trigger {
-  	display: table-cell;
-  	vertical-align: middle;
-  	font-size: 28px;
-  	color: #999;
+    display: table-cell;
+    vertical-align: middle;
+    font-size: 28px;
+    color: #999;
 }
 
 .ant-upload-select-picture-card i {
-	  font-size: 28px;
-	  color: #999;
+    font-size: 28px;
+    color: #999;
 }
 
 .ant-upload-select-picture-card .ant-upload-text {
@@ -98,5 +98,8 @@
     float: right;
 }
 
+.inventory-save {
+    float: right;
+}
 
 
