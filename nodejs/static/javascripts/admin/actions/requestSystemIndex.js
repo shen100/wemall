@@ -1,6 +1,6 @@
 import {
     REQUEST_SYSTEM_INDEX
-} from '../constants';
+} from '../constants/actionTypes';
 
 export default function() {
     return {

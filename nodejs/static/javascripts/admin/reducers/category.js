@@ -4,7 +4,7 @@ import {
 	CHANGE_CATEGORY_STATUS,
 	REQUEST_CATEGORY,
 	REQUEST_CATEGORY_SUCCESS
-} from '../constants';
+} from '../constants/actionTypes';
 
 let initState = {
 	category       : null,

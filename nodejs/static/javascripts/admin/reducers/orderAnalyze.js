@@ -2,7 +2,7 @@ import {
 	REQUEST_ORDER_ANALYZE,
 	REQUEST_ORDER_30d,
 	REQUEST_ORDER_AMOUNT_30d
-} from '../constants';
+} from '../constants/actionTypes';
 
 let initState = {
 	todayOrderCount     : 0,

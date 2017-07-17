@@ -1,7 +1,7 @@
 import {
 	REQUEST_SYSTEM_INDEX,
 	REQUEST_RECENT_PV
-} from '../constants';
+} from '../constants/actionTypes';
 
 let initState = {
     todayOrderCount : globalData.todayOrderCount,

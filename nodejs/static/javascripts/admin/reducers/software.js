@@ -1,6 +1,6 @@
 import {
 	REQUEST_SOFTWARE
-} from '../constants';
+} from '../constants/actionTypes';
 
 let initState = {
     name        : softwareConfig.name,

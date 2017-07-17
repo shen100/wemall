@@ -1,6 +1,6 @@
 import {
 	REQUEST_USER_ANALYZE
-} from '../constants';
+} from '../constants/actionTypes';
 
 let initState = {
 	todayNewUser          : 0,

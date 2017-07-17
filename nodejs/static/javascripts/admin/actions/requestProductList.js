@@ -1,6 +1,6 @@
 import {
 	REQUEST_PRODUCT_LIST
-} from '../constants';
+} from '../constants/actionTypes';
 
 function receiveProducts(data) {
     return {

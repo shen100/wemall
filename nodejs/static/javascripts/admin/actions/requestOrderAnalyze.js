@@ -1,6 +1,6 @@
 import {
 	REQUEST_ORDER_ANALYZE
-} from '../constants';
+} from '../constants/actionTypes';
 
 function receiveOrderAnalyze(data) {
     return {

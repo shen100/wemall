@@ -1,7 +1,7 @@
 import {
     REQUEST_SAVE_CATEGORY,
 	REQUEST_SAVE_CATEGORY_SUCCESS,
-} from '../../constants';
+} from '../../constants/actionTypes';
 
 function receive(data) {
     return {

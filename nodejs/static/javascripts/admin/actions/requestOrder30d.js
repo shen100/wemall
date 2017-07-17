@@ -1,6 +1,6 @@
 import {
 	REQUEST_ORDER_30d
-} from '../constants';
+} from '../constants/actionTypes';
 
 function receiveOrder30d(data) {
     return {

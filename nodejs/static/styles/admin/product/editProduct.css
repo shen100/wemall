@@ -90,7 +90,7 @@
 
 .product-inventory-unit {
     float: right;
-    margin-left: 8px;
+    padding-left: 8px;
 }
 
 .product-inventory-item .ant-input-number {
@@ -101,5 +101,26 @@
 .inventory-save {
     float: right;
 }
+
+.inventory-total {
+    text-align: right;
+    font-size: 14px;
+}
+
+.inventory-total-label {
+    padding-right: 14px;
+}
+
+.inventory-total-unit {
+    padding-left: 14px;
+}
+
+.inventory-total-input {
+    width: 120px;
+}
+
+
+
+
 
 

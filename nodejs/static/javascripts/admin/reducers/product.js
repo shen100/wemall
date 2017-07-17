@@ -10,7 +10,7 @@ import {
 	REQUEST_SAVE_PRODUCT_PROP_SUCCESS,
 	REQUEST_SAVE_PRODUCT_PROP_VALUE_SUCCESS,
 	REQUEST_UPDATE_INVENTORY_SUCCESS
-} from '../constants';
+} from '../constants/actionTypes';
 
 let initState = {
 	hotProducts: [],
@@ -77,9 +77,10 @@ export default (state = initState, action) => {
 			};
 		}
 		case REQUEST_SAVE_PRODUCT_PROP_SUCCESS: {
-			let product        = state.product;
-			let properties     = product.properties.concat(action.property);
-			product.properties = properties;
+			let product         = state.product;
+			let properties      = product.properties.concat(action.property);
+			product.properties  = properties;
+			product.hasProperty = 1;
 			return {
 				...state,
 				product: product

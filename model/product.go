@@ -19,6 +19,7 @@ type Product struct {
     Image          Image              `json:"image"`
     ImageIDs       string             `json:"imageIDs"`
     Images         []Image            `json:"images"`
+    HasProperty    bool               `json:"hasProperty"`
     Properties     []Property         `json:"properties"`
     Inventories    []Inventory        `json:"inventories"`
     TotalInventory uint               `json:"totalInventory"`

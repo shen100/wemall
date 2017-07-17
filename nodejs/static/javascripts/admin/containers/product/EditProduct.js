@@ -18,13 +18,16 @@ import {
     Upload
 } from 'antd';
 
-import requestProduct            from '../../actions/product/requestProduct';
-import requestSaveProduct        from '../../actions/product/requestSaveProduct';
+import {
+    requestProduct,
+    requestSaveProduct,
+    requestSaveProperty,
+    requestSavePropertyValue,
+    requestUpdateInventory,
+    requestSaveInventory 
+} from '../../actions/product';
+
 import requestCategoryList       from '../../actions/category/requestCategoryList';
-import requestSaveProperty       from '../../actions/product/requestSaveProperty';
-import requestSavePropertyValue  from '../../actions/product/requestSavePropertyValue';
-import requestUpdateInventory    from '../../actions/product/requestUpdateInventory';
-import requestSaveInventory      from '../../actions/product/requestSaveInventory';
 import Software                  from '../Software';
 import utils                     from '../../utils';
 import analyze                   from '../../../sdk/analyze';
@@ -59,6 +62,7 @@ class EditProduct extends Component {
         this.onInventoryChange        = this.onInventoryChange.bind(this);
         this.onSaveInventory          = this.onSaveInventory.bind(this);
         this.onTabChange              = this.onTabChange.bind(this);
+        this.onHasPropertyChange      = this.onHasPropertyChange.bind(this);
 
         this.state = {
             activeTabKey        : '1',
@@ -79,10 +83,13 @@ class EditProduct extends Component {
             contents            : [],
             properties          : [],
             inventories         : [],
+            totalInventory      : 0,
             propValueVisibleMap : {},
             propValueTemp       : '',
             propPopupVisible    : false,
             propTemp            : '',
+            hasProperty         : 0,
+            hasPropertyValue    : false,
             isLoading           : true
         };
     }
@@ -100,11 +107,21 @@ class EditProduct extends Component {
         var allCategories = nextProps.data.categories;
 
         function onDataReady(data) {
+            console.log("onDataReady");
             var product    = data.product;
             var properties = product && product.properties || [];
             var propValueVisibleMap = {};
+            var inventories = product && product.inventories || [];
+            var hasPropertyValue = false;
             for (var i = 0; i < properties.length; i++) {
                 propValueVisibleMap[properties[i].id] = false;
+                if (properties[i].values && properties[i].values.length) {
+                    hasPropertyValue = true;
+                }
+            }
+            var totalInventory = 0;
+            for (var i = 0; i < inventories.length; i++) {
+                totalInventory += inventories[i].count;
             }
             self.setState({
                 productId           : product && product.id || '',
@@ -120,8 +137,11 @@ class EditProduct extends Component {
                 imageIDs            : product && product.imageIDs || '[]',
                 imageList           : data.imageList || [],
                 properties          : properties,
-                inventories         : product && product.inventories || [],
+                inventories         : inventories,
+                totalInventory      : totalInventory,
                 propValueVisibleMap : propValueVisibleMap,
+                hasProperty         : product ? (product.hasProperty || 0) : 0,
+                hasPropertyValue    : hasPropertyValue,
                 isLoading           : false
             });
         }
@@ -389,6 +409,11 @@ class EditProduct extends Component {
             activeTabKey: activeTabKey 
         });
     }
+    onHasPropertyChange(value) {
+        this.setState({
+            hasProperty: parseInt(value)
+        });
+    }
     render() {
         let self                = this;
         let { data }            = this.props;
@@ -407,12 +432,17 @@ class EditProduct extends Component {
         let imageList           = this.state.imageList;
         let contentType         = this.state.contentType;
         let properties          = this.state.properties;
+        let totalInventory      = this.state.totalInventory;
         let inventories         = this.state.inventories;
         let propValueVisibleMap = this.state.propValueVisibleMap;
         let propValueTemp       = this.state.propValueTemp;
         let propPopupVisible    = this.state.propPopupVisible;
         let propTemp            = this.state.propTemp;
         let activeTabKey        = this.state.activeTabKey;
+        let hasProperty         = this.state.hasProperty;
+        let hasPropertyValue    = this.state.hasPropertyValue;
+
+        console.log(hasProperty, typeof hasProperty);
 
         let TabPane = Tabs.TabPane;
 
@@ -564,32 +594,42 @@ class EditProduct extends Component {
                                 </TabPane>
                                 <TabPane tab="商品库存" key="2">
                                     <Form>
-                                    {
-                                        properties.map(function(prop) {
-                                            return (
-                                                <FormItem key={prop.id} {...formItemLayout} label={prop.name}>
-                                                {
-                                                    prop.values.map(function(value) {
-                                                        return (
-                                                            <span key={value.id} className="product-prop-value">{value.name}</span>
-                                                        )
-                                                    })
-                                                }
-                                                    <Popover content={
-                                                        <div>
-                                                            <Input value={propValueTemp} onChange={self.onPropValueInput.bind(self, prop.id)} className="product-prop-value-add-input"/>
-                                                            <Button onClick={self.addPropValue.bind(self, prop.id)} type="primary" className="product-prop-value-add-confirm">确定</Button>
-                                                            <Button onClick={self.cancelAddPropValue.bind(self, prop.id)}>取消</Button>
-                                                        </div>} 
-                                                        onVisibleChange={self.onPropValueVisibleChange.bind(self, prop.id)}
-                                                        visible={propValueVisibleMap[prop.id]}
-                                                        title={'添加' + prop.name} trigger="click" >
-                                                        <Icon type="plus-circle" className="product-prop-value-add"/>
-                                                    </Popover>
-                                                </FormItem>
-                                            );
-                                        })
-                                    }
+                                        <FormItem className="produc" {...formItemLayout} label={'商品属性'}>
+                                            <Select defaultValue={hasProperty + ''} style={{ width: 120 }} onChange={this.onHasPropertyChange}>
+                                                <Select.Option value="0">无</Select.Option>
+                                                <Select.Option value="1">有</Select.Option>
+                                            </Select>
+                                        </FormItem>
+                                        {
+                                            hasProperty ?
+                                            properties.map(function(prop) {
+                                                return (
+                                                    <FormItem key={prop.id} {...formItemLayout} label={prop.name}>
+                                                    {
+                                                        prop.values.map(function(value) {
+                                                            return (
+                                                                <span key={value.id} className="product-prop-value">{value.name}</span>
+                                                            )
+                                                        })
+                                                    }
+                                                        <Popover content={
+                                                            <div>
+                                                                <Input value={propValueTemp} onChange={self.onPropValueInput.bind(self, prop.id)} className="product-prop-value-add-input"/>
+                                                                <Button onClick={self.addPropValue.bind(self, prop.id)} type="primary" className="product-prop-value-add-confirm">确定</Button>
+                                                                <Button onClick={self.cancelAddPropValue.bind(self, prop.id)}>取消</Button>
+                                                            </div>} 
+                                                            onVisibleChange={self.onPropValueVisibleChange.bind(self, prop.id)}
+                                                            visible={propValueVisibleMap[prop.id]}
+                                                            title={'添加' + prop.name} trigger="click" >
+                                                            <Icon type="plus-circle" className="product-prop-value-add"/>
+                                                        </Popover>
+                                                    </FormItem>
+                                                );
+                                            })
+                                            : ''
+                                        }
+                                        {
+                                        hasProperty ?
                                         <FormItem className="product-prop-add" {...formItemLayout} label={' '}>
                                             <Popover content={
                                                 <div>
@@ -603,6 +643,10 @@ class EditProduct extends Component {
                                                 <Button type="primary">添加属性</Button>
                                             </Popover>
                                         </FormItem>
+                                        : ''
+                                        }
+                                        { 
+                                        hasProperty && hasPropertyValue ? 
                                         <FormItem {...formItemLayout} label="库存">
                                         {
                                             inventories.map(function(inv) {
@@ -622,10 +666,25 @@ class EditProduct extends Component {
                                                 )
                                             })
                                         }
+                                            <div className="inventory-total">
+                                                <span className="inventory-total-label">共</span>
+                                                {totalInventory}
+                                                <span className="inventory-total-unit">件</span>
+                                            </div>
                                             <div className="inventory-save">
                                                 <Button onClick={self.onSaveInventory} type="primary" size="large">保存库存</Button>
                                             </div>
                                         </FormItem>
+                                        : ''
+                                        }
+                                        {
+                                        !hasProperty ?
+                                        <FormItem {...formItemLayout} label="总库存">
+                                            <InputNumber className="inventory-total-input" min={0} max={10000000000} defaultValue={totalInventory} />
+                                            <span>件</span>
+                                        </FormItem>
+                                        : ''
+                                        }
                                     </Form>
                                 </TabPane>
                             </Tabs>

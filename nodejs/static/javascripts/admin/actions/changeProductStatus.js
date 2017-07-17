@@ -1,6 +1,6 @@
 import {
 	CHANGE_PRODUCT_STATUS
-} from '../constants';
+} from '../constants/actionTypes';
 
 function receiveProductStatus(data) {
     return {

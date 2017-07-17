@@ -10,6 +10,7 @@ import (
 	"gopkg.in/kataras/iris.v6"
 	"wemall/config"
 	"wemall/model"
+	"wemall/controller/common"
 )
 
 // List 商品列表
@@ -481,4 +482,20 @@ func UpdateStatus(ctx *iris.Context) {
 			},
 		})	
 	}
+}
+
+// UpdateHasProperty 更新是否含有商品属性
+func UpdateHasProperty(ctx *iris.Context) {
+	sendErrJSON := common.SendErrJSON
+	type Data struct {
+		ProductID   uint `json:"productID"`
+		HasProperty bool `json:"hasProperty"`
+	}
+	var data Data
+	if err := ctx.ReadJSON(&data); err != nil {
+		sendErrJSON("参数无效", ctx)
+		return
+	}
+
+
 }

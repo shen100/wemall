@@ -1,6 +1,6 @@
 import {
 	REQUEST_RECENT_PV
-} from '../constants';
+} from '../constants/actionTypes';
 
 function receiveRecentPV(data) {
     return {

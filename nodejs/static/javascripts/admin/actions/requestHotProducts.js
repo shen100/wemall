@@ -1,6 +1,6 @@
 import {
 	REQUEST_HOT_PRODUCT_LIST
-} from '../constants';
+} from '../constants/actionTypes';
 
 function receiveHotProducts(data) {
     return {

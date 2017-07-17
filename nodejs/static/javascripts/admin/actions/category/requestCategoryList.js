@@ -1,7 +1,7 @@
 import {
 	REQUEST_CATEGORY_LIST,
     REQUEST_CATEGORY_LIST_SUCCESS
-} from '../../constants';
+} from '../../constants/actionTypes';
 
 function receiveCategories(data) {
     return {
