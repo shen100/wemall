@@ -24,7 +24,10 @@ import {
     requestSaveProperty,
     requestSavePropertyValue,
     requestUpdateInventory,
-    requestSaveInventory 
+    requestSaveInventory,
+    requestUpdateHasProperty,
+    requestUpdateTotalInventoryTemp,
+    requestUpdateTotalInventory
 } from '../../actions/product';
 
 import requestCategoryList       from '../../actions/category/requestCategoryList';
@@ -63,6 +66,8 @@ class EditProduct extends Component {
         this.onSaveInventory          = this.onSaveInventory.bind(this);
         this.onTabChange              = this.onTabChange.bind(this);
         this.onHasPropertyChange      = this.onHasPropertyChange.bind(this);
+        this.onTotalInventoryChange   = this.onTotalInventoryChange.bind(this);
+        this.onSaveTotalInventory     = this.onSaveTotalInventory.bind(this);
 
         this.state = {
             activeTabKey        : '1',
@@ -88,7 +93,7 @@ class EditProduct extends Component {
             propValueTemp       : '',
             propPopupVisible    : false,
             propTemp            : '',
-            hasProperty         : 0,
+            hasProperty         : false,
             hasPropertyValue    : false,
             isLoading           : true
         };
@@ -119,10 +124,6 @@ class EditProduct extends Component {
                     hasPropertyValue = true;
                 }
             }
-            var totalInventory = 0;
-            for (var i = 0; i < inventories.length; i++) {
-                totalInventory += inventories[i].count;
-            }
             self.setState({
                 productId           : product && product.id || '',
                 categories          : data.categories || [],
@@ -138,9 +139,9 @@ class EditProduct extends Component {
                 imageList           : data.imageList || [],
                 properties          : properties,
                 inventories         : inventories,
-                totalInventory      : totalInventory,
+                totalInventory      : product && product.totalInventory || 0,
                 propValueVisibleMap : propValueVisibleMap,
-                hasProperty         : product ? (product.hasProperty || 0) : 0,
+                hasProperty         : product ? !!product.hasProperty : false,
                 hasPropertyValue    : hasPropertyValue,
                 isLoading           : false
             });
@@ -410,9 +411,24 @@ class EditProduct extends Component {
         });
     }
     onHasPropertyChange(value) {
-        this.setState({
-            hasProperty: parseInt(value)
-        });
+        const { dispatch } = this.props;
+        dispatch(requestUpdateHasProperty({
+            productID : this.state.productId,
+            value     : !!parseInt(value)
+        }));
+    }
+    onTotalInventoryChange(count) {
+        const { dispatch } = this.props;
+        dispatch(requestUpdateTotalInventoryTemp({
+            totalInventory : count
+        }));
+    }
+    onSaveTotalInventory() {
+        const { dispatch } = this.props;
+        dispatch(requestUpdateTotalInventory({
+            productID      : this.state.productId,
+            totalInventory : this.state.totalInventory
+        }));
     }
     render() {
         let self                = this;
@@ -439,7 +455,7 @@ class EditProduct extends Component {
         let propPopupVisible    = this.state.propPopupVisible;
         let propTemp            = this.state.propTemp;
         let activeTabKey        = this.state.activeTabKey;
-        let hasProperty         = this.state.hasProperty;
+        let hasProperty         = this.state.hasProperty ? 1 : 0;
         let hasPropertyValue    = this.state.hasPropertyValue;
 
         console.log(hasProperty, typeof hasProperty);
@@ -680,8 +696,17 @@ class EditProduct extends Component {
                                         {
                                         !hasProperty ?
                                         <FormItem {...formItemLayout} label="总库存">
-                                            <InputNumber className="inventory-total-input" min={0} max={10000000000} defaultValue={totalInventory} />
+                                            <InputNumber className="inventory-total-input" min={0} max={10000000000} 
+                                                onChange={self.onTotalInventoryChange}
+                                                defaultValue={totalInventory} />
                                             <span>件</span>
+                                        </FormItem>
+                                        : ''
+                                        }
+                                        {
+                                        !hasProperty ?
+                                        <FormItem {...formItemLayout} label=" ">
+                                            <Button onClick={self.onSaveTotalInventory} type="primary" size="large">保存库存</Button>
                                         </FormItem>
                                         : ''
                                         }

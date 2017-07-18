@@ -36,6 +36,12 @@ export const REQUEST_UPDATE_INVENTORY = 'requestUpdateInventory';
 
 export const REQUEST_UPDATE_INVENTORY_SUCCESS = 'requestUpdateInventorySuccess';
 
+export const REQUEST_UPDATE_HAS_PROPERTY_SUCCESS = 'requestUpdateHasPropertySuccess';
+
+export const REQUEST_UPDATE_TOTAL_INVENTORY_TEMP = 'requestUpdateTotalInventoryTemp';
+
+export const REQUEST_UPDATE_TOTAL_INVENTORY_SUCCESS = 'requestUpdateTotalInventorySuccess';
+
 export const REQUEST_SAVE_INVENTORY = 'requestSaveInventory';
 
 export const REQUEST_SAVE_INVENTORY_SUCCESS = 'requestSaveInventorySuccess';

@@ -9,7 +9,10 @@ import {
 	REQUEST_SAVE_PRODUCT_SUCCESS,
 	REQUEST_SAVE_PRODUCT_PROP_SUCCESS,
 	REQUEST_SAVE_PRODUCT_PROP_VALUE_SUCCESS,
-	REQUEST_UPDATE_INVENTORY_SUCCESS
+	REQUEST_UPDATE_INVENTORY_SUCCESS,
+	REQUEST_UPDATE_TOTAL_INVENTORY_TEMP,
+	REQUEST_UPDATE_TOTAL_INVENTORY_SUCCESS,
+	REQUEST_UPDATE_HAS_PROPERTY_SUCCESS
 } from '../constants/actionTypes';
 
 let initState = {
@@ -107,16 +110,37 @@ export default (state = initState, action) => {
 		}
 		case REQUEST_UPDATE_INVENTORY_SUCCESS: {
 			let product = state.product;
+			var totalInventory = 0;
 		    for (let i = 0; i < product.inventories.length; i++) {
 		    	if (product.inventories[i].id == action.inventoryId) {
 		    		product.inventories[i].count = action.count;
-		    		break;
 		    	}
+		    	totalInventory += product.inventories[i].count;
 		    }
+		    product.totalInventory = totalInventory;
 			return {
 				...state,
 				product: product
 			};
+		}
+		case REQUEST_UPDATE_TOTAL_INVENTORY_TEMP: {
+			let product = state.product;
+			product.totalInventory = action.totalInventory;
+			return {
+				...state,
+				product: product
+			};
+		}
+		case REQUEST_UPDATE_HAS_PROPERTY_SUCCESS: {
+			let product = state.product;
+			product.hasProperty    = action.hasProperty;
+			product.properties     = [];
+			product.inventories    = [];
+			product.totalInventory = 0;
+			return {
+				...state,
+				product: product
+			};	
 		}
 		default: {
 			return state

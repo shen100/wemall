@@ -349,19 +349,32 @@ func Info(ctx *iris.Context) {
 		return
 	}
 
-	if err := model.DB.Model(&product).Related(&product.Properties).Error; err != nil {
-		fmt.Println(err.Error())
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error.",
-			"data"  : iris.Map{},
-		})
-		return
-	}
+	if product.HasProperty {
+		if err := model.DB.Model(&product).Related(&product.Properties).Error; err != nil {
+			fmt.Println(err.Error())
+			ctx.JSON(iris.StatusOK, iris.Map{
+				"errNo" : model.ErrorCode.ERROR,
+				"msg"   : "error.",
+				"data"  : iris.Map{},
+			})
+			return
+		}
 
-	for i := 0; i < len(product.Properties); i++ {
-		property := product.Properties[i]
-		if err := model.DB.Model(&property).Related(&property.PropertyValues).Error; err != nil {
+		for i := 0; i < len(product.Properties); i++ {
+			property := product.Properties[i]
+			if err := model.DB.Model(&property).Related(&property.PropertyValues).Error; err != nil {
+				fmt.Println(err.Error())
+				ctx.JSON(iris.StatusOK, iris.Map{
+					"errNo" : model.ErrorCode.ERROR,
+					"msg"   : "error",
+					"data"  : iris.Map{},
+				})
+				return
+			}
+			product.Properties[i] = property
+		}
+
+		if err := model.DB.Model(&product).Related(&product.Inventories).Error; err != nil {
 			fmt.Println(err.Error())
 			ctx.JSON(iris.StatusOK, iris.Map{
 				"errNo" : model.ErrorCode.ERROR,
@@ -370,39 +383,20 @@ func Info(ctx *iris.Context) {
 			})
 			return
 		}
-		product.Properties[i] = property
-	}
 
-	if err := model.DB.Model(&product).Related(&product.Inventories).Error; err != nil {
-		fmt.Println(err.Error())
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error",
-			"data"  : iris.Map{},
-		})
-		return
-	}
-
-	for i := 0; i < len(product.Inventories); i++ {
-		inventory := product.Inventories[i]
-		if err := model.DB.Model(&inventory).Related(&inventory.PropertyValues, "property_values").Error; err != nil {
-			fmt.Println(err.Error())
-			ctx.JSON(iris.StatusOK, iris.Map{
-				"errNo" : model.ErrorCode.ERROR,
-				"msg"   : "error",
-				"data"  : iris.Map{},
-			})
-			return
-		}
-		product.Inventories[i] = inventory
-	}
-
-	if len(product.Inventories) > 0 {
-		var totalInventory uint
 		for i := 0; i < len(product.Inventories); i++ {
-			totalInventory += product.Inventories[i].Count
+			inventory := product.Inventories[i]
+			if err := model.DB.Model(&inventory).Related(&inventory.PropertyValues, "property_values").Error; err != nil {
+				fmt.Println(err.Error())
+				ctx.JSON(iris.StatusOK, iris.Map{
+					"errNo" : model.ErrorCode.ERROR,
+					"msg"   : "error",
+					"data"  : iris.Map{},
+				})
+				return
+			}
+			product.Inventories[i] = inventory
 		}
-		product.TotalInventory = totalInventory
 	}
 
 	fmt.Println("duration: ", time.Now().Sub(reqStartTime).Seconds())
@@ -528,6 +522,45 @@ func UpdateHasProperty(ctx *iris.Context) {
 			return	
 		}
 		tx.Commit()
+	}
+
+	ctx.JSON(iris.StatusOK, iris.Map{
+		"errNo" : model.ErrorCode.SUCCESS,
+		"msg"   : "success",
+		"data"  : iris.Map{},
+	})
+}
+
+// UpdateTotalInventory 更新商品总库存(没有商品属性时才会调此接口)
+func UpdateTotalInventory(ctx *iris.Context) {
+	sendErrJSON := common.SendErrJSON
+	type Data struct {
+		ProductID      uint `json:"productID"`
+		TotalInventory uint `json:"totalInventory"`
+	}
+	var data Data
+	if err := ctx.ReadJSON(&data); err != nil {
+		sendErrJSON("参数无效", ctx)
+		return
+	}
+
+	var product model.Product
+	if err := model.DB.First(&product, data.ProductID).Error; err != nil {
+		fmt.Println(err.Error())
+		sendErrJSON("错误的商品id", ctx)
+		return
+	}
+
+	if product.HasProperty {
+		sendErrJSON("商品添加过属性", ctx)
+		return	
+	}
+
+	product.TotalInventory = data.TotalInventory
+
+	if err := model.DB.Save(&product).Error; err != nil {
+		sendErrJSON("error", ctx)
+		return
 	}
 
 	ctx.JSON(iris.StatusOK, iris.Map{

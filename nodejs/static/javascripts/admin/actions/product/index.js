@@ -10,7 +10,10 @@ import {
     REQUEST_SAVE_PRODUCT_PROP_VALUE,
     REQUEST_SAVE_PRODUCT_PROP_VALUE_SUCCESS,
     REQUEST_UPDATE_INVENTORY,
-    REQUEST_UPDATE_INVENTORY_SUCCESS
+    REQUEST_UPDATE_INVENTORY_SUCCESS,
+    REQUEST_UPDATE_HAS_PROPERTY_SUCCESS,
+    REQUEST_UPDATE_TOTAL_INVENTORY_TEMP,
+    REQUEST_UPDATE_TOTAL_INVENTORY_SUCCESS
 } from '../../constants/actionTypes';
 
 export function requestProduct(id) {
@@ -200,6 +203,62 @@ export function requestUpdateInventory(data) {
         inventoryId : data.inventoryId,
         count       : data.count,
         type        : REQUEST_UPDATE_INVENTORY_SUCCESS
+    };
+}
+
+export function requestUpdateHasProperty(data) {
+    return dispatch => {
+        var url = pageConfig.apiPath + '/admin/product/property/flag';
+        var reqData = {
+            productID   : data.productID,
+            hasProperty : data.value
+        };
+        return fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(reqData)
+            })
+            .then(response => response.json())
+            .then(json => dispatch(function(data) {
+                return {
+                    hasProperty : reqData.hasProperty,
+                    type        : REQUEST_UPDATE_HAS_PROPERTY_SUCCESS
+                };
+            }(json.data)));
+    };
+}
+
+export function requestUpdateTotalInventoryTemp(data) {
+    return {
+        type           : REQUEST_UPDATE_TOTAL_INVENTORY_TEMP,
+        totalInventory : data.totalInventory
+    };
+}
+
+export function requestUpdateTotalInventory(data) {
+    return dispatch => {
+        var url = pageConfig.apiPath + '/admin/product/inventory/total';
+        var reqData = {
+            productID      : data.productID,
+            totalInventory : data.totalInventory
+        };
+        return fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(reqData)
+            })
+            .then(response => response.json())
+            .then(json => dispatch(function(data) {
+                return {
+                    type  : REQUEST_UPDATE_TOTAL_INVENTORY_SUCCESS
+                };
+            }(json.data)));
     };
 }
 

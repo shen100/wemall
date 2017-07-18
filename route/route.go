@@ -46,7 +46,9 @@ func Route(app *iris.Framework) {
 		adminRouter.Post("/product/status/update",    product.UpdateStatus)
 		adminRouter.Post("/product/property/saveval", product.AddPropertyValue)
 		adminRouter.Post("/product/property/create",  product.AddProperty)
+		adminRouter.Post("/product/property/flag",    product.UpdateHasProperty)
 		adminRouter.Post("/product/inventory/save",   product.SaveInventory)
+		adminRouter.Post("/product/inventory/total",  product.UpdateTotalInventory)
 
 		adminRouter.Get("/order/analyze",           order.Analyze)
 		adminRouter.Get("/order/todaycount",        order.TodayCount)
