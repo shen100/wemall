@@ -497,5 +497,42 @@ func UpdateHasProperty(ctx *iris.Context) {
 		return
 	}
 
+	var product model.Product
+	if err := model.DB.First(&product, data.ProductID).Error; err != nil {
+		fmt.Println(err.Error())
+		sendErrJSON("错误的商品id", ctx)
+		return
+	}
 
+	if (data.HasProperty && !product.HasProperty) || (!data.HasProperty && product.HasProperty) {
+		tx := model.DB.Begin()
+		var sql = "DELETE FROM properties WHERE product_id = ?"
+		if err := tx.Exec(sql, product.ID).Error; err != nil {
+			tx.Rollback()
+			sendErrJSON("error", ctx)
+			return
+		}
+
+		sql = "DELETE FROM inventories WHERE product_id = ?"
+		if err := tx.Exec(sql, product.ID).Error; err != nil {
+			tx.Rollback()
+			sendErrJSON("error", ctx)
+			return
+		}
+
+		product.HasProperty    = data.HasProperty
+		product.TotalInventory = 0
+		if err := model.DB.Save(&product).Error; err != nil {
+			tx.Rollback()
+			sendErrJSON("error", ctx)
+			return	
+		}
+		tx.Commit()
+	}
+
+	ctx.JSON(iris.StatusOK, iris.Map{
+		"errNo" : model.ErrorCode.SUCCESS,
+		"msg"   : "success",
+		"data"  : iris.Map{},
+	})
 }

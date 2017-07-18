@@ -42,7 +42,7 @@
     "react-router": "3.0.2",
     "react-router-redux": "4.0.8",
     "redux": "3.6.0",
-    "redux-devtools": "^3.3.2",
+    "redux-devtools": "3.3.2",
     "redux-thunk": "2.2.0",
     "style-loader": "0.16.1",
     "ua-parser-js": "0.7.12",
