@@ -8,7 +8,7 @@
 * **克隆代码**
 
 ```
-git clone https://github.com/shen100/wemall.git
+$ git clone https://github.com/shen100/wemall.git
 ``` 
 
 * **修改configuration.json**  
@@ -40,33 +40,33 @@ git clone https://github.com/shen100/wemall.git
 进入`wemall/nodejs`目录，运行命令
   
 ```
-npm install
+$ npm install
 ``` 
 
 如果安装失败，或速度慢，可尝试阿里的镜像
 
 ```
-npm install --registry=https://registry.npm.taobao.org
+$ npm install --registry=https://registry.npm.taobao.org
 ```
 
 * **启动node.js程序**  
 进入`wemall/nodejs`目录，运行命令
 
 ```
-npm start
+$ npm start
 ```
 
 再开一个新的命令行窗口， 运行命令
 
 ```
-npm run staticServ
+$ npm run staticServ
 ```
 
 * **运行go程序**  
 进入`wemall`目录，`将configuration.dev.json`改名`为configuration.json`, 运行
 
 ```
-go run main.go
+$ go run main.go
 ```
 
 * **运行微信小程序**   
