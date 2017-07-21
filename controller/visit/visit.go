@@ -5,6 +5,7 @@ import (
 	"time"
 	"gopkg.in/kataras/iris.v6"
 	"wemall/model"
+	"wemall/controller/common"
 )
 
 // Latest30Day 近30天，每天的PV
@@ -30,6 +31,7 @@ func Latest30Day(ctx *iris.Context) {
 
 // PV 增加一次页面访问
 func PV(ctx *iris.Context) {
+	SendErrJSON := common.SendErrJSON
 	var err error
 	var msg = ""
 	var userVisit model.UserVisit	
@@ -41,11 +43,13 @@ func PV(ctx *iris.Context) {
 	userVisit.DeviceModel  = ctx.FormValue("deviceModel")
 	userVisit.DeviceWidth, err = strconv.Atoi(ctx.FormValue("deviceWidth"))
 	if err != nil {
-		msg = "无效的deviceWidth"
+		SendErrJSON("无效的deviceWidth", ctx)
+		return
 	}
 	userVisit.DeviceHeight, err = strconv.Atoi(ctx.FormValue("deviceHeight"))
 	if err != nil {
-		msg = "无效的deviceHeight"
+		SendErrJSON("无效的deviceHeight", ctx)
+		return
 	}
 	userVisit.IP             = ctx.RemoteAddr()
 	userVisit.VisitTime      = time.Now()
@@ -55,23 +59,17 @@ func PV(ctx *iris.Context) {
 	userVisit.BrowserVersion = ctx.FormValue("browserVersion")
 
 	if userVisit.ClientID == "" {
-		msg = "clientId不能为空"
+		SendErrJSON("clientId不能为空", ctx)
+		return
 	}
+
 	if msg != "" {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : msg,
-			"data"  : iris.Map{},
-		})
+		SendErrJSON("error", ctx)
 		return
 	}
 
 	if err := model.DB.Create(&userVisit).Error; err != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error.",
-			"data"  : iris.Map{},
-		})
+		SendErrJSON("error.", ctx)
 		return	
 	}
 

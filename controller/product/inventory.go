@@ -40,7 +40,7 @@ func combinationInventory(productID uint, properties []model.Property) []model.I
 
 // SaveInventory 更新商品库存
 func SaveInventory(ctx *iris.Context) {
-	sendErrJSON := common.SendErrJSON
+	SendErrJSON := common.SendErrJSON
 	type InventoryData struct {
 		ID    uint `json:"id"`
 		Count uint `json:"count"`
@@ -55,19 +55,19 @@ func SaveInventory(ctx *iris.Context) {
 
 	if err := ctx.ReadJSON(&reqData); err != nil {
 		fmt.Println(err.Error());
-		sendErrJSON("参数无效", ctx)
+		SendErrJSON("参数无效", ctx)
 		return
 	}
 
 	if err := model.DB.First(&product, reqData.ProductID).Error; err != nil {
 		fmt.Println(err.Error());
-		sendErrJSON("错误的商品id", ctx)
+		SendErrJSON("错误的商品id", ctx)
 		return
 	}
 
 	if err := model.DB.Model(&product).Related(&product.Inventories).Error; err != nil {
 		fmt.Println(err.Error())
-		sendErrJSON("error", ctx)
+		SendErrJSON("error", ctx)
 		return
 	}
 
@@ -80,7 +80,7 @@ func SaveInventory(ctx *iris.Context) {
 			}
 		}
 		if !found {
-			sendErrJSON("无效的库存id(" + strconv.Itoa(int(reqData.Inventories[i].ID)) + ")", ctx)
+			SendErrJSON("无效的库存id(" + strconv.Itoa(int(reqData.Inventories[i].ID)) + ")", ctx)
 			return
 		}
 	}
@@ -92,7 +92,7 @@ func SaveInventory(ctx *iris.Context) {
 		if err != nil {
 			tx.Rollback()
 			fmt.Println(err.Error())
-			sendErrJSON("error", ctx)
+			SendErrJSON("error", ctx)
 			return
 		}
 		count += reqData.Inventories[i].Count
@@ -101,7 +101,7 @@ func SaveInventory(ctx *iris.Context) {
 	if err := tx.Exec("UPDATE products SET total_inventory = ? WHERE id = ?", count, reqData.ProductID).Error; err != nil {
 		tx.Rollback()
 		fmt.Println(err.Error())
-		sendErrJSON("error", ctx)
+		SendErrJSON("error", ctx)
 		return
 	}
 

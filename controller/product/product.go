@@ -15,6 +15,7 @@ import (
 
 // List 商品列表
 func List(ctx *iris.Context) {
+	SendErrJSON := common.SendErrJSON
 	var products []model.Product
 	pageNo, err := strconv.Atoi(ctx.FormValue("pageNo"))
  
@@ -37,41 +38,26 @@ func List(ctx *iris.Context) {
 		orderStr += " desc"	
 	}
 
-	isError     := false
-	errMsg      := ""
 	cateID, err := strconv.Atoi(ctx.FormValue("cateId"))
 
 	if err != nil {
 		fmt.Println(err.Error())
-		isError = true
-		errMsg  = "分类ID不正确"
+		SendErrJSON("分类ID不正确", ctx)
+		return
 	}
 
 	var category model.Category
 
 	if model.DB.First(&category, cateID).Error != nil {
-		isError = true
-		errMsg  = "分类ID不正确"
-	}
-
-	if isError {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : errMsg,
-			"data"  : iris.Map{},
-		})
-		return	
+		SendErrJSON("分类ID不正确", ctx)
+		return
 	}
 
 	pageSize := config.ServerConfig.PageSize
 	queryErr := model.DB.Offset(offset).Limit(pageSize).Order(orderStr).Find(&products).Error
 
 	if queryErr != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error",
-			"data"  : iris.Map{},
-		})
+		SendErrJSON("error", ctx)
 		return
 	}
 
@@ -79,11 +65,7 @@ func List(ctx *iris.Context) {
 		err := model.DB.First(&products[i].Image, products[i].ImageID).Error
 		if err != nil {
 			fmt.Println(err.Error())
-			ctx.JSON(iris.StatusOK, iris.Map{
-				"errNo" : model.ErrorCode.ERROR,
-				"msg"   : "error",
-				"data"  : iris.Map{},
-			})
+			SendErrJSON("error", ctx)
 			return
 		}	
 	}
@@ -99,6 +81,7 @@ func List(ctx *iris.Context) {
 
 // AdminList 商品列表，后台管理提供的接口
 func AdminList(ctx *iris.Context) {
+	SendErrJSON := common.SendErrJSON
 	var products []model.Product
 	pageNo, err := strconv.Atoi(ctx.FormValue("pageNo"))
  
@@ -123,11 +106,7 @@ func AdminList(ctx *iris.Context) {
 	queryErr := model.DB.Offset(offset).Limit(config.ServerConfig.PageSize).Order(orderStr).Find(&products).Error
 
 	if queryErr != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error.",
-			"data"  : iris.Map{},
-		})
+		SendErrJSON("error.", ctx)
 		return
 	}
 
@@ -141,32 +120,22 @@ func AdminList(ctx *iris.Context) {
 }
 
 func save(ctx *iris.Context, isEdit bool) {
+	SendErrJSON := common.SendErrJSON
 	var product model.Product
 
 	if err := ctx.ReadJSON(&product); err != nil {
-		fmt.Println(err.Error());
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "参数无效",
-			"data"  : iris.Map{},
-		})
+		fmt.Println(err.Error())
+		SendErrJSON("参数无效", ctx)
 		return
 	}
 
 	var queryProduct model.Product
 	if isEdit {
 		if model.DB.First(&queryProduct, product.ID).Error != nil {
-			ctx.JSON(iris.StatusOK, iris.Map{
-				"errNo" : model.ErrorCode.ERROR,
-				"msg"   : "无效的产品ID",
-				"data"  : iris.Map{},
-			})
+			SendErrJSON("无效的产品ID", ctx)
 			return
 		}
 	}
-
-	var isError bool
-	var msg = ""
 
 	if isEdit {
 		product.BrowseCount  = queryProduct.BrowseCount
@@ -188,58 +157,78 @@ func save(ctx *iris.Context, isEdit bool) {
 	product.Remark = strings.TrimSpace(product.Remark)
 
 	if (product.Name == "") {
-		isError = true
-		msg     = "商品名称不能为空"
-	} else if utf8.RuneCountInString(product.Name) > config.ServerConfig.MaxNameLen {
-		isError = true
-		msg     = "商品名称不能超过" + strconv.Itoa(config.ServerConfig.MaxNameLen) + "个字符"
-	} else if isEdit && product.Status != model.ProductUpShelf && product.Status != model.ProductDownShelf && product.Status != model.ProductPending {
-		isError = true
-		msg     = "status无效"
-	} else if product.ImageID <= 0 {
-		isError = true
-		msg     = "封面图片不能为空"
-	} else if product.Remark != "" && utf8.RuneCountInString(product.Remark) > config.ServerConfig.MaxRemarkLen {
-		isError = true
-		msg     = "备注不能超过" + strconv.Itoa(config.ServerConfig.MaxRemarkLen) + "个字符"	
-	} else if product.Detail == "" || utf8.RuneCountInString(product.Detail) <= 0 {
-		isError = true	
-		msg     = "商品详情不能为空"
-	} else if utf8.RuneCountInString(product.Detail) > config.ServerConfig.MaxContentLen {
-		isError = true	
-		msg     = "商品详情不能超过" + strconv.Itoa(config.ServerConfig.MaxContentLen) + "个字符"	
-	} else if product.Categories == nil || len(product.Categories) <= 0  {
-		isError = true	
-		msg     = "至少要选择一个商品分类"
-	} else if len(product.Categories) > config.ServerConfig.MaxProductCateCount {
-		isError = true
-		msg     = "最多只能选择" + strconv.Itoa(config.ServerConfig.MaxProductCateCount) + "个商品分类"
-	} else if product.Price < 0 {
-		isError = true	
-		msg     = "无效的商品售价"
-	} else if product.OriginalPrice < 0 {
-		isError = true	
-		msg     = "无效的商品原价"
-	} else {
-		var images []uint
-		if err := json.Unmarshal([]byte(product.ImageIDs), &images); err != nil {
-			isError = true
-			msg     = "商品图片集无效"
-    	} else if images == nil || len(images) <= 0 {
-			isError = true
-			msg     = "商品图片集不能为空"
-		} else if len(images) > config.ServerConfig.MaxProductImgCount {
-			isError = true
-			msg     = "商品图片集个数不能超过" + strconv.Itoa(config.ServerConfig.MaxProductImgCount) + "个"
-		}
+		SendErrJSON("商品名称不能为空", ctx)
+		return
+	}
+	
+	if utf8.RuneCountInString(product.Name) > config.ServerConfig.MaxNameLen {
+		msg := "商品名称不能超过" + strconv.Itoa(config.ServerConfig.MaxNameLen) + "个字符"
+		SendErrJSON(msg, ctx)
+		return
+	}
+	
+	if isEdit && product.Status != model.ProductUpShelf && product.Status != model.ProductDownShelf && product.Status != model.ProductPending {
+		SendErrJSON("status无效", ctx)
+		return
+	}
+	
+	if product.ImageID <= 0 {
+		SendErrJSON("封面图片不能为空", ctx)
+		return
+	}
+	
+	if product.Remark != "" && utf8.RuneCountInString(product.Remark) > config.ServerConfig.MaxRemarkLen {
+		msg := "备注不能超过" + strconv.Itoa(config.ServerConfig.MaxRemarkLen) + "个字符"	
+		SendErrJSON(msg, ctx)
+		return
+	}
+	
+	if product.Detail == "" || utf8.RuneCountInString(product.Detail) <= 0 {
+		SendErrJSON("商品详情不能为空", ctx)
+		return
+	}
+	
+	if utf8.RuneCountInString(product.Detail) > config.ServerConfig.MaxContentLen {	
+		msg := "商品详情不能超过" + strconv.Itoa(config.ServerConfig.MaxContentLen) + "个字符"	
+		SendErrJSON(msg, ctx)
+		return
+	}
+	
+	if product.Categories == nil || len(product.Categories) <= 0  {
+		SendErrJSON("至少要选择一个商品分类", ctx)
+		return
+	}
+	
+	if len(product.Categories) > config.ServerConfig.MaxProductCateCount {
+		msg := "最多只能选择" + strconv.Itoa(config.ServerConfig.MaxProductCateCount) + "个商品分类"
+		SendErrJSON(msg, ctx)
+		return
+	}
+	
+	if product.Price < 0 {
+		SendErrJSON("无效的商品售价", ctx)
+		return
+	}
+	
+	if product.OriginalPrice < 0 {
+		SendErrJSON("无效的商品原价", ctx)
+		return
 	}
 
-	if isError {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : msg,
-			"data"  : iris.Map{},
-		})
+	var images []uint
+	if err := json.Unmarshal([]byte(product.ImageIDs), &images); err != nil {
+		SendErrJSON("商品图片集无效", ctx)
+		return
+	}
+
+	if images == nil || len(images) <= 0 {
+		SendErrJSON("商品图片集不能为空", ctx)
+		return
+	}
+	
+	if len(images) > config.ServerConfig.MaxProductImgCount {
+		msg := "商品图片集个数不能超过" + strconv.Itoa(config.ServerConfig.MaxProductImgCount) + "个"
+		SendErrJSON(msg, ctx)
 		return
 	}
 
@@ -247,11 +236,7 @@ func save(ctx *iris.Context, isEdit bool) {
 		var category model.Category
 		queryErr := model.DB.First(&category, product.Categories[i].ID).Error
 		if queryErr != nil {
-			ctx.JSON(iris.StatusOK, iris.Map{
-				"errNo" : model.ErrorCode.ERROR,
-				"msg"   : "无效的分类id",
-				"data"  : iris.Map{},
-			})
+			SendErrJSON("无效的分类id", ctx)
 			return	
 		}
 		product.Categories[i] = category
@@ -274,11 +259,7 @@ func save(ctx *iris.Context, isEdit bool) {
 	}
 
 	if saveErr {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error.",
-			"data"  : iris.Map{},
-		})
+		SendErrJSON("error.", ctx)
 		return	
 	}
 
@@ -301,25 +282,18 @@ func Update(ctx *iris.Context) {
 
 // Info 获取商品信息
 func Info(ctx *iris.Context) {
+	SendErrJSON := common.SendErrJSON
 	reqStartTime := time.Now()
 	id, err := ctx.ParamInt("id")
 	if err != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.NotFound,
-			"msg"   : "错误的商品id",
-			"data"  : iris.Map{},
-		})
+		SendErrJSON("错误的商品id", ctx)
 		return
 	}
 
 	var product model.Product
 
 	if model.DB.First(&product, id).Error != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.NotFound,
-			"msg"   : "错误的商品id",
-			"data"  : iris.Map{},
-		})
+		SendErrJSON("错误的商品id", ctx)
 		return
 	}
 
@@ -341,22 +315,14 @@ func Info(ctx *iris.Context) {
 
 	if err := model.DB.Model(&product).Related(&product.Categories, "categories").Error; err != nil {
 		fmt.Println(err.Error())
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error.",
-			"data"  : iris.Map{},
-		})
+		SendErrJSON("error", ctx)
 		return
 	}
 
 	if product.HasProperty {
 		if err := model.DB.Model(&product).Related(&product.Properties).Error; err != nil {
 			fmt.Println(err.Error())
-			ctx.JSON(iris.StatusOK, iris.Map{
-				"errNo" : model.ErrorCode.ERROR,
-				"msg"   : "error.",
-				"data"  : iris.Map{},
-			})
+			SendErrJSON("error", ctx)
 			return
 		}
 
@@ -364,11 +330,7 @@ func Info(ctx *iris.Context) {
 			property := product.Properties[i]
 			if err := model.DB.Model(&property).Related(&property.PropertyValues).Error; err != nil {
 				fmt.Println(err.Error())
-				ctx.JSON(iris.StatusOK, iris.Map{
-					"errNo" : model.ErrorCode.ERROR,
-					"msg"   : "error",
-					"data"  : iris.Map{},
-				})
+				SendErrJSON("error", ctx)
 				return
 			}
 			product.Properties[i] = property
@@ -376,11 +338,7 @@ func Info(ctx *iris.Context) {
 
 		if err := model.DB.Model(&product).Related(&product.Inventories).Error; err != nil {
 			fmt.Println(err.Error())
-			ctx.JSON(iris.StatusOK, iris.Map{
-				"errNo" : model.ErrorCode.ERROR,
-				"msg"   : "error",
-				"data"  : iris.Map{},
-			})
+			SendErrJSON("error", ctx)
 			return
 		}
 
@@ -388,11 +346,7 @@ func Info(ctx *iris.Context) {
 			inventory := product.Inventories[i]
 			if err := model.DB.Model(&inventory).Related(&inventory.PropertyValues, "property_values").Error; err != nil {
 				fmt.Println(err.Error())
-				ctx.JSON(iris.StatusOK, iris.Map{
-					"errNo" : model.ErrorCode.ERROR,
-					"msg"   : "error",
-					"data"  : iris.Map{},
-				})
+				SendErrJSON("error", ctx)
 				return
 			}
 			product.Inventories[i] = inventory
@@ -411,90 +365,63 @@ func Info(ctx *iris.Context) {
 
 // UpdateStatus 更新产品状态
 func UpdateStatus(ctx *iris.Context) {
+	SendErrJSON := common.SendErrJSON
 	var tmpProduct model.Product
 	tmpErr    := ctx.ReadJSON(&tmpProduct)
 
 	if tmpErr != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "无效的id或status",
-			"data"  : iris.Map{},
-		})
+		SendErrJSON("无效的id或status", ctx)
 		return
 	}
 
 	productID := tmpProduct.ID
 	status    := tmpProduct.Status
-	errMsg    := ""
 
 	var product model.Product
 	if err := model.DB.First(&product, productID).Error; err != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "无效的产品ID.",
-			"data"  : iris.Map{},
-		})
+		SendErrJSON("无效的产品ID.", ctx)
 		return
 	}
 	
-	if status != model.ProductDownShelf && status != model.ProductUpShelf {
-		errMsg = "无效的产品状态."
-	} else if status == model.ProductDownShelf && product.Status != model.ProductUpShelf {
-		errMsg = "无效的产品状态."
-	} else if status == model.ProductUpShelf && product.Status != model.ProductDownShelf && product.Status != model.ProductPending {
-		errMsg = "无效的产品状态"
-	}
-
-	if (status == model.ProductDownShelf || status == model.ProductUpShelf) && status == product.Status {
-		errMsg = ""
-	}
-
-	if errMsg != "" {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : errMsg,
-			"data"  : iris.Map{},
-		})
+	if status != model.ProductDownShelf && status != model.ProductUpShelf && status != model.ProductPending {
+		SendErrJSON("无效的产品状态", ctx)
 		return
 	}
 
 	product.Status = status
 
 	if err := model.DB.Save(&product).Error; err != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error.",
-			"data"  : iris.Map{},
-		})
-	} else {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.SUCCESS,
-			"msg"   : "success",
-			"data"  : iris.Map{
-				"id"     : product.ID,
-				"status" : product.Status,
-			},
-		})	
+		SendErrJSON("error.", ctx)
+		return
 	}
+
+	ctx.JSON(iris.StatusOK, iris.Map{
+		"errNo" : model.ErrorCode.SUCCESS,
+		"msg"   : "success",
+		"data"  : iris.Map{
+			"id"     : product.ID,
+			"status" : product.Status,
+		},
+	})
 }
 
 // UpdateHasProperty 更新是否含有商品属性
 func UpdateHasProperty(ctx *iris.Context) {
-	sendErrJSON := common.SendErrJSON
+	SendErrJSON := common.SendErrJSON
 	type Data struct {
 		ProductID   uint `json:"productID"`
 		HasProperty bool `json:"hasProperty"`
 	}
 	var data Data
 	if err := ctx.ReadJSON(&data); err != nil {
-		sendErrJSON("参数无效", ctx)
+		SendErrJSON("参数无效", ctx)
 		return
 	}
 
 	var product model.Product
 	if err := model.DB.First(&product, data.ProductID).Error; err != nil {
 		fmt.Println(err.Error())
-		sendErrJSON("错误的商品id", ctx)
+		SendErrJSON("错误的商品id", ctx)
 		return
 	}
 
@@ -503,14 +430,14 @@ func UpdateHasProperty(ctx *iris.Context) {
 		var sql = "DELETE FROM properties WHERE product_id = ?"
 		if err := tx.Exec(sql, product.ID).Error; err != nil {
 			tx.Rollback()
-			sendErrJSON("error", ctx)
+			SendErrJSON("error", ctx)
 			return
 		}
 
 		sql = "DELETE FROM inventories WHERE product_id = ?"
 		if err := tx.Exec(sql, product.ID).Error; err != nil {
 			tx.Rollback()
-			sendErrJSON("error", ctx)
+			SendErrJSON("error", ctx)
 			return
 		}
 
@@ -518,7 +445,7 @@ func UpdateHasProperty(ctx *iris.Context) {
 		product.TotalInventory = 0
 		if err := model.DB.Save(&product).Error; err != nil {
 			tx.Rollback()
-			sendErrJSON("error", ctx)
+			SendErrJSON("error", ctx)
 			return	
 		}
 		tx.Commit()
@@ -533,33 +460,33 @@ func UpdateHasProperty(ctx *iris.Context) {
 
 // UpdateTotalInventory 更新商品总库存(没有商品属性时才会调此接口)
 func UpdateTotalInventory(ctx *iris.Context) {
-	sendErrJSON := common.SendErrJSON
+	SendErrJSON := common.SendErrJSON
 	type Data struct {
 		ProductID      uint `json:"productID"`
 		TotalInventory uint `json:"totalInventory"`
 	}
 	var data Data
 	if err := ctx.ReadJSON(&data); err != nil {
-		sendErrJSON("参数无效", ctx)
+		SendErrJSON("参数无效", ctx)
 		return
 	}
 
 	var product model.Product
 	if err := model.DB.First(&product, data.ProductID).Error; err != nil {
 		fmt.Println(err.Error())
-		sendErrJSON("错误的商品id", ctx)
+		SendErrJSON("错误的商品id", ctx)
 		return
 	}
 
 	if product.HasProperty {
-		sendErrJSON("商品添加过属性", ctx)
+		SendErrJSON("商品添加过属性", ctx)
 		return	
 	}
 
 	product.TotalInventory = data.TotalInventory
 
 	if err := model.DB.Save(&product).Error; err != nil {
-		sendErrJSON("error", ctx)
+		SendErrJSON("error", ctx)
 		return
 	}
 

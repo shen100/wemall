@@ -19,11 +19,7 @@ import (
 func Upload(ctx *iris.Context) {
 	file, info, err := ctx.FormFile("upFile")
 	if err != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "参数无效",
-			"data"  : iris.Map{},
-		})
+		SendErrJSON("参数无效", ctx)
 		return
 	}
 
@@ -31,11 +27,7 @@ func Upload(ctx *iris.Context) {
 	var index    = strings.LastIndex(filename, ".")
 
 	if index < 0 {
-		ctx.JSON(iris.StatusOK, ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "无效的文件名",
-			"data"  : iris.Map{},
-		}))
+		SendErrJSON("无效的文件名", ctx)
 		return
 	}
 
@@ -43,11 +35,7 @@ func Upload(ctx *iris.Context) {
 	var mimeType = mime.TypeByExtension(ext)
 
 	if mimeType == "" {
-		ctx.JSON(iris.StatusOK, ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "无效的图片类型",
-			"data"  : iris.Map{},
-		}))
+		SendErrJSON("无效的图片类型", ctx)
 		return
 	}
 	
@@ -82,11 +70,7 @@ func Upload(ctx *iris.Context) {
 	mkErr := os.MkdirAll(uploadDir, 0777)
 	
 	if mkErr != nil {
-		ctx.JSON(iris.StatusOK, ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error",
-			"data"  : iris.Map{},
-		}))
+		SendErrJSON("error", ctx)
 		return	
 	}
 
@@ -97,11 +81,7 @@ func Upload(ctx *iris.Context) {
 	out, err := os.OpenFile(uploadFilePath, os.O_WRONLY|os.O_CREATE, 0666)
 
 	if err != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error.",
-			"data"  : iris.Map{},
-		})
+		SendErrJSON("error.", ctx)
 		return
 	}
 
@@ -121,11 +101,7 @@ func Upload(ctx *iris.Context) {
 	}
 
 	if model.DB.Create(&image).Error != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "image error",
-			"data"  : iris.Map{},
-		})
+		SendErrJSON("image error", ctx)
 		return	
 	}
 

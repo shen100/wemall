@@ -3,54 +3,41 @@ package cart
 import (
 	"gopkg.in/kataras/iris.v6"
 	"wemall/model"
+	"wemall/controller/common"
 )
 
 // Create 购物车中添加商品
 func Create(ctx *iris.Context) {
-	var isErr  = false
-	var errMsg = ""
+	SendErrJSON := common.SendErrJSON
 	var cart model.Cart
 
 	if ctx.ReadJSON(&cart) != nil {
-		isErr  = true
-		errMsg = "参数错误"
+		SendErrJSON("参数错误", ctx)
+		return
 	}
 
 	if cart.Count <= 0 {
-		isErr  = true
-		errMsg = "count不能小于0"
+		SendErrJSON("count不能小于0", ctx)
+		return
 	}
 
 	var product model.Product
 	if model.DB.First(&product, cart.ProductID).Error != nil {
-		isErr  = true
-		errMsg = "错误的商品id"
+		SendErrJSON("错误的商品id", ctx)
+		return
 	}
 
 	session := ctx.Session()
 	openID  := session.GetString("weAppOpenID")
 
 	if openID == "" {
-		isErr  = true
-		errMsg = "登录超时"
-	}
-
-	if isErr {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : errMsg,
-			"data"  : iris.Map{},
-		})
+		SendErrJSON("登录超时", ctx)
 		return
 	}
 
 	cart.OpenID = openID
 	if model.DB.Create(&cart).Error != nil {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error",
-			"data"  : iris.Map{},
-		})
+		SendErrJSON("error", ctx)
 		return
 	}
 	ctx.JSON(iris.StatusOK, iris.Map{

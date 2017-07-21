@@ -1,12 +1,12 @@
 package config
 
 import (
-	"strings"
-	"encoding/json"
+    "strings"
+    "encoding/json"
     "fmt"
     "io/ioutil"
-	"regexp"
-	"wemall/utils"
+    "regexp"
+    "wemall/utils"
 )
 
 var jsonData map[string]interface{}
