@@ -4,8 +4,8 @@
 	"database": {
 		"Dialect"      : "mysql",
 		"Database"     : "wemall",
-		"User"	       : "root",
-		"Password"     : "test1234",
+		"User"	       : "",
+		"Password"     : "",
 		"Charset"      : "utf8",
 		"SQLLog"       : false, /*是否输出SQL*/
 		"URL"          : "",   /*数据库连接地址*/

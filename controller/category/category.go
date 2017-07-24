@@ -56,42 +56,42 @@ func Save(ctx *iris.Context, isEdit bool) {
 
 	if category.ParentID != 0 {
 		var parentCate model.Category
-		parentErr := model.DB.First(&parentCate, category.ParentID).Error
-		
-		if parentErr != nil {
+		if err := model.DB.First(&parentCate, category.ParentID).Error; err != nil {
 			SendErrJSON("无效的父分类", ctx)
 			return
 		}
 	}
 
-	var saveErr error
-	var errMsg = "error"
 	var updatedCategory model.Category
 	if (!isEdit) {
 		//创建分类
-		saveErr = model.DB.Create(&category).Error
+		if err := model.DB.Create(&category).Error; err != nil {
+			SendErrJSON("error", ctx)
+			return
+		}
 	} else {
 		//更新分类
-		saveErr = model.DB.First(&updatedCategory, category.ID).Error
-		if saveErr == nil {
+		if err := model.DB.First(&updatedCategory, category.ID).Error; err == nil {
 			updatedCategory.Name     = category.Name
 			updatedCategory.Sequence = category.Sequence
 			updatedCategory.ParentID = category.ParentID
 			updatedCategory.Status   = category.Status
 			updatedCategory.Remark   = category.Remark
-			saveErr = model.DB.Save(&updatedCategory).Error
+			if err := model.DB.Save(&updatedCategory).Error; err != nil {
+				SendErrJSON("error", ctx)
+				return	
+			}
 		} else {
-			errMsg = "无效的分类id"
+			SendErrJSON("无效的分类id", ctx)
+			return
 		}
 	}
-	if saveErr != nil {
-		SendErrJSON(errMsg, ctx)
-		return	
-	}
 
-	var categoryJSON = category
+	var categoryJSON model.Category
 	if isEdit {
 		categoryJSON = updatedCategory
+	} else {
+		categoryJSON = category	
 	}
 	ctx.JSON(iris.StatusOK, iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,

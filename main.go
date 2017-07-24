@@ -61,7 +61,7 @@ func main() {
 	})
 
 	app.OnError(500, func(ctx *iris.Context) {
-		ctx.JSON(iris.StatusOK, iris.Map{
+		ctx.JSON(iris.StatusInternalServerError, iris.Map{
 			"errNo" : model.ErrorCode.ERROR,
 			"msg"   : "error",
 			"data"  : iris.Map{},
