@@ -34,6 +34,8 @@ type dBConfig struct {
 	User          string
 	Password      string
 	Charset       string
+	Host          string
+	Port          int
 	SQLLog        bool
 	URL           string
 	MaxIdleConns  int    
@@ -45,11 +47,15 @@ var DBConfig dBConfig
 
 func initDB() {
 	utils.SetStructByJSON(&DBConfig, jsonData["database"].(map[string]interface{}))
-	url := "{user}:{password}@/{database}?charset={charset}&parseTime=True&loc=Local"
+	portStr := fmt.Sprintf("%d", DBConfig.Port)
+	url := "{user}:{password}@tcp({host}:{port})/{database}?charset={charset}&parseTime=True&loc=Local"
 	url  = strings.Replace(url, "{database}", DBConfig.Database, -1)
 	url  = strings.Replace(url, "{user}",     DBConfig.User,     -1)
 	url  = strings.Replace(url, "{password}", DBConfig.Password, -1)
+	url  = strings.Replace(url, "{host}",     DBConfig.Host,     -1)
+	url  = strings.Replace(url, "{port}",     portStr,           -1)
 	url  = strings.Replace(url, "{charset}",  DBConfig.Charset,  -1)
+	fmt.Println(url)
 	DBConfig.URL = url
 }
 

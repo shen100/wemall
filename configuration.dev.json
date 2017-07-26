@@ -7,10 +7,12 @@
 		"User"	       : "",
 		"Password"     : "",
 		"Charset"      : "utf8",
-		"SQLLog"       : false, /*是否输出SQL*/
-		"URL"          : "",   /*数据库连接地址*/
-		"MaxIdleConns" : 5,    /*空闲时最大的连接数*/
-		"MaxOpenConns" : 10    /*最大的连接数*/
+		"SQLLog"       : false,      /*是否输出SQL*/
+		"Host"         : "127.0.0.1",/*数据库ip*/
+		"Port"         : 3306,       /*数据库端口*/
+		"URL"          : "",         /*数据库连接地址, 这个不用填，由程序来设置*/
+		"MaxIdleConns" : 5,          /*空闲时最大的连接数*/
+		"MaxOpenConns" : 10          /*最大的连接数*/
 	},
 	"nodejs": {
 		"page": {
