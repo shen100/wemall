@@ -1,5 +1,7 @@
 # 微商城
 
+> 近期主要精力在开发[golang123](https://github.com/shen100/golang123)， wemall先暂停3周
+
 ## 项目截图
 ### 微信小程序
 <img src="http://res.cloudinary.com/dcemaqxcp/image/upload/c_scale,q_40,w_640/v1495726849/D55DF2778A92A721C4B5A509AE7ACD96_lkz2g8.jpg" width="320" alt=""/>
