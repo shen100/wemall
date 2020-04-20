@@ -10,8 +10,8 @@ import (
 	"strings"
 	"gopkg.in/kataras/iris.v6"
 	"github.com/satori/go.uuid"
-	"wemall/config"
-	"wemall/utils"
+	"config"
+	"utils"
 )
 
 func upload(ctx *iris.Context) {
