@@ -5,9 +5,9 @@ import (
 	"strconv"
 	"strings"
 	"unicode/utf8"
-	"wemall/controller/common"
-	"wemall/model"
-	"wemall/config"
+	"controller/common"
+	"model"
+	"config"
 	"gopkg.in/kataras/iris.v6"
 )
 
