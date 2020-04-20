@@ -10,9 +10,9 @@ import (
 	"strconv"
 	"gopkg.in/kataras/iris.v6"
 	"github.com/satori/go.uuid"
-	"wemall/model"
-	"wemall/utils"
-	"wemall/config"
+	"model"
+	"utils"
+	"config"
 )
 
 // Upload 文件上传
