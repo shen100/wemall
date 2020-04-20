@@ -1,0 +1,1 @@
+/home/keon/wemall_workspace/wemall/Makefile.common
