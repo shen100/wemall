@@ -7,10 +7,10 @@ import (
 	"encoding/json"
 	"time"
 	"gopkg.in/kataras/iris.v6"
-	"wemall/config"
-	"wemall/model"
-	"wemall/controller/common"
-	"wemall/utils"
+	"config"
+	"model"
+	"controller/common"
+	"utils"
 )
 
 // WeAppLogin 微信小程序登录
