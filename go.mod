@@ -5,8 +5,7 @@ go 1.13
 require (
 	config v0.0.0-00010101000000-000000000000
 	github.com/jinzhu/gorm v1.9.12
-	github.com/kataras/iris/v12 v12.1.8 // indirect
-	gopkg.in/kataras/iris.v6 v6.0.0-20170603191843-09a2066268f9
+	github.com/kataras/iris/v12 v12.1.8
 	model v0.0.0-00010101000000-000000000000
 	route v0.0.0-00010101000000-000000000000
 )

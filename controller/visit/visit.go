@@ -9,7 +9,7 @@ import (
 )
 
 // Latest30Day 近30天，每天的PV
-func Latest30Day(ctx *iris.Context) {
+func Latest30Day(ctx iris.Context) {
 	var userVisit model.UserVisit;
 	result := userVisit.Latest30DayPV()
 	var data iris.Map;
@@ -22,7 +22,7 @@ func Latest30Day(ctx *iris.Context) {
 			"list": result,
 		}
 	}
-	ctx.JSON(iris.StatusOK, iris.Map{
+	_, _ = ctx.JSON(iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
 		"data"  : data,
@@ -30,7 +30,7 @@ func Latest30Day(ctx *iris.Context) {
 }
 
 // PV 增加一次页面访问
-func PV(ctx *iris.Context) {
+func PV(ctx iris.Context) {
 	SendErrJSON := common.SendErrJSON
 	var err error
 	var msg = ""
@@ -73,7 +73,7 @@ func PV(ctx *iris.Context) {
 		return	
 	}
 
-	ctx.JSON(iris.StatusOK, iris.Map{
+	_, _ = ctx.JSON(iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
 		"data"  : iris.Map{},

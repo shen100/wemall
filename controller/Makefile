@@ -1,7 +1,7 @@
 .PHONY: dep
 
 ### 这里的依赖关系是有先后顺序的 (如果修改到controller目录下面的依赖， 需要维护安装依赖的顺序)
-SUB_DIRS = common admin cart category order prodcut ueditor user visit
+SUB_DIRS = common admin cart category order product ueditor user visit
 
 dep:
 	make deps

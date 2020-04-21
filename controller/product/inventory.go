@@ -39,7 +39,7 @@ func combinationInventory(productID uint, properties []model.Property) []model.I
 }
 
 // SaveInventory 更新商品库存
-func SaveInventory(ctx *iris.Context) {
+func SaveInventory(ctx iris.Context) {
 	SendErrJSON := common.SendErrJSON
 	type InventoryData struct {
 		ID    uint `json:"id"`
@@ -106,7 +106,7 @@ func SaveInventory(ctx *iris.Context) {
 	}
 
 	tx.Commit()
-	ctx.JSON(iris.StatusOK, iris.Map{
+	_, _ = ctx.JSON(iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
 		"data"  : iris.Map{},

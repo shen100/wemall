@@ -5,7 +5,7 @@ import (
 )
 
 // Authentication 授权
-func Authentication(ctx *iris.Context) {
+func Authentication(ctx iris.Context) {
 	if true {
 		ctx.Next()
 	}

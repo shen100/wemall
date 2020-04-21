@@ -14,7 +14,7 @@ import (
 )
 
 // List 商品列表
-func List(ctx *iris.Context) {
+func List(ctx iris.Context) {
 	SendErrJSON := common.SendErrJSON
 	var products []model.Product
 	pageNo, err := strconv.Atoi(ctx.FormValue("pageNo"))
@@ -70,7 +70,7 @@ func List(ctx *iris.Context) {
 		}	
 	}
 
-	ctx.JSON(iris.StatusOK, iris.Map{
+	_, _ = ctx.JSON(iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
 		"data"  : iris.Map{
@@ -80,7 +80,7 @@ func List(ctx *iris.Context) {
 }
 
 // AdminList 商品列表，后台管理提供的接口
-func AdminList(ctx *iris.Context) {
+func AdminList(ctx iris.Context) {
 	SendErrJSON := common.SendErrJSON
 	var products []model.Product
 	pageNo, err := strconv.Atoi(ctx.FormValue("pageNo"))
@@ -110,7 +110,7 @@ func AdminList(ctx *iris.Context) {
 		return
 	}
 
-	ctx.JSON(iris.StatusOK, iris.Map{
+	_, _ = ctx.JSON(iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
 		"data"  : iris.Map{
@@ -119,7 +119,7 @@ func AdminList(ctx *iris.Context) {
 	})
 }
 
-func save(ctx *iris.Context, isEdit bool) {
+func save(ctx iris.Context, isEdit bool) {
 	SendErrJSON := common.SendErrJSON
 	var product model.Product
 
@@ -263,7 +263,7 @@ func save(ctx *iris.Context, isEdit bool) {
 		return	
 	}
 
-	ctx.JSON(iris.StatusOK, iris.Map{
+	_, _ = ctx.JSON(iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
 		"data"  : product,
@@ -271,20 +271,20 @@ func save(ctx *iris.Context, isEdit bool) {
 }
 
 // Create 创建产品
-func Create(ctx *iris.Context) {
+func Create(ctx iris.Context) {
 	save(ctx, false);	
 }
 
 // Update 更新产品
-func Update(ctx *iris.Context) {
+func Update(ctx iris.Context) {
 	save(ctx, true);	
 }
 
 // Info 获取商品信息
-func Info(ctx *iris.Context) {
+func Info(ctx iris.Context) {
 	SendErrJSON := common.SendErrJSON
 	reqStartTime := time.Now()
-	id, err := ctx.ParamInt("id")
+	id, err := ctx.URLParamInt("id")
 	if err != nil {
 		SendErrJSON("错误的商品id", ctx)
 		return
@@ -354,7 +354,7 @@ func Info(ctx *iris.Context) {
 	}
 
 	fmt.Println("duration: ", time.Now().Sub(reqStartTime).Seconds())
-	ctx.JSON(iris.StatusOK, iris.Map{
+	_, _ = ctx.JSON(iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
 		"data"  : iris.Map{
@@ -364,7 +364,7 @@ func Info(ctx *iris.Context) {
 }
 
 // UpdateStatus 更新产品状态
-func UpdateStatus(ctx *iris.Context) {
+func UpdateStatus(ctx iris.Context) {
 	SendErrJSON := common.SendErrJSON
 	var tmpProduct model.Product
 	tmpErr    := ctx.ReadJSON(&tmpProduct)
@@ -395,7 +395,7 @@ func UpdateStatus(ctx *iris.Context) {
 		return
 	}
 
-	ctx.JSON(iris.StatusOK, iris.Map{
+	_, _ = ctx.JSON(iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
 		"data"  : iris.Map{
@@ -406,7 +406,7 @@ func UpdateStatus(ctx *iris.Context) {
 }
 
 // UpdateHasProperty 更新是否含有商品属性
-func UpdateHasProperty(ctx *iris.Context) {
+func UpdateHasProperty(ctx iris.Context) {
 	SendErrJSON := common.SendErrJSON
 	type Data struct {
 		ProductID   uint `json:"productID"`
@@ -451,7 +451,7 @@ func UpdateHasProperty(ctx *iris.Context) {
 		tx.Commit()
 	}
 
-	ctx.JSON(iris.StatusOK, iris.Map{
+	_, _ = ctx.JSON(iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
 		"data"  : iris.Map{},
@@ -459,7 +459,7 @@ func UpdateHasProperty(ctx *iris.Context) {
 }
 
 // UpdateTotalInventory 更新商品总库存(没有商品属性时才会调此接口)
-func UpdateTotalInventory(ctx *iris.Context) {
+func UpdateTotalInventory(ctx iris.Context) {
 	SendErrJSON := common.SendErrJSON
 	type Data struct {
 		ProductID      uint `json:"productID"`
@@ -490,7 +490,7 @@ func UpdateTotalInventory(ctx *iris.Context) {
 		return
 	}
 
-	ctx.JSON(iris.StatusOK, iris.Map{
+	_, _ = ctx.JSON(iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
 		"data"  : iris.Map{},
