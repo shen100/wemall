@@ -3,7 +3,7 @@ package visit
 import (
 	"strconv"
 	"time"
-	"gopkg.in/kataras/iris.v6"
+	"github.com/kataras/iris/v12"
 	"model"
 	"controller/common"
 )

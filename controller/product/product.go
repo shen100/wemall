@@ -7,7 +7,7 @@ import (
 	"time"
 	"unicode/utf8"
 	"encoding/json"
-	"gopkg.in/kataras/iris.v6"
+	"github.com/kataras/iris/v12"
 	"config"
 	"model"
 	"controller/common"

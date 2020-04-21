@@ -4,17 +4,15 @@ go 1.13
 
 require (
 	config v0.0.0-00010101000000-000000000000
-	github.com/BurntSushi/toml v0.3.1 // indirect
 	github.com/geekypanda/httpcache v0.0.1 // indirect
 	github.com/google/go-github v17.0.0+incompatible // indirect
 	github.com/google/go-querystring v1.0.0 // indirect
 	github.com/gorilla/schema v1.1.0 // indirect
-	github.com/hashicorp/go-version v1.2.0 // indirect
 	github.com/imdario/mergo v0.3.9 // indirect
 	github.com/iris-contrib/formBinder v5.0.0+incompatible // indirect
 	github.com/kataras/go-errors v0.0.3 // indirect
+	github.com/kataras/iris/v12 v12.1.8
 	github.com/klauspost/compress v1.10.4 // indirect
-	github.com/microcosm-cc/bluemonday v1.0.2 // indirect
 	github.com/russross/blackfriday v2.0.0+incompatible // indirect
 	github.com/satori/go.uuid v1.2.0
 	github.com/shurcooL/sanitized_anchor_name v1.0.0 // indirect

@@ -4,7 +4,7 @@ import (
 	"unicode/utf8"
 	"strings"
 	"strconv"
-	"gopkg.in/kataras/iris.v6"
+	"github.com/kataras/iris/v12"
 	"config"
 	"model"
 	"controller/common"

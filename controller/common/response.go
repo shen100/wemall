@@ -2,7 +2,7 @@ package common
 
 import (
 	"model"
-	"gopkg.in/kataras/iris.v6"
+	"github.com/kataras/iris/v12"
 )
 
 // SendErrJSON 有错误发生时，发送错误JSON
