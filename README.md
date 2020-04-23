@@ -100,7 +100,7 @@ $ go run main.go
 
 | 库 | 说明              |
 |:---------|:-----------------------|
-| gopkg.in/kataras/iris.v6   | iris web框架   |
+| github.com/kataras/iris/v12   | iris web框架   |
 | github.com/jinzhu/gorm     | gorm 持久层框架 |
 | github.com/satori/go.uuid  | uuid生成工具    |
 

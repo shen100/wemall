@@ -5,14 +5,14 @@ import (
 	"strconv"
 	"strings"
 	"unicode/utf8"
-	"wemall/controller/common"
-	"wemall/model"
-	"wemall/config"
-	"gopkg.in/kataras/iris.v6"
+	"controller/common"
+	"model"
+	"config"
+	"github.com/kataras/iris/v12"
 )
 
 // AddProperty 添加商品属性
-func AddProperty(ctx *iris.Context) {
+func AddProperty(ctx iris.Context) {
 	SendErrJSON := common.SendErrJSON
 	var property model.Property
 
@@ -55,7 +55,7 @@ func AddProperty(ctx *iris.Context) {
 	}
 
 	property.PropertyValues = []model.PropertyValue{}
-	ctx.JSON(iris.StatusOK, iris.Map{
+	_, _ = ctx.JSON(iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
 		"data"  : iris.Map{
@@ -65,7 +65,7 @@ func AddProperty(ctx *iris.Context) {
 }
 
 // AddPropertyValue 添加商品属性值
-func AddPropertyValue(ctx *iris.Context) {
+func AddPropertyValue(ctx iris.Context) {
 	SendErrJSON := common.SendErrJSON
 	var productID uint
 	var propertyValue model.PropertyValue
@@ -218,7 +218,7 @@ func AddPropertyValue(ctx *iris.Context) {
 	}
 	tx.Commit()
 
-	ctx.JSON(iris.StatusOK, iris.Map{
+	_, _ = ctx.JSON(iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
 		"data"  : iris.Map{

@@ -8,15 +8,15 @@ import (
 	"time"
 	"mime"
 	"strconv"
-	"gopkg.in/kataras/iris.v6"
+	"github.com/kataras/iris/v12"
 	"github.com/satori/go.uuid"
-	"wemall/model"
-	"wemall/utils"
-	"wemall/config"
+	"model"
+	"utils"
+	"config"
 )
 
 // Upload 文件上传
-func Upload(ctx *iris.Context) {
+func Upload(ctx iris.Context) {
 	file, info, err := ctx.FormFile("upFile")
 	if err != nil {
 		SendErrJSON("参数无效", ctx)
@@ -105,7 +105,7 @@ func Upload(ctx *iris.Context) {
 		return	
 	}
 
-	ctx.JSON(iris.StatusOK, iris.Map{
+	_, _ = ctx.JSON(iris.Map{
 		"errNo" : model.ErrorCode.SUCCESS,
 		"msg"   : "success",
 		"data"  : iris.Map{
