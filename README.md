@@ -48,7 +48,7 @@ $ npm install
 如果安装失败，或速度慢，可尝试阿里的镜像
 
 ```
-$ npm install --registry=https://registry.npm.taobao.org
+$ npm install --registry=https://registry.npmmirror.com
 ```
 
 * **启动node.js程序**  
