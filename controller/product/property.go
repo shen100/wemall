@@ -2,17 +2,17 @@ package product
 
 import (
 	"fmt"
+	"github.com/kataras/iris/v12"
 	"strconv"
 	"strings"
 	"unicode/utf8"
+	"wemall/config"
 	"wemall/controller/common"
 	"wemall/model"
-	"wemall/config"
-	"gopkg.in/kataras/iris.v6"
 )
 
 // AddProperty 添加商品属性
-func AddProperty(ctx *iris.Context) {
+func AddProperty(ctx iris.Context) {
 	SendErrJSON := common.SendErrJSON
 	var property model.Property
 
@@ -28,13 +28,13 @@ func AddProperty(ctx *iris.Context) {
 		SendErrJSON("无效的商品ID", ctx)
 		return
 	}
-	
+
 	if utf8.RuneCountInString(property.Name) > config.ServerConfig.MaxNameLen {
 		errMsg := "属性名称不能超过" + strconv.Itoa(config.ServerConfig.MaxNameLen) + "个字符"
 		SendErrJSON(errMsg, ctx)
 		return
 	}
-	
+
 	if utf8.RuneCountInString(property.Name) <= 0 {
 		SendErrJSON("属性名称不能为空", ctx)
 		return
@@ -55,23 +55,23 @@ func AddProperty(ctx *iris.Context) {
 	}
 
 	property.PropertyValues = []model.PropertyValue{}
-	ctx.JSON(iris.StatusOK, iris.Map{
-		"errNo" : model.ErrorCode.SUCCESS,
-		"msg"   : "success",
-		"data"  : iris.Map{
+	ctx.JSON(iris.Map{
+		"errNo": model.ErrorCode.SUCCESS,
+		"msg":   "success",
+		"data": iris.Map{
 			"property": property,
 		},
 	})
 }
 
 // AddPropertyValue 添加商品属性值
-func AddPropertyValue(ctx *iris.Context) {
+func AddPropertyValue(ctx iris.Context) {
 	SendErrJSON := common.SendErrJSON
 	var productID uint
 	var propertyValue model.PropertyValue
 
 	if err := ctx.ReadJSON(&propertyValue); err != nil {
-		fmt.Println(err.Error());
+		fmt.Println(err.Error())
 		SendErrJSON("参数无效", ctx)
 		return
 	}
@@ -83,13 +83,13 @@ func AddPropertyValue(ctx *iris.Context) {
 		SendErrJSON("无效的商品ID", ctx)
 		return
 	}
-	
+
 	if utf8.RuneCountInString(propertyValue.Name) > config.ServerConfig.MaxNameLen {
 		errMsg := "名称不能超过" + strconv.Itoa(config.ServerConfig.MaxNameLen) + "个字符"
 		SendErrJSON(errMsg, ctx)
 		return
 	}
-	
+
 	if utf8.RuneCountInString(propertyValue.Name) <= 0 {
 		SendErrJSON("名称不能为空", ctx)
 		return
@@ -122,7 +122,7 @@ func AddPropertyValue(ctx *iris.Context) {
 		if property.ID == propertyValue.PropertyID {
 			for j := 0; j < len(property.PropertyValues); j++ {
 				if property.PropertyValues[j].Name == propertyValue.Name {
-					SendErrJSON(propertyValue.Name + "已存在", ctx)
+					SendErrJSON(propertyValue.Name+"已存在", ctx)
 					return
 				}
 			}
@@ -131,7 +131,7 @@ func AddPropertyValue(ctx *iris.Context) {
 
 	for i := len(properties) - 1; i >= 0; i-- {
 		if properties[i].ID != propertyValue.PropertyID && len(properties[i].PropertyValues) == 0 {
-			properties = append(properties[:i], properties[i + 1:]...)
+			properties = append(properties[:i], properties[i+1:]...)
 		}
 	}
 
@@ -139,7 +139,7 @@ func AddPropertyValue(ctx *iris.Context) {
 	for i := 0; i < len(properties); i++ {
 		if properties[i].ID == propertyValue.PropertyID {
 			index = i
-			break;
+			break
 		}
 	}
 
@@ -167,10 +167,10 @@ func AddPropertyValue(ctx *iris.Context) {
 	var removed bool
 	if len(properties) == 1 {
 		var inventory = model.Inventory{
-			ProductID      : productID,
-			PropertyValues : append([]model.PropertyValue{}, propertyValue),
+			ProductID:      productID,
+			PropertyValues: append([]model.PropertyValue{}, propertyValue),
 		}
-		inventories = append(inventories, inventory)	
+		inventories = append(inventories, inventory)
 	} else if len(properties) >= 2 {
 		if firstPropertyValue {
 			if err := tx.Model(&product).Related(&product.Inventories).Error; err != nil {
@@ -190,13 +190,13 @@ func AddPropertyValue(ctx *iris.Context) {
 			}
 			removed = true
 		} else {
-			properties  = append(properties[:index], properties[index + 1:]...)
+			properties = append(properties[:index], properties[index+1:]...)
 			inventories = combinationInventory(productID, properties)
 			for i := 0; i < len(inventories); i++ {
 				inventories[i].PropertyValues = append(inventories[i].PropertyValues, propertyValue)
 			}
 		}
- 	}
+	}
 
 	if removed {
 		inventories = product.Inventories
@@ -218,13 +218,13 @@ func AddPropertyValue(ctx *iris.Context) {
 	}
 	tx.Commit()
 
-	ctx.JSON(iris.StatusOK, iris.Map{
-		"errNo" : model.ErrorCode.SUCCESS,
-		"msg"   : "success",
-		"data"  : iris.Map{
-			"propertyValue" : propertyValue,
-			"inventories"   : inventories,
-			"removed"       : removed,
+	ctx.JSON(iris.Map{
+		"errNo": model.ErrorCode.SUCCESS,
+		"msg":   "success",
+		"data": iris.Map{
+			"propertyValue": propertyValue,
+			"inventories":   inventories,
+			"removed":       removed,
 		},
 	})
 }

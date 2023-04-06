@@ -2,21 +2,21 @@ package common
 
 import (
 	"fmt"
+	"github.com/kataras/iris/v12"
+	"github.com/satori/go.uuid"
 	"io"
+	"mime"
 	"os"
+	"strconv"
 	"strings"
 	"time"
-	"mime"
-	"strconv"
-	"gopkg.in/kataras/iris.v6"
-	"github.com/satori/go.uuid"
+	"wemall/config"
 	"wemall/model"
 	"wemall/utils"
-	"wemall/config"
 )
 
 // Upload 文件上传
-func Upload(ctx *iris.Context) {
+func Upload(ctx iris.Context) {
 	file, info, err := ctx.FormFile("upFile")
 	if err != nil {
 		SendErrJSON("参数无效", ctx)
@@ -24,32 +24,32 @@ func Upload(ctx *iris.Context) {
 	}
 
 	var filename = info.Filename
-	var index    = strings.LastIndex(filename, ".")
+	var index = strings.LastIndex(filename, ".")
 
 	if index < 0 {
 		SendErrJSON("无效的文件名", ctx)
 		return
 	}
 
-	var ext      = filename[index:]
+	var ext = filename[index:]
 	var mimeType = mime.TypeByExtension(ext)
 
 	if mimeType == "" {
 		SendErrJSON("无效的图片类型", ctx)
 		return
 	}
-	
+
 	defer file.Close()
 
-	now          := time.Now()
-	year         := now.Year()
-	month        := utils.StrToIntMonth(now.Month().String())
-	date         := now.Day()
+	now := time.Now()
+	year := now.Year()
+	month := utils.StrToIntMonth(now.Month().String())
+	date := now.Day()
 
 	var monthStr string
 	var dateStr string
 	if month < 9 {
-		monthStr = "0" + strconv.Itoa(month + 1)
+		monthStr = "0" + strconv.Itoa(month+1)
 	} else {
 		monthStr = strconv.Itoa(month + 1)
 	}
@@ -68,15 +68,15 @@ func Upload(ctx *iris.Context) {
 
 	uploadDir := config.ServerConfig.UploadImgDir + sep + timeDir
 	mkErr := os.MkdirAll(uploadDir, 0777)
-	
+
 	if mkErr != nil {
 		SendErrJSON("error", ctx)
-		return	
+		return
 	}
 
 	uploadFilePath := uploadDir + sep + title
 
-	fmt.Println(uploadFilePath);
+	fmt.Println(uploadFilePath)
 
 	out, err := os.OpenFile(uploadFilePath, os.O_WRONLY|os.O_CREATE, 0666)
 
@@ -92,28 +92,28 @@ func Upload(ctx *iris.Context) {
 	imgURL := config.ServerConfig.ImgPath + sep + timeDir + sep + title
 
 	image := &model.Image{
-		Title        : title,
-		OrignalTitle : info.Filename,
-		URL          : imgURL,
-		Width        : 0,
-		Height       : 0,
-		Mime         : mimeType,
+		Title:        title,
+		OrignalTitle: info.Filename,
+		URL:          imgURL,
+		Width:        0,
+		Height:       0,
+		Mime:         mimeType,
 	}
 
 	if model.DB.Create(&image).Error != nil {
 		SendErrJSON("image error", ctx)
-		return	
+		return
 	}
 
-	ctx.JSON(iris.StatusOK, iris.Map{
-		"errNo" : model.ErrorCode.SUCCESS,
-		"msg"   : "success",
-		"data"  : iris.Map{
-			"id"       : image.ID,
-			"url"      : imgURL,
-			"title"    : title,         //新文件名
-			"original" : info.Filename, //原始文件名
-			"type"     : mimeType,      //文件类型
+	ctx.JSON(iris.Map{
+		"errNo": model.ErrorCode.SUCCESS,
+		"msg":   "success",
+		"data": iris.Map{
+			"id":       image.ID,
+			"url":      imgURL,
+			"title":    title,         //新文件名
+			"original": info.Filename, //原始文件名
+			"type":     mimeType,      //文件类型
 		},
 	})
 	return

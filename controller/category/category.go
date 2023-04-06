@@ -1,55 +1,55 @@
 package category
 
 import (
-	"unicode/utf8"
-	"strings"
+	"github.com/kataras/iris/v12"
 	"strconv"
-	"gopkg.in/kataras/iris.v6"
+	"strings"
+	"unicode/utf8"
 	"wemall/config"
-	"wemall/model"
 	"wemall/controller/common"
+	"wemall/model"
 )
 
 // Save 保存分类（创建或更新）
-func Save(ctx *iris.Context, isEdit bool) {
+func Save(ctx iris.Context, isEdit bool) {
 	SendErrJSON := common.SendErrJSON
 	// name, parentId, status, order 必须传的参数
 	// remark 非必须
 	minOrder := config.ServerConfig.MinOrder
 	maxOrder := config.ServerConfig.MaxOrder
 	var category model.Category
-	err     := ctx.ReadJSON(&category)
-	
+	err := ctx.ReadJSON(&category)
+
 	if err != nil {
 		SendErrJSON("参数无效", ctx)
 		return
 	}
 
 	category.Name = strings.TrimSpace(category.Name)
-	if (category.Name == "") {
+	if category.Name == "" {
 		SendErrJSON("分类名称不能为空", ctx)
 		return
-	} 
-	
+	}
+
 	if utf8.RuneCountInString(category.Name) > config.ServerConfig.MaxNameLen {
 		msg := "分类名称不能超过" + strconv.Itoa(config.ServerConfig.MaxNameLen) + "个字符"
 		SendErrJSON(msg, ctx)
 		return
 	}
-	
+
 	if category.Status != model.CategoryStatusOpen && category.Status != model.CategoryStatusClose {
 		SendErrJSON("status无效", ctx)
 		return
-	} 
-	
+	}
+
 	if category.Sequence < minOrder || category.Sequence > maxOrder {
 		msg := "分类的排序要在" + strconv.Itoa(minOrder) + "到" + strconv.Itoa(maxOrder) + "之间"
 		SendErrJSON(msg, ctx)
 		return
 	}
-	
+
 	if category.Remark != "" && utf8.RuneCountInString(category.Remark) > config.ServerConfig.MaxRemarkLen {
-		msg := "备注不能超过" + strconv.Itoa(config.ServerConfig.MaxRemarkLen) + "个字符"	
+		msg := "备注不能超过" + strconv.Itoa(config.ServerConfig.MaxRemarkLen) + "个字符"
 		SendErrJSON(msg, ctx)
 		return
 	}
@@ -63,7 +63,7 @@ func Save(ctx *iris.Context, isEdit bool) {
 	}
 
 	var updatedCategory model.Category
-	if (!isEdit) {
+	if !isEdit {
 		//创建分类
 		if err := model.DB.Create(&category).Error; err != nil {
 			SendErrJSON("error", ctx)
@@ -72,14 +72,14 @@ func Save(ctx *iris.Context, isEdit bool) {
 	} else {
 		//更新分类
 		if err := model.DB.First(&updatedCategory, category.ID).Error; err == nil {
-			updatedCategory.Name     = category.Name
+			updatedCategory.Name = category.Name
 			updatedCategory.Sequence = category.Sequence
 			updatedCategory.ParentID = category.ParentID
-			updatedCategory.Status   = category.Status
-			updatedCategory.Remark   = category.Remark
+			updatedCategory.Status = category.Status
+			updatedCategory.Remark = category.Remark
 			if err := model.DB.Save(&updatedCategory).Error; err != nil {
 				SendErrJSON("error", ctx)
-				return	
+				return
 			}
 		} else {
 			SendErrJSON("无效的分类id", ctx)
@@ -91,12 +91,12 @@ func Save(ctx *iris.Context, isEdit bool) {
 	if isEdit {
 		categoryJSON = updatedCategory
 	} else {
-		categoryJSON = category	
+		categoryJSON = category
 	}
-	ctx.JSON(iris.StatusOK, iris.Map{
-		"errNo" : model.ErrorCode.SUCCESS,
-		"msg"   : "success",
-		"data"  : iris.Map{
+	ctx.JSON(iris.Map{
+		"errNo": model.ErrorCode.SUCCESS,
+		"msg":   "success",
+		"data": iris.Map{
 			"category": categoryJSON,
 		},
 	})
@@ -104,19 +104,19 @@ func Save(ctx *iris.Context, isEdit bool) {
 }
 
 // Create 创建分类
-func Create(ctx *iris.Context) {
-	Save(ctx, false)	
+func Create(ctx iris.Context) {
+	Save(ctx, false)
 }
 
 // Update 更新分类
-func Update(ctx *iris.Context) {
-	Save(ctx, true)	
+func Update(ctx iris.Context) {
+	Save(ctx, true)
 }
 
 // Info 获取分类信息
-func Info(ctx *iris.Context) {
+func Info(ctx iris.Context) {
 	SendErrJSON := common.SendErrJSON
-	id, err := ctx.ParamInt("id")
+	id, err := ctx.URLParamInt("id")
 	if err != nil {
 		SendErrJSON("错误的分类id", ctx)
 		return
@@ -130,21 +130,21 @@ func Info(ctx *iris.Context) {
 		return
 	}
 
-	ctx.JSON(iris.StatusOK, iris.Map{
-		"errNo" : model.ErrorCode.SUCCESS,
-		"msg"   : "success",
-		"data"  : iris.Map{
+	ctx.JSON(iris.Map{
+		"errNo": model.ErrorCode.SUCCESS,
+		"msg":   "success",
+		"data": iris.Map{
 			"category": category,
 		},
 	})
 }
 
-// AllList 所有的分类列表
-func AllList(ctx *iris.Context) {
+// AllList 所有的分类列表
+func AllList(ctx iris.Context) {
 	SendErrJSON := common.SendErrJSON
 	var categories []model.Category
 	pageNo, err := strconv.Atoi(ctx.FormValue("pageNo"))
- 
+
 	if err != nil || pageNo < 1 {
 		pageNo = 1
 	}
@@ -154,10 +154,10 @@ func AllList(ctx *iris.Context) {
 	if ctx.FormValue("asc") == "1" {
 		orderStr += " asc"
 	} else {
-		orderStr += " desc"	
+		orderStr += " desc"
 	}
 
-	offset   := (pageNo - 1) * config.ServerConfig.PageSize
+	offset := (pageNo - 1) * config.ServerConfig.PageSize
 	queryErr := model.DB.Offset(offset).Limit(config.ServerConfig.PageSize).Order(orderStr).Find(&categories).Error
 
 	if queryErr != nil {
@@ -165,17 +165,17 @@ func AllList(ctx *iris.Context) {
 		return
 	}
 
-	ctx.JSON(iris.StatusOK, iris.Map{
-		"errNo" : model.ErrorCode.SUCCESS,
-		"msg"   : "success",
-		"data"  : iris.Map{
+	ctx.JSON(iris.Map{
+		"errNo": model.ErrorCode.SUCCESS,
+		"msg":   "success",
+		"data": iris.Map{
 			"categories": categories,
 		},
 	})
 }
 
-// List 公开的分类列表
-func List(ctx *iris.Context) {
+// List 公开的分类列表
+func List(ctx iris.Context) {
 	SendErrJSON := common.SendErrJSON
 	var categories []model.Category
 
@@ -184,27 +184,27 @@ func List(ctx *iris.Context) {
 		return
 	}
 
-	ctx.JSON(iris.StatusOK, iris.Map{
-		"errNo" : model.ErrorCode.SUCCESS,
-		"msg"   : "success",
-		"data"  : iris.Map{
+	ctx.JSON(iris.Map{
+		"errNo": model.ErrorCode.SUCCESS,
+		"msg":   "success",
+		"data": iris.Map{
 			"categories": categories,
 		},
 	})
 }
 
 // UpdateStatus 开启或关闭分类
-func UpdateStatus(ctx *iris.Context) {
+func UpdateStatus(ctx iris.Context) {
 	SendErrJSON := common.SendErrJSON
 	var category model.Category
-	err    := ctx.ReadJSON(&category)
+	err := ctx.ReadJSON(&category)
 
 	if err != nil {
 		SendErrJSON("无效的id或status", ctx)
 		return
 	}
 
-	id     := category.ID
+	id := category.ID
 	status := category.Status
 
 	if status != model.CategoryStatusOpen && status != model.CategoryStatusClose {
@@ -227,12 +227,12 @@ func UpdateStatus(ctx *iris.Context) {
 		SendErrJSON("分类状态更新失败", ctx)
 		return
 	}
-	ctx.JSON(iris.StatusOK, iris.Map{
-		"errNo" : model.ErrorCode.SUCCESS,
-		"msg"   : "success",
-		"data"  : iris.Map{
-			"id"     : id,
-			"status" : status,
+	ctx.JSON(iris.Map{
+		"errNo": model.ErrorCode.SUCCESS,
+		"msg":   "success",
+		"data": iris.Map{
+			"id":     id,
+			"status": status,
 		},
 	})
 }
