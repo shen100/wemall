@@ -92,7 +92,6 @@ $ go run main.go
 
 ### 后台
 * web框架: iris
-* 路由: httprouter
 * 持久层框架: gorm
 * 数据库: mysql 
 
@@ -100,7 +99,7 @@ $ go run main.go
 
 | 库 | 说明              |
 |:---------|:-----------------------|
-| gopkg.in/kataras/iris.v6   | iris web框架   |
+| gopkg.in/kataras/iris.v12   | iris web框架   |
 | github.com/jinzhu/gorm     | gorm 持久层框架 |
 | github.com/satori/go.uuid  | uuid生成工具    |
 

@@ -2,14 +2,13 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"time"
-	"strconv"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/jinzhu/gorm"
-	"gopkg.in/kataras/iris.v6"
-	"gopkg.in/kataras/iris.v6/adaptors/httprouter"
-	"gopkg.in/kataras/iris.v6/adaptors/sessions"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"github.com/kataras/iris/v12"
+	"github.com/kataras/iris/v12/sessions"
+	"os"
+	"strconv"
+	"time"
 	"wemall/config"
 	"wemall/model"
 	"wemall/route"
@@ -26,50 +25,42 @@ func init() {
 		db.LogMode(true)
 	}
 
-	db.DB().SetMaxIdleConns(config.DBConfig.MaxIdleConns);
+	db.DB().SetMaxIdleConns(config.DBConfig.MaxIdleConns)
 	db.DB().SetMaxOpenConns(config.DBConfig.MaxOpenConns)
 
-	model.DB = db;
+	model.DB = db
 }
 
 func main() {
-	app := iris.New(iris.Configuration{
-        Gzip    : true, 
-        Charset : "UTF-8",
-	})
+	app := iris.New()
+	app.Use(iris.Compression)
 
 	if config.ServerConfig.Debug {
-		app.Adapt(iris.DevLogger())
+		app.Logger().SetLevel("debug")
 	}
-
-	app.Adapt(sessions.New(sessions.Config{
-		Cookie: config.ServerConfig.SessionID,
-		Expires: time.Minute * 20,
-	}))
-
-	app.Adapt(httprouter.New())
-
+	sess := sessions.New(sessions.Config{
+		Cookie:  config.ServerConfig.SessionID,
+		Expires: time.Hour * 2,
+	})
+	app.Use(sess.Handler())
 	route.Route(app)
 
-	app.OnError(iris.StatusNotFound, func(ctx *iris.Context) {
-		ctx.JSON(iris.StatusOK, iris.Map{
-			"errNo" : model.ErrorCode.NotFound,
-			"msg"   : "Not Found",
-			"data"  : iris.Map{},
+	app.OnErrorCode(iris.StatusNotFound, func(ctx iris.Context) {
+		ctx.JSON(iris.Map{
+			"errNo": model.ErrorCode.NotFound,
+			"msg":   "Not Found",
+			"data":  iris.Map{},
 		})
 
 	})
 
-	app.OnError(500, func(ctx *iris.Context) {
-		ctx.JSON(iris.StatusInternalServerError, iris.Map{
-			"errNo" : model.ErrorCode.ERROR,
-			"msg"   : "error",
-			"data"  : iris.Map{},
+	app.OnErrorCode(iris.StatusInternalServerError, func(ctx iris.Context) {
+		ctx.JSON(iris.Map{
+			"errNo": model.ErrorCode.ERROR,
+			"msg":   "error",
+			"data":  iris.Map{},
 		})
 	})
 
 	app.Listen(":" + strconv.Itoa(config.ServerConfig.Port))
 }
-
-
-
